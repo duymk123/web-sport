@@ -3,5 +3,10 @@ spring:
     username: root
     password: root
     url: jdbc:mysql://localhost:3306/websport
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
-port: 8111
+server:
+  port: 8080

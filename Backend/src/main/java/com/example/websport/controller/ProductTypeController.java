@@ -18,7 +18,7 @@ public class ProductTypeController {
     @Autowired
     private ProductTypeService productTypeService;
 
-    @GetMapping("/product-type")
+    @GetMapping("/product-type") //Giày | Quần áo | Dụng cụ | Phụ kiện
     ResponseEntity<List<ProductType>> findAll() {
         List<ProductType> productTypeList = productTypeService.findAll();
         return ResponseEntity.ok(productTypeList);

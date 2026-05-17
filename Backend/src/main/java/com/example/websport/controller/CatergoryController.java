@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//@RequestMapping
+@RequestMapping("/api/v1/categories")
 public class CatergoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/categories")
+    @GetMapping //Lấy ra danh mục
     public ResponseEntity<List<Category>> getAllCategories(){
         List<Category> categories = categoryService.getAll();
         return ResponseEntity.ok(categories);
     }
 
-    @GetMapping("/tree")
+    @GetMapping("/tree") // Lấy ra (Cầu lông | Bóng đá | Pickle)
     public ResponseEntity<List<Category>> getAllCategoriesByTree(){
         List<Category> tree = categoryService.findByParentIsNull();
         return ResponseEntity.ok(tree);

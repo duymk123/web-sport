@@ -11,5 +11,10 @@ public interface CategoryService {
     List<Category> getAll();
     List<Category> findByParentIsNull();
 
+    // Thêm hàm lấy danh mục con
+    List<Category> getChildCategories(Long parentId);
+
     Category create(Category category);
+
+    Category getCategoryBySlug(String slug);
 }

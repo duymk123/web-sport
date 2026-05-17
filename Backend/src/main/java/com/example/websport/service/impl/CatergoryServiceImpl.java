@@ -1,4 +1,5 @@
 package com.example.websport.service.impl;
+
 import com.example.websport.entity.Category;
 import com.example.websport.repository.CategoryRepo;
 import com.example.websport.service.CategoryService;
@@ -27,11 +28,22 @@ public class CatergoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<Category> getChildCategories(Long parentId) {
+        return categoryRepo.findByParentId(parentId);
+    }
+
+    @Override
     public Category create(Category category) {
-        if(category.getName() == null && category.getSlug() == null){
+        if (category.getName() == null && category.getSlug() == null) {
             throw new RuntimeException("Category name and slug cannot be null");
         }
         return categoryRepo.save(category);
+    }
+
+    @Override
+    public Category getCategoryBySlug(String slug) {
+        return categoryRepo.findBySlug(slug)
+                .orElseThrow(() -> new RuntimeException("Category not found" + slug));
     }
 }
 
