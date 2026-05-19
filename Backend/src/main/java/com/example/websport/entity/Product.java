@@ -7,6 +7,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -43,6 +44,9 @@ public class Product implements Serializable {
 
     @Column(name = "status")
     private EnumStatus status;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductVariant> productVariants;
 
 
 

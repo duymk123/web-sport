@@ -14,5 +14,5 @@ public class ProductCreateReq { // DÀNH CHO ADMIN
     private Long CategoryId;
     private Long typeId;
     private String description;
-    private Map<String, Object> specification;
+//    private Map<String, Object> specification;
 }

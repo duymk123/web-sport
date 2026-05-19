@@ -1,9 +1,16 @@
 package com.example.websport.service.impl;
 
+import com.example.websport.common.EnumStatus;
+import com.example.websport.dto.request.ProductCreateReq;
+import com.example.websport.dto.request.ProductUpdateReq;
+import com.example.websport.dto.request.VariantReq;
+import com.example.websport.dto.response.ProductDetailResponse;
 import com.example.websport.dto.response.ProductListResponse;
 import com.example.websport.entity.Category;
 import com.example.websport.entity.Product;
+import com.example.websport.entity.ProductVariant;
 import com.example.websport.repository.ProductRepo;
+import com.example.websport.repository.ProductVariantRepo;
 import com.example.websport.service.CategoryService;
 import com.example.websport.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +29,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     CategoryService categoryService;
 
+    @Autowired
+    ProductVariantRepo productVariantRepo;
+
     @Override
-    public List<ProductListResponse> getAllProducts() {
+    public List<ProductListResponse> getAllProducts() {  //Lấy tất cả sản phẩm
         // 1. Lấy tất cả từ DB
         List<Product> products = productRepo.findAll();
 
@@ -40,6 +50,10 @@ public class ProductServiceImpl implements ProductService {
         ).collect(Collectors.toList());
     }
 
+    //Tất cả quần áo
+    //Tất cả giày
+    // Tất cả dụng cụ
+    // Tất cả phụ kiện
 
     @Override
     public List<ProductListResponse> getProductsByParentCategory(Long parentId) {
@@ -81,6 +95,117 @@ public class ProductServiceImpl implements ProductService {
 
         List<Product> products = productRepo.findByCategoryIdIn(categoryIdsToSearch);
         return convertToDtoList(products);
+    }
+
+    @Override
+    public ProductListResponse createProduct(ProductCreateReq request) { // Tạo sản phẩm
+        if (request.getName() == null
+                || request.getBrand() == null
+                || request.getCategoryId() == null
+                || request.getTypeId() == null
+                || request.getDescription() == null) {
+            throw new RuntimeException("Vui long dien day du thong tin");
+        }
+        Product product = new Product();
+        product.setName(request.getName());
+        product.setBrand(request.getBrand());
+        product.setCategoryId(request.getCategoryId());
+        product.setTypeId(request.getTypeId());
+        product.setDescription(request.getDescription());
+        product.setStatus(EnumStatus.ACTIVE);
+
+        // Nếu bạn đã cài jackson-databind thì mở dòng dưới ra:
+        // product.setSpecifications(req.getSpecification());
+
+        Product save = productRepo.save(product);
+        return convertToDtoList(List.of(save)).get(0);
+    }
+
+    @Override
+    public ProductListResponse updateProduct(Long id, ProductUpdateReq request) {
+        Product product = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setName(request.getName());
+        product.setBrand(request.getBrand());
+        product.setCategoryId(request.getCategoryId());
+        product.setTypeId(request.getTypeId());
+        product.setDescription(request.getDescription());
+
+        if(request.getStatus() != null){
+//            product.setStatus(request.getStatus().name());
+        }
+
+        // Nếu bạn đã cài jackson-databind thì mở dòng dưới ra:
+        // product.setSpecifications(req.getSpecification());
+
+        Product update = productRepo.save(product);
+        return convertToDtoList(List.of(update)).get(0);
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
+        Product product = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm có ID: " + id));
+        productRepo.delete(product);
+    }
+
+    @Override
+    public ProductDetailResponse getProductDetail(Long id) { //Chi tiết sản phẩm
+        // 1. Tìm sản phẩm gốc trong DB, nếu không thấy thì báo lỗi
+        Product product = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm có ID: " + id));
+
+        // 2. Chuyển đổi danh sách biến thể từ Entity sang DTO (đã cập nhật theo đúng các cột SKU, stockQuantity của bạn)
+        List<ProductDetailResponse.VariantDetailDto> variantDtos = null;
+        if (product.getProductVariants() != null) {
+            variantDtos = product.getProductVariants().stream().map(v ->
+                    ProductDetailResponse.VariantDetailDto.builder()
+                            .id(v.getId())
+                            .sku(v.getSku())
+                            .color(v.getColor())
+                            .size(v.getSize())
+                            .price(v.getPrice())
+                            .stockQuantity(v.getStockQuantity())
+                            .build()
+            ).collect(Collectors.toList());
+        }
+
+        // 3. Đóng gói toàn bộ thông tin gốc + mảng biến thể vào DTO chi tiết
+        return ProductDetailResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .brand(product.getBrand())
+                .categoryId(product.getCategoryId())
+                .typeId(product.getTypeId())
+                .description(product.getDescription())
+                .status(product.getStatus())
+                .productVariants(variantDtos)
+                .build();
+    }
+
+    @Override
+    public void addVariantsToProduct(Long productId, List<VariantReq> variantReqs) { //Thêm variants
+        // 1. Tìm Sản phẩm gốc xem có tồn tại không
+        Product product = productRepo.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy Sản phẩm: " + productId));
+
+        // 2. Chuyển đổi từ DTO sang Entity và móc nối với Product
+        List<ProductVariant> variants = new ArrayList<>();
+        for (VariantReq req : variantReqs) {
+            ProductVariant variant = new ProductVariant();
+            variant.setProduct(product); // Quan trọng: Gắn ID sản phẩm cha vào đây
+            variant.setSku(req.getSku());
+            variant.setColor(req.getColor());
+            variant.setSize(req.getSize());
+            variant.setPrice(req.getPrice());
+            variant.setStockQuantity(req.getStockQuantity());
+
+            variants.add(variant);
+        }
+
+        // 3. Lưu toàn bộ mảng Biến thể vào Database
+        productVariantRepo.saveAll(variants);
     }
 
     private List<ProductListResponse> convertToDtoList(List<Product> products) {

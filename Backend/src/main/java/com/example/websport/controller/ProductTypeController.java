@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1/product-type")
 public class ProductTypeController {
 
     @Autowired
     private ProductTypeService productTypeService;
 
-    @GetMapping("/product-type") //Giày | Quần áo | Dụng cụ | Phụ kiện
+    @GetMapping //Giày | Quần áo | Dụng cụ | Phụ kiện
     ResponseEntity<List<ProductType>> findAll() {
         List<ProductType> productTypeList = productTypeService.findAll();
         return ResponseEntity.ok(productTypeList);
