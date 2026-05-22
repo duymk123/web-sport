@@ -47,16 +47,17 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products = productRepo.findAll();
 
         // 2. Chuyển sang DTO trả về
-        return products.stream().map(p -> ProductListResponse.builder()
-                .id(p.getId())
-                .name(p.getName())
-                .brand(p.getBrand())
-                // SỬA LẠI 2 DÒNG NÀY: Gọi thẳng hàm getCategoryId() và getTypeId()
-                .categoryId(p.getCategoryId())
-                .typeId(p.getTypeId())
-                .startingPrice(0.0)
-                .build()
-        ).collect(Collectors.toList());
+//        return products.stream().map(p -> ProductListResponse.builder()
+//                .id(p.getId())
+//                .name(p.getName())
+//                .brand(p.getBrand())
+//                // SỬA LẠI 2 DÒNG NÀY: Gọi thẳng hàm getCategoryId() và getTypeId()
+//                .categoryId(p.getCategoryId())
+//                .typeId(p.getTypeId())
+//                .startingPrice(0.0)
+//                .build()
+//        ).collect(Collectors.toList());
+        return convertToDtoList(products);
     }
 
     //Tất cả quần áo
