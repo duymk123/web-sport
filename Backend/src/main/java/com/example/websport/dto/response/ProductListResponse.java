@@ -14,5 +14,6 @@ public class ProductListResponse {
     private Long categoryId;
     private Long typeId;
     private Double startingPrice;
+    private String imageUrl;
 
 }

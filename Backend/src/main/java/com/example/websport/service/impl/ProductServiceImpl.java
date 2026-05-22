@@ -272,6 +272,9 @@ public class ProductServiceImpl implements ProductService {
                 .categoryId(p.getCategoryId())
                 .typeId(p.getTypeId())
                 .startingPrice(0.0)
+                .imageUrl(p.getProductImages() != null && !p.getProductImages().isEmpty()
+                        ? p.getProductImages().get(0).getImageUrl()
+                        : null)
                 .build()
         ).collect(Collectors.toList());
     }
