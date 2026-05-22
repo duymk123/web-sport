@@ -8,6 +8,7 @@ import com.example.websport.dto.response.ProductListResponse;
 import com.example.websport.entity.Product;
 import com.example.websport.service.ProductService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
+@RequiredArgsConstructor
 public class ProductController {
-    @Autowired
-    private ProductService productService;
+//    @Autowired
+    private final ProductService productService;
 
 
     @GetMapping

@@ -23,7 +23,7 @@ public interface ProductService {
     ProductListResponse updateProduct(Long id, ProductUpdateReq request);
     void deleteProduct(Long id);
 
-    ProductDetailResponse   getProductDetail(Long id);
+    ProductDetailResponse getProductDetail(Long id);
 
     // Khai báo hàm thêm Biến thể
     void addVariantsToProduct(Long productId, List<VariantReq> variantReqs);

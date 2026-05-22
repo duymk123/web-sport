@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.awt.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,8 @@ public class ProductDetailResponse {
     private EnumStatus status;
 
     private List<VariantDetailDto> productVariants;
+    private List<ImageDetailDto> productImages;
+
 
     @Getter
     @Setter
@@ -35,4 +38,13 @@ public class ProductDetailResponse {
         private BigDecimal price;
         private Integer stockQuantity;
     }
+
+    @Getter
+    @Setter
+    @Builder
+    public static class ImageDetailDto{
+        private Long id;
+        private String imageUrl;
+    }
+
 }

@@ -48,6 +48,8 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "product")
     private List<ProductVariant> productVariants;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductImage> productImages;
 
 
 

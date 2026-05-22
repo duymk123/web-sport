@@ -8,11 +8,16 @@ import com.example.websport.dto.response.ProductDetailResponse;
 import com.example.websport.dto.response.ProductListResponse;
 import com.example.websport.entity.Category;
 import com.example.websport.entity.Product;
+import com.example.websport.entity.ProductImage;
 import com.example.websport.entity.ProductVariant;
+import com.example.websport.repository.ProductImageRepo;
 import com.example.websport.repository.ProductRepo;
 import com.example.websport.repository.ProductVariantRepo;
 import com.example.websport.service.CategoryService;
 import com.example.websport.service.ProductService;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +26,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    ProductRepo productRepo;
 
-    @Autowired
-    CategoryService categoryService;
+//    @Autowired
+    private final ProductRepo productRepo;
 
-    @Autowired
-    ProductVariantRepo productVariantRepo;
+//    @Autowired
+    private final CategoryService categoryService;
+
+//    @Autowired
+    private final ProductVariantRepo productVariantRepo;
+
+    private final ProductImageRepo productImageRepo;
 
     @Override
     public List<ProductListResponse> getAllProducts() {  //Lấy tất cả sản phẩm
@@ -98,7 +107,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ProductListResponse createProduct(ProductCreateReq request) { // Tạo sản phẩm
+//        System.out.println("TÊN: " + request.getName() + " | BRAND: " + request.getBrand());
+//        System.out.println("TÊN: " + request.getName());
+//        System.out.println("BRAND: " + request.getBrand());
+//        System.out.println("CATE_ID: " + request.getCategoryId());
+//        System.out.println("TYPE_ID: " + request.getTypeId());
+//        System.out.println("DESC: " + request.getDescription());
         if (request.getName() == null
                 || request.getBrand() == null
                 || request.getCategoryId() == null
@@ -118,6 +134,34 @@ public class ProductServiceImpl implements ProductService {
         // product.setSpecifications(req.getSpecification());
 
         Product save = productRepo.save(product);
+
+
+        if (request.getImageUrls() != null && !request.getImageUrls().isEmpty()) {
+            List<ProductImage> imagesToSave = request.getImageUrls().stream()
+                    .map(url -> ProductImage.builder()
+                            .product(save) // Trỏ về cái ID sản phẩm vừa tạo ở trên
+                            .imageUrl(url)
+                            .build())
+                    .collect(Collectors.toList());
+
+            productImageRepo.saveAll(imagesToSave);
+        }
+
+        if (request.getVariants() != null && !request.getVariants().isEmpty()) {
+            List<ProductVariant> variantsToSave = request.getVariants().stream()
+                    .map(v -> ProductVariant.builder()
+                            .product(save) // Móc nối với Product vừa tạo
+                            .sku(v.getSku())
+                            .color(v.getColor())
+                            .size(v.getSize())
+                            .price(v.getPrice())
+                            .stockQuantity(v.getStockQuantity())
+                            .build())
+                    .collect(Collectors.toList());
+
+            productVariantRepo.saveAll(variantsToSave);
+        }
+
         return convertToDtoList(List.of(save)).get(0);
     }
 
@@ -132,9 +176,9 @@ public class ProductServiceImpl implements ProductService {
         product.setTypeId(request.getTypeId());
         product.setDescription(request.getDescription());
 
-        if(request.getStatus() != null){
-//            product.setStatus(request.getStatus().name());
-        }
+//        if(request.getStatus() != null){
+////            product.setStatus(request.getStatus().name());
+//        }
 
         // Nếu bạn đã cài jackson-databind thì mở dòng dưới ra:
         // product.setSpecifications(req.getSpecification());
@@ -156,7 +200,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm có ID: " + id));
 
-        // 2. Chuyển đổi danh sách biến thể từ Entity sang DTO (đã cập nhật theo đúng các cột SKU, stockQuantity của bạn)
+        // 2.1. Chuyển đổi danh sách biến thể từ Entity sang DTO (đã cập nhật theo đúng các cột SKU, stockQuantity của bạn)
         List<ProductDetailResponse.VariantDetailDto> variantDtos = null;
         if (product.getProductVariants() != null) {
             variantDtos = product.getProductVariants().stream().map(v ->
@@ -171,6 +215,17 @@ public class ProductServiceImpl implements ProductService {
             ).collect(Collectors.toList());
         }
 
+        // 2.2. CHUYỂN ĐỔI MẢNG HÌNH ẢNH
+        List<ProductDetailResponse.ImageDetailDto> imageDetailDtos = null;
+        if(product.getProductImages() != null) {
+            imageDetailDtos = product.getProductImages().stream().map(img ->ProductDetailResponse.ImageDetailDto.builder()
+                    .id(img.getId())
+                    .imageUrl(img.getImageUrl())
+                    .build()
+            ).collect(Collectors.toList());
+        }
+
+
         // 3. Đóng gói toàn bộ thông tin gốc + mảng biến thể vào DTO chi tiết
         return ProductDetailResponse.builder()
                 .id(product.getId())
@@ -181,6 +236,7 @@ public class ProductServiceImpl implements ProductService {
                 .description(product.getDescription())
                 .status(product.getStatus())
                 .productVariants(variantDtos)
+                .productImages(imageDetailDtos)
                 .build();
     }
 
@@ -188,7 +244,7 @@ public class ProductServiceImpl implements ProductService {
     public void addVariantsToProduct(Long productId, List<VariantReq> variantReqs) { //Thêm variants
         // 1. Tìm Sản phẩm gốc xem có tồn tại không
         Product product = productRepo.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy Sản phẩm: " + productId));
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy Sản phẩm    : " + productId));
 
         // 2. Chuyển đổi từ DTO sang Entity và móc nối với Product
         List<ProductVariant> variants = new ArrayList<>();
