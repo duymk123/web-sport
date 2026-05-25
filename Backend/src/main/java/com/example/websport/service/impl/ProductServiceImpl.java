@@ -30,13 +30,13 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
 
-//    @Autowired
+    //    @Autowired
     private final ProductRepo productRepo;
 
-//    @Autowired
+    //    @Autowired
     private final CategoryService categoryService;
 
-//    @Autowired
+    //    @Autowired
     private final ProductVariantRepo productVariantRepo;
 
     private final ProductImageRepo productImageRepo;
@@ -218,8 +218,8 @@ public class ProductServiceImpl implements ProductService {
 
         // 2.2. CHUYỂN ĐỔI MẢNG HÌNH ẢNH
         List<ProductDetailResponse.ImageDetailDto> imageDetailDtos = null;
-        if(product.getProductImages() != null) {
-            imageDetailDtos = product.getProductImages().stream().map(img ->ProductDetailResponse.ImageDetailDto.builder()
+        if (product.getProductImages() != null) {
+            imageDetailDtos = product.getProductImages().stream().map(img -> ProductDetailResponse.ImageDetailDto.builder()
                     .id(img.getId())
                     .imageUrl(img.getImageUrl())
                     .build()
@@ -265,44 +265,36 @@ public class ProductServiceImpl implements ProductService {
         productVariantRepo.saveAll(variants);
     }
 
-    private List<ProductListResponse> convertToDtoList(List<Product> products) {
-        return products.stream().map(p -> ProductListResponse.builder()
-                .id(p.getId())
-                .name(p.getName())
-                .brand(p.getBrand())
-                .categoryId(p.getCategoryId())
-                .typeId(p.getTypeId())
-                .startingPrice(0.0)
-                .imageUrl(p.getProductImages() != null && !p.getProductImages().isEmpty()
-                        ? p.getProductImages().get(0).getImageUrl()
-                        : null)
-                .build()
-        ).collect(Collectors.toList());
+    // tìm và lọc filter
+    @Override
+    public List<ProductListResponse> filter(String name, String brand, String size, Double minPrice, Double maxPrice) {
+        List<Product> products = productRepo.searchAndFilterProducts(name, brand, size, minPrice, maxPrice);
+        return convertToDtoList(products);
     }
 
+    private List<ProductListResponse> convertToDtoList(List<Product> products) {
+        return products.stream().map(p -> {
 
-//    @Override
-//    public List<Product> getProducts(Long categoryId, Long typeId) {
-//        List<Product> products;
-//
-//        if(categoryId != null && typeId != null ) {
-//            products = productRepo.findByCategoryIdAndTypeId(categoryId, typeId);
-//        }
-//        else if(categoryId != null) {
-//            products = productRepo.findByCatgory(categoryId);
-//        }
-//        else if(typeId != null) {
-//            products = productRepo.findByTypeId(typeId);
-//        }
-//        else {
-//            products = productRepo.findAll();
-//        }
-//        return products.stream().map(p -> ProductListResponse.builder()
-//                .id(p.getId())
-//                .name(p.getName())
-//                .brand(p.getBrand())
-//                .categoryId(p.getCategoryId())
-//                .typeId(p.getCategoryId())
-//                .startingPrice(0.0)).collect(Collectors.toList()); // Giá trị mặc định khi chưa có Variant
-//    }
+            // 1. Móc chính xác giá từ biến thể (variant) đầu tiên ra
+            Double exactPrice = 0.0;
+            if (p.getProductVariants() != null && !p.getProductVariants().isEmpty()) {
+                exactPrice = p.getProductVariants().get(0).getPrice().doubleValue();
+            }
+
+            // 2. Build dữ liệu trả về
+            return ProductListResponse.builder()
+                    .id(p.getId())
+                    .name(p.getName())
+                    .brand(p.getBrand())
+                    .categoryId(p.getCategoryId())
+                    .typeId(p.getTypeId())
+                    .price(exactPrice) // <--- Đã sửa thành price và truyền giá thật vào đây!
+                    .imageUrl(p.getProductImages() != null && !p.getProductImages().isEmpty()
+                            ? p.getProductImages().get(0).getImageUrl()
+                            : null)
+                    .build();
+        }).collect(Collectors.toList());
+
+
+    }
 }

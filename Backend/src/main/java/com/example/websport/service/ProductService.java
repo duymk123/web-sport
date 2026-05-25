@@ -28,6 +28,9 @@ public interface ProductService {
     // Khai báo hàm thêm Biến thể
     void addVariantsToProduct(Long productId, List<VariantReq> variantReqs);
 
+    // Hàm filter và search
+    List<ProductListResponse> filter(String name, String brand, String size, Double minPrice, Double maxPrice);
+
 
 
 

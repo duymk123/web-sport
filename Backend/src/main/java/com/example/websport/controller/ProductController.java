@@ -19,11 +19,10 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
-//    @Autowired
     private final ProductService productService;
 
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<ProductListResponse>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
@@ -77,4 +76,16 @@ public class ProductController {
     ResponseEntity<ProductDetailResponse> getProduct(@PathVariable Long id) {
         return ResponseEntity.ok(productService.getProductDetail(id));
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<ProductListResponse>> filter(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String size,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice
+    ){
+        return ResponseEntity.ok(productService.filter(name, brand, size, minPrice, maxPrice));
+    }
+
 }

@@ -13,7 +13,7 @@ public class ProductListResponse {
     private String brand;
     private Long categoryId;
     private Long typeId;
-    private Double startingPrice;
+    private Double price;
     private String imageUrl;
 
 }

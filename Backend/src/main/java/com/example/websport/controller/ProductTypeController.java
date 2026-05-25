@@ -3,6 +3,7 @@ package com.example.websport.controller;
 import com.example.websport.entity.ProductType;
 import com.example.websport.repository.ProductTypeRepo;
 import com.example.websport.service.ProductTypeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/product-type")
+@RequiredArgsConstructor
 public class ProductTypeController {
 
-    @Autowired
-    private ProductTypeService productTypeService;
+    private final ProductTypeService productTypeService;
 
     @GetMapping //Giày | Quần áo | Dụng cụ | Phụ kiện
     ResponseEntity<List<ProductType>> findAll() {

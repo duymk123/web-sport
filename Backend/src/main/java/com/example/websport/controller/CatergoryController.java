@@ -3,6 +3,7 @@ package com.example.websport.controller;
 import com.example.websport.entity.Category;
 import com.example.websport.service.CategoryService;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/categories")
+@RequiredArgsConstructor
 public class CatergoryController {
-    @Autowired
-    private CategoryService categoryService;
+
+    private final CategoryService categoryService;
 
     @GetMapping //Lấy ra danh mục
     public ResponseEntity<List<Category>> getAllCategories(){
