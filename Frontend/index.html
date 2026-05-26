@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VELOCITY PRIME | High Performance Sports</title>
+<meta name="description" content="Cửa hàng thể thao cao cấp - Cầu lông, Bóng đá, Pickleball. Hàng chính hãng, giao nhanh toàn quốc."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "on-primary": "#ffffff",
+        "surface-container-highest": "#e2e2e2",
+        "on-tertiary-fixed-variant": "#454747",
+        "surface-bright": "#ffffff",
+        "on-tertiary-fixed": "#1a1c1c",
+        "secondary-fixed-dim": "#c6c6c6",
+        "surface-container": "#f5f5f5",
+        "surface-container-lowest": "#ffffff",
+        "primary-fixed-dim": "#ffb3af",
+        "surface-dim": "#f5f5f5",
+        "tertiary": "#474747",
+        "on-primary-fixed-variant": "#930017",
+        "surface-container-low": "#fafafa",
+        "on-error": "#ffffff",
+        "on-secondary-container": "#1b1b1b",
+        "outline-variant": "#d8c2c0",
+        "error-container": "#f9dedc",
+        "surface-variant": "#f1dedd",
+        "error": "#b3261e",
+        "on-secondary-fixed": "#1b1b1b",
+        "inverse-primary": "#ffb3af",
+        "on-primary-container": "#410005",
+        "tertiary-fixed-dim": "#c6c6c7",
+        "inverse-surface": "#313030",
+        "secondary": "#5e5e5e",
+        "outline": "#857372",
+        "primary-container": "#ffdad7",
+        "on-tertiary-container": "#282a2a",
+        "surface-tint": "#c00021",
+        "primary-fixed": "#ffdad7",
+        "inverse-on-surface": "#f5f0ef",
+        "on-primary-fixed": "#410005",
+        "on-secondary-fixed-variant": "#474747",
+        "on-error-container": "#410002",
+        "primary": "#c00021",
+        "tertiary-container": "#909191",
+        "on-background": "#1c1b1b",
+        "background": "#ffffff",
+        "secondary-fixed": "#e2e2e2",
+        "surface": "#ffffff",
+        "on-tertiary": "#ffffff",
+        "on-surface": "#1c1b1b",
+        "tertiary-fixed": "#e2e2e2",
+        "secondary-container": "#e2e2e2",
+        "on-surface-variant": "#534342",
+        "on-secondary": "#ffffff",
+        "surface-container-high": "#ebebeb"
+      },
+      borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+      spacing: { "section-gap": "120px", "margin-mobile": "20px", unit: "4px", "margin-desktop": "64px", gutter: "24px" },
+      fontFamily: {
+        "headline-lg": ["Oswald"], "label-bold": ["Inter"], "headline-lg-mobile": ["Oswald"],
+        "body-md": ["Inter"], "stats-display": ["Oswald"], "headline-md": ["Oswald"],
+        "display-lg": ["Oswald"], "body-lg": ["Inter"]
+      },
+      fontSize: {
+        "headline-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+        "label-bold": ["14px", { lineHeight: "1.0", letterSpacing: "0.1em", fontWeight: "700" }],
+        "headline-lg-mobile": ["36px", { lineHeight: "1.1", fontWeight: "700" }],
+        "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
+        "stats-display": ["24px", { lineHeight: "1.0", fontWeight: "700" }],
+        "headline-md": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+        "display-lg": ["84px", { lineHeight: "1.0", letterSpacing: "-0.04em", fontWeight: "700" }],
+        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
+      }
+    }
+  }
+}
+</script>
+<style>
+html, body { height: 100%; margin: 0; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+/* Marquee */
+.marquee { white-space: nowrap; overflow: hidden; box-sizing: border-box; }
+.marquee-content { display: inline-block; padding-left: 100%; animation: marquee 30s linear infinite; }
+@keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+
+/* Product hover */
+.product-card-hover:hover .product-img { transform: scale(1.05); }
+.product-card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(192,0,33,0.08); }
+.product-card-hover { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+
+/* Skew */
+.skew-x-hard { transform: skewX(-12deg); }
+.skew-x-reverse { transform: skewX(12deg); }
+
+/* Scrollbar hide */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Nav auto-hide */
+#main-nav.nav-hidden { transform: translateY(-100%); }
+
+/* Wishlist btn */
+.wishlist-btn { opacity: 0; transition: opacity 0.2s; }
+.product-card-hover:hover .wishlist-btn { opacity: 1; }
+.wishlist-btn.active i { color: #c00021; }
+
+/* Cart Panel */
+.cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 300; display: none; }
+.cart-overlay.open { display: block; }
+.cart-panel { position: fixed; top: 0; right: 0; bottom: 0; width: 400px; max-width: 100vw; background: #fff; z-index: 301; transform: translateX(100%); transition: transform .3s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; }
+.cart-panel.open { transform: translateX(0); }
+
+/* Modals */
+.modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 400; display: none; align-items: center; justify-content: center; }
+.modal-bg.open { display: flex; }
+.detail-modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 400; display: none; align-items: center; justify-content: center; padding: 16px; }
+.detail-modal-bg.open { display: flex; }
+
+/* Toast */
+.toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(60px); background: #1c1b1b; color: #fff; padding: 12px 22px; border-radius: 8px; font-size: 14px; font-weight: 500; z-index: 500; opacity: 0; transition: all .3s; pointer-events: none; display: flex; align-items: center; gap: 8px; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast i { color: #c00021; font-size: 18px; }
+
+/* AI Chat */
+.ai-bubble { position: fixed; bottom: 90px; right: 28px; z-index: 200; background: #fff; border: 1px solid #d8c2c0; border-radius: 16px; width: 340px; box-shadow: 0 8px 40px rgba(0,0,0,.14); display: none; overflow: hidden; }
+.ai-bubble.open { display: block; }
+
+/* Smooth transitions */
+.fade-in { opacity: 0; transform: translateY(30px); transition: all 0.7s cubic-bezier(.16,1,.3,1); }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Sidebar filter */
+.filter-item { display: flex; align-items: center; gap: 9px; padding: 7px 8px; border-radius: 6px; cursor: pointer; transition: background .12s; font-size: 14px; color: #534342; }
+.filter-item:hover { background: #f5f5f5; }
+.filter-item input[type=checkbox] { width: 15px; height: 15px; accent-color: #c00021; cursor: pointer; }
+
+/* Sub tabs */
+.sub-tab { padding: 6px 16px; border-radius: 20px; border: 1.5px solid #d8c2c0; color: #534342; font-size: 13px; cursor: pointer; transition: all .15s; background: #fff; font-weight: 500; }
+.sub-tab:hover { border-color: #857372; }
+.sub-tab.active { background: #c00021; border-color: #c00021; color: #fff; }
+
+/* Product grid */
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .layout-grid { grid-template-columns: 1fr !important; }
+  .sidebar-filter { display: none; }
+  .hero-title { font-size: 48px !important; }
+}
+  /* Interactive Action Effects */
+  .btn-effect {
+    transition: all 0.25s ease;
+  }
+  .btn-effect:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(104, 0, 13, 0.25);
+  }
+  .btn-effect:active {
+    transform: scale(0.96) translateY(0);
+    box-shadow: 0 2px 10px rgba(104, 0, 13, 0.15);
+  }
+  
+  .btn-effect-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  }
+  .btn-effect-secondary:active {
+    transform: scale(0.96) translateY(0);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .hover-slide-right {
+    transition: transform 0.25s ease, background-color 0.25s ease;
+  }
+  .hover-slide-right:hover {
+    transform: translateX(6px);
+  }
+  
+  .size-filter-label {
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .size-filter-label:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(104, 0, 13, 0.1);
+    z-index: 1;
+  }
+  .size-filter-label:active {
+    transform: scale(0.95);
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+      display: flex;
+      width: max-content;
+    }
+  
+  .marquee-container {
+      overflow-x: auto;
+      width: 100%;
+      position: relative;
+      cursor: grab;
+      scroll-behavior: auto;
+    }
+    .marquee-container:active {
+      cursor: grabbing;
+    }
+</style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+
+<!-- ==================== HEADER ==================== -->
+<header class="flex flex-col w-full z-50 fixed top-0 transition-transform duration-300" id="main-nav">
+  <!-- Marquee Ticker -->
+  <div class="bg-primary text-on-primary py-2 marquee overflow-hidden">
+    <div class="marquee-content font-label-bold text-label-bold flex gap-12 items-center uppercase italic">
+      <span>MIỄN PHÍ VẬN CHUYỂN ĐƠN HÀNG TỪ 500K</span>
+      <span>•</span>
+      <span>GIẢM 20% CHO THÀNH VIÊN MỚI</span>
+      <span>•</span>
+      <span>KHÁM PHÁ BỘ SƯU TẬP PICKLEBALL MỚI NHẤT</span>
+      <span>•</span>
+      <span>ĐỔI TRẢ TRONG 30 NGÀY</span>
+      <span>•</span>
+      <span>HOTLINE: 1900 9999</span>
+      <span>•</span>
+      <span>MIỄN PHÍ VẬN CHUYỂN ĐƠN HÀNG TỪ 500K</span>
+      <span>•</span>
+      <span>GIẢM 20% CHO THÀNH VIÊN MỚI</span>
+    </div>
+  </div>
+  <!-- Main Nav -->
+  <nav class="bg-[#111] backdrop-blur-md border-b-4 border-primary flex items-center justify-between px-margin-mobile md:px-margin-desktop py-3 h-20 shadow-2xl">
+    <div class="flex-shrink-0 flex items-center gap-4 cursor-pointer group" onclick="navigateToHome()">
+      <div class="w-10 h-10 md:w-14 md:h-12 bg-primary flex items-center justify-center skew-x-[-15deg] group-hover:scale-105 transition-transform duration-300">
+        <span class="text-white font-display-lg text-2xl font-black italic skew-x-[15deg] tracking-tighter">VP</span>
+      </div>
+      <div class="hidden sm:block">
+        <div class="font-headline-lg text-sm font-black text-white tracking-[0.2em] uppercase italic">Velocity <span class="text-primary">Prime</span></div>
+        <div class="text-[9px] text-gray-400 tracking-[0.3em] uppercase mt-0.5">High Performance Sports</div>
+      </div>
+    </div>
+    <ul class="hidden lg:flex items-center gap-2" id="mainNavLinks">
+      <li><a class="px-5 py-2 text-white bg-primary/20 border-b-2 border-primary font-label-bold text-label-bold italic skew-x-[-10deg] inline-block cursor-pointer nav-link transition-colors" id="nav-home" onclick="navigateToHome()"><span class="inline-block skew-x-[10deg]">Trang chủ</span></a></li>
+      <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-football" onclick="navigateToSport('football')"><span class="inline-block skew-x-[10deg]">Bóng đá</span></a></li>
+      <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-badminton" onclick="navigateToSport('badminton')"><span class="inline-block skew-x-[10deg]">Cầu lông</span></a></li>
+      <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-pickleball" onclick="navigateToSport('pickleball')"><span class="inline-block skew-x-[10deg]">Pickleball</span></a></li>
+      <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-orders" onclick="openUserModal()"><span class="inline-block skew-x-[10deg]">Đơn hàng</span></a></li>
+      <li><a class="hidden px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="adminNavBtn" onclick="navigateToAdmin()"><span class="inline-block skew-x-[10deg] flex items-center"><span class="material-symbols-outlined text-base mr-1">admin_panel_settings</span> Admin</span></a></li>
+    </ul>
+    <div class="flex items-center gap-3 md:gap-5">
+      <div class="hidden md:flex items-center border border-[#333] skew-x-[-10deg] overflow-hidden bg-[#1a1a1a] max-w-[240px] focus-within:border-primary transition-colors">
+        <input type="text" id="navSearchInput" placeholder="Tìm sản phẩm..." class="px-4 py-2 text-sm border-none outline-none bg-transparent w-full text-white placeholder-gray-500 skew-x-[10deg]" onkeyup="if(event.key==='Enter'){scrollToSection('catalog');setTimeout(()=>filterProducts(),300);}"/>
+        <button class="px-4 py-2 bg-primary text-white hover:bg-red-700 transition-colors" onclick="scrollToSection('catalog');setTimeout(()=>filterProducts(),300);"><span class="material-symbols-outlined text-lg skew-x-[10deg] block">search</span></button>
+      </div>
+      <button class="material-symbols-outlined text-gray-300 hover:text-primary transition-all duration-200 active:scale-95 text-[28px]" onclick="toggleWishlistView()" title="Yêu thích">favorite</button>
+      <button class="material-symbols-outlined text-gray-300 hover:text-primary transition-all duration-200 active:scale-95 relative text-[28px]" onclick="openCart()" title="Giỏ hàng">
+        shopping_cart
+        <span class="absolute -top-1 -right-2 bg-primary text-white text-[11px] w-5 h-5 flex items-center justify-center rounded-sm skew-x-[-10deg] font-black" id="cartBadge"><span class="skew-x-[10deg]">0</span></span>
+      </button>
+      <button class="material-symbols-outlined text-gray-300 hover:text-primary transition-all duration-200 active:scale-95 text-[28px]" onclick="openUserModal()" title="Tài khoản">person</button>
+      <button class="lg:hidden material-symbols-outlined text-gray-300 text-[28px]" id="mobileMenuBtn">menu</button>
+    </div>
+  </nav>
+</header>
+
+<!-- ==================== MAIN CONTENT ==================== -->
+<div class="pt-[120px]" id="mainContent">
+
+<!-- ===== HERO SECTION ===== -->
+<section class="relative min-h-[90vh] flex items-center justify-start px-margin-mobile md:px-margin-desktop overflow-hidden" id="hero">
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/50 to-transparent z-10"></div>
+    <div class="w-full h-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBOpCWVki_UYCLy3h5jJ27EtCQuoE2WjA5271igevZ-YM_icTuYOqPZwhXmU58fL-fjdLJTENzjU_7K_gQ0GTJL6HonOWWfccRl6M7Iti71JrjPAzmsZIbOUsvNr8QN3Kc-ohw9MZjAPbUDz5RvaMZ_gvUjiqE--ocjs2jwwgC4XcYuYsRhfmB6RHbQXW5eIyNz2EGzalkDDYwNrv0vy2AQ_aUmcumuZuYoeRYSy3N5G7HAJvh0itfcm3KHL3t7dHqJijGjkmGtZ5VI')"></div>
+  </div>
+  <div class="relative z-20 max-w-2xl flex flex-col items-start">
+    <span class="bg-primary text-on-primary font-label-bold text-label-bold px-5 py-1.5 skew-x-hard italic mb-5 shadow-lg">
+      <span class="inline-block skew-x-reverse">MÙA GIẢI MỚI 2026</span>
+    </span>
+    <h1 class="font-display-lg text-[56px] md:text-[84px] leading-none italic uppercase mb-6 text-on-surface hero-title">
+      ĐỈNH CAO <br/> <span class="text-primary">HIỆU SUẤT</span>
+    </h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-8">
+      Cầu lông · Bóng đá · Pickleball — Trang bị chính hãng từ các thương hiệu hàng đầu. Giao nhanh toàn quốc.
+    </p>
+    <div class="flex flex-wrap gap-4">
+      <button class="group flex items-center gap-3 bg-primary text-on-primary font-headline-md text-xl italic px-10 py-4 hover:bg-surface-tint transition-all transform active:scale-95 shadow-lg" onclick="scrollToSection('equipment')">
+        SHOP NOW
+        <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
+      </button>
+    </div>
+    <!-- Stats -->
+    <div class="flex flex-wrap gap-8 mt-12 pt-8 border-t border-outline-variant/50">
+      <div class="text-center"><div class="font-stats-display text-stats-display text-primary" id="statProducts">500+</div><div class="text-xs text-secondary mt-1 uppercase tracking-wider">Sản phẩm</div></div>
+      <div class="text-center"><div class="font-stats-display text-stats-display text-primary">15+</div><div class="text-xs text-secondary mt-1 uppercase tracking-wider">Thương hiệu</div></div>
+      <div class="text-center"><div class="font-stats-display text-stats-display text-primary">50K+</div><div class="text-xs text-secondary mt-1 uppercase tracking-wider">Khách hàng</div></div>
+      <div class="text-center"><div class="font-stats-display text-stats-display text-primary">4.9★</div><div class="text-xs text-secondary mt-1 uppercase tracking-wider">Đánh giá</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEW COLLECTION BENTO ===== -->
+<section class="bg-white px-margin-mobile md:px-margin-desktop py-16" id="collection">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex items-end justify-between mb-8 border-l-8 border-primary pl-6">
+      <div>
+        <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-on-background">BỘ SƯU TẬP MỚI</h2>
+        <p class="text-on-surface-variant font-label-bold uppercase tracking-widest mt-2">Engineered for the elite</p>
+      </div>
+      <a class="font-label-bold text-label-bold text-primary hover:underline italic flex items-center gap-2 cursor-pointer" onclick="scrollToSection('equipment')">
+        XEM TẤT CẢ <span class="material-symbols-outlined text-sm">open_in_new</span>
+      </a>
+    </div>
+    <div id="bentoGrid" class="w-full">
+      <!-- Populated dynamically from API -->
+      <div class="flex items-center justify-center py-20 text-secondary w-full">
+        <span class="material-symbols-outlined text-5xl text-outline-variant block mr-3">hourglass_top</span>
+        <span>Đang tải sản phẩm...</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SALE SECTION ===== -->
+<section class="bg-primary-container relative px-margin-mobile md:px-margin-desktop py-20 overflow-hidden" id="sale">
+  <div class="absolute -right-20 -top-20 opacity-10 pointer-events-none select-none">
+    <span class="font-display-lg text-[200px] md:text-[300px] italic leading-none text-primary">SALE</span>
+  </div>
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+    <div class="max-w-xl">
+      <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic text-on-primary-container leading-tight mb-4">HÀNG GIẢM GIÁ</h2>
+      <p class="text-on-primary-container font-body-lg text-body-lg mb-8 opacity-90">Giảm đến 40% các sản phẩm hot nhất. Nhanh tay — số lượng có hạn!</p>
+      <button class="bg-primary text-on-primary px-12 py-4 font-label-bold text-label-bold skew-x-hard italic hover:bg-surface-tint transition-colors shadow-lg" onclick="scrollToSection('equipment')">
+        <span class="inline-block skew-x-reverse">SHOP SALE</span>
+      </button>
+    </div>
+    <!-- Sale Carousel -->
+    <div id="saleCarousel" class="w-full">
+      <div class="min-w-[340px] flex items-center justify-center py-12 text-secondary">
+        <span class="material-symbols-outlined mr-2">hourglass_top</span> Đang tải...
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEWS & BLOG ===== -->
+<section class="bg-surface-container py-16 overflow-hidden" id="news-blog">
+  <div class="px-margin-mobile md:px-margin-desktop mb-8 flex justify-between items-end">
+    <div class="border-l-4 border-primary pl-4">
+      <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-on-background m-0 leading-tight tracking-tight">
+        TIN TỨC <span class="text-primary">HOT</span>
+      </h2>
+      <p class="text-secondary mt-1 tracking-[0.2em] text-xs uppercase font-medium">Cập nhật xu hướng & thiết bị mới nhất</p>
+    </div>
+  </div>
+  
+  <div class="w-full marquee-container py-4">
+    <div class="animate-marquee gap-6 flex items-stretch" style="animation-duration: 120s;">
+      <!-- Original Loop -->
+      <div class="flex gap-6">
+        <!-- Item 1: Large -->
+        <div class="w-[480px] h-[320px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer flex-shrink-0 relative">
+          <div class="h-[200px] w-full overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 1">
+          </div>
+          <div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md"><span class="block skew-x-[10deg]">SỰ KIỆN</span></div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <h3 class="font-bold text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">Giải vô địch Cầu lông Thế giới 2026: Những công nghệ vợt đột phá</h3>
+            <p class="text-xs text-secondary font-medium">22 Tháng 5, 2026</p>
+          </div>
+        </div>
+
+        <!-- Item 2: Small stacked -->
+        <div class="w-[320px] flex flex-col gap-6 flex-shrink-0">
+          <div class="h-[148px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex group cursor-pointer">
+            <div class="w-[130px] h-full overflow-hidden flex-shrink-0 relative">
+              <img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 2">
+            </div>
+            <div class="p-4 flex-1 flex flex-col justify-center">
+              <span class="text-[10px] font-black text-primary mb-1 uppercase tracking-wider">Đánh giá</span>
+              <h3 class="font-bold text-[13px] leading-snug line-clamp-3 group-hover:text-primary transition-colors">Siêu phẩm giày đá bóng siêu nhẹ mới từ Nike</h3>
+            </div>
+          </div>
+          <div class="h-[148px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex group cursor-pointer">
+            <div class="w-[130px] h-full overflow-hidden flex-shrink-0 relative">
+              <img src="https://images.unsplash.com/photo-1622279457486-69d73ad5e4d2?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 3">
+            </div>
+            <div class="p-4 flex-1 flex flex-col justify-center">
+              <span class="text-[10px] font-black text-primary mb-1 uppercase tracking-wider">Xu hướng</span>
+              <h3 class="font-bold text-[13px] leading-snug line-clamp-3 group-hover:text-primary transition-colors">Cơn sốt Pickleball đang bùng nổ toàn cầu như thế nào?</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3: Tall portrait -->
+        <div class="w-[280px] h-[320px] bg-[#111] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer flex-shrink-0 relative">
+          <img src="https://images.unsplash.com/photo-1551266130-9db0744cbdd1?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" alt="Blog 4">
+          <div class="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black/95 via-black/40 to-transparent">
+            <span class="text-[10px] font-black text-white bg-primary/90 px-3 py-1 rounded-sm w-max mb-3 skew-x-[-10deg]"><span class="block skew-x-[10deg]">HOT TREND</span></span>
+            <h3 class="font-bold text-white text-[17px] leading-snug">Top 5 trang phục thi đấu giải nhiệt mùa hè</h3>
+          </div>
+        </div>
+
+        <!-- Item 4: Wide -->
+        <div class="w-[420px] h-[320px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer flex-shrink-0">
+          <div class="h-[180px] w-full overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1613918431703-9316527b16de?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 5">
+            <div class="absolute top-4 right-4 bg-[#111]/80 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1 border border-white/20"><span class="material-symbols-outlined text-[14px]">play_circle</span> VIDEO</div>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <h3 class="font-bold text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">Hướng dẫn chọn vợt cầu lông cho người mới bắt đầu</h3>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover"></div>
+              <p class="text-[13px] text-secondary font-medium">Chuyên gia Huy Hoàng</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Duplicated Loop for Marquee -->
+      <div class="flex gap-6">
+        <div class="w-[480px] h-[320px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer flex-shrink-0 relative">
+          <div class="h-[200px] w-full overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 1">
+          </div>
+          <div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md"><span class="block skew-x-[10deg]">SỰ KIỆN</span></div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <h3 class="font-bold text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">Giải vô địch Cầu lông Thế giới 2026: Những công nghệ vợt đột phá</h3>
+            <p class="text-xs text-secondary font-medium">22 Tháng 5, 2026</p>
+          </div>
+        </div>
+        <div class="w-[320px] flex flex-col gap-6 flex-shrink-0">
+          <div class="h-[148px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex group cursor-pointer">
+            <div class="w-[130px] h-full overflow-hidden flex-shrink-0 relative">
+              <img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 2">
+            </div>
+            <div class="p-4 flex-1 flex flex-col justify-center">
+              <span class="text-[10px] font-black text-primary mb-1 uppercase tracking-wider">Đánh giá</span>
+              <h3 class="font-bold text-[13px] leading-snug line-clamp-3 group-hover:text-primary transition-colors">Siêu phẩm giày đá bóng siêu nhẹ mới từ Nike</h3>
+            </div>
+          </div>
+          <div class="h-[148px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex group cursor-pointer">
+            <div class="w-[130px] h-full overflow-hidden flex-shrink-0 relative">
+              <img src="https://images.unsplash.com/photo-1622279457486-69d73ad5e4d2?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 3">
+            </div>
+            <div class="p-4 flex-1 flex flex-col justify-center">
+              <span class="text-[10px] font-black text-primary mb-1 uppercase tracking-wider">Xu hướng</span>
+              <h3 class="font-bold text-[13px] leading-snug line-clamp-3 group-hover:text-primary transition-colors">Cơn sốt Pickleball đang bùng nổ toàn cầu như thế nào?</h3>
+            </div>
+          </div>
+        </div>
+        <div class="w-[280px] h-[320px] bg-[#111] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer flex-shrink-0 relative">
+          <img src="https://images.unsplash.com/photo-1551266130-9db0744cbdd1?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" alt="Blog 4">
+          <div class="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black/95 via-black/40 to-transparent">
+            <span class="text-[10px] font-black text-white bg-primary/90 px-3 py-1 rounded-sm w-max mb-3 skew-x-[-10deg]"><span class="block skew-x-[10deg]">HOT TREND</span></span>
+            <h3 class="font-bold text-white text-[17px] leading-snug">Top 5 trang phục thi đấu giải nhiệt mùa hè</h3>
+          </div>
+        </div>
+        <div class="w-[420px] h-[320px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer flex-shrink-0">
+          <div class="h-[180px] w-full overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1613918431703-9316527b16de?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 5">
+            <div class="absolute top-4 right-4 bg-[#111]/80 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1 border border-white/20"><span class="material-symbols-outlined text-[14px]">play_circle</span> VIDEO</div>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <h3 class="font-bold text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">Hướng dẫn chọn vợt cầu lông cho người mới bắt đầu</h3>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover"></div>
+              <p class="text-[13px] text-secondary font-medium">Chuyên gia Huy Hoàng</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- ===== EQUIPMENT CATEGORIES ===== -->
+
+<section class="bg-white px-margin-mobile md:px-margin-desktop py-20" id="equipment">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-center mb-12 underline decoration-primary decoration-4 underline-offset-8 text-on-background">THIẾT BỊ THI ĐẤU</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="group cursor-pointer flex flex-col" onclick="navigateToSport('football')">
+        <div class="flex-grow overflow-hidden bg-surface-container mb-4 border-b-4 border-transparent group-hover:border-primary transition-all rounded-xl" style="min-height:280px">
+          <img alt="Bóng đá" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDvnVWGe9174Uck9FwRTgeoyJ5m-kS1FFq3IdBZ2XqYZJmUuDIxrwKBaynlA5jJup9J86Evu1bQ-u1MvhdqVqZ7V_4ZhUwSqQOqldmpBRZZI4tD8w9oycTmXj4KSgKvUHu3SOVlMEB-TZXi8cfA87NOHmvAa55ojxapeeLurdeGe5deGIwHdzUf-vlpyx8zts_7xnw1IHU9mYMuSnvz0osu_J6s16jfye5D3YNT9wkG1hrmkxJw_ip-CIPqmBa6L0-0mkD8N9sDXee"/>
+        </div>
+        <h3 class="font-headline-md text-headline-md italic uppercase flex items-center justify-between text-on-background">
+          BÓNG ĐÁ <span class="material-symbols-outlined text-primary">sports_soccer</span>
+        </h3>
+        <p class="text-on-surface-variant mt-1">Giày, bóng & trang phục thi đấu chuyên nghiệp.</p>
+      </div>
+      <div class="group cursor-pointer flex flex-col" onclick="navigateToSport('badminton')">
+        <div class="flex-grow overflow-hidden bg-surface-container mb-4 border-b-4 border-transparent group-hover:border-primary transition-all rounded-xl" style="min-height:280px">
+          <img alt="Cầu lông" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbqAmI-A4Et4u04N82zDCfOts67WJ-XxgeHxrQh7qGwZk7WhT9iQQ9WpAYtvVWMsXRLIAQ_ElZkl_3JuLmPWoA0KLuoskOrKqvbVLCHJ_cwPNrnvXsZnrDZxRyXbRooV7vHYszJzA4NhMR86Y3dIDTglaqZk35XNohkmlC0vAV5ZcnOK8X9VEL6t3gclqbnnGvo7SBzkeZnonYH6sO9f6PWlYnwNza7cyhtgjc5deNc9FKBsFSDtgGAiC_ZIq9ofcJRri05thnY28f"/>
+        </div>
+        <h3 class="font-headline-md text-headline-md italic uppercase flex items-center justify-between text-on-background">
+          CẦU LÔNG <span class="material-symbols-outlined text-primary">sports_tennis</span>
+        </h3>
+        <p class="text-on-surface-variant mt-1">Vợt cao cấp, giày chuyên dụng & phụ kiện.</p>
+      </div>
+      <div class="group cursor-pointer flex flex-col" onclick="navigateToSport('pickleball')">
+        <div class="flex-grow overflow-hidden bg-surface-container mb-4 border-b-4 border-transparent group-hover:border-primary transition-all rounded-xl" style="min-height:280px">
+          <img alt="Pickleball" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU5aYizwXy-EByEbDoais7cWGHQrAIDyGJ__0hBk9vwO3RvExjHJw_UyoeEqiPZfy5kz4plzAWizNCd_XRQiN64iEzYvj_KllbRO0NNAH-EAGtvd_IzgJG-gck5nbLUtgRnAX8bJwvi1l3GVPfsD3cByOIkubFotzJ0Mdn9-8uhWkohqVtU6iAso0kBKcsQYOoRMOF2C8FCRdYFug_h70vhtX68msFdotLozfIYMBfJ_IMw-f3FzwqfFEWLF5f0ZSgBZW2_7P0U_bk"/>
+        </div>
+        <h3 class="font-headline-md text-headline-md italic uppercase flex items-center justify-between text-on-background">
+          PICKLEBALL <span class="material-symbols-outlined text-primary">sports_handball</span>
+        </h3>
+        <p class="text-on-surface-variant mt-1">Vợt composite thế hệ mới & gear chuyên dụng.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="bg-surface-container-low px-margin-mobile md:px-margin-desktop py-16">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex items-center gap-3 mb-8 border-l-8 border-primary pl-6">
+      <h2 class="font-headline-lg text-xl md:text-2xl italic uppercase text-on-background">Dịch vụ chuyên nghiệp</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="bg-white p-6 rounded-xl border border-outline-variant hover:border-primary transition-all text-center group cursor-pointer">
+        <i class="ti ti-tools text-3xl text-primary mb-4 block group-hover:scale-110 transition-transform"></i>
+        <h4 class="font-label-bold text-sm text-on-surface mb-2">Đan vợt</h4>
+        <p class="text-xs text-secondary leading-relaxed">Đan lại vợt đúng lực căng, nhiều loại cước chọn lựa</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl border border-outline-variant hover:border-primary transition-all text-center group cursor-pointer">
+        <i class="ti ti-ruler text-3xl text-primary mb-4 block group-hover:scale-110 transition-transform"></i>
+        <h4 class="font-label-bold text-sm text-on-surface mb-2">Tư vấn chọn size</h4>
+        <p class="text-xs text-secondary leading-relaxed">Chọn size áo, giày chuẩn xác theo số đo</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl border border-outline-variant hover:border-primary transition-all text-center group cursor-pointer">
+        <i class="ti ti-shield-check text-3xl text-primary mb-4 block group-hover:scale-110 transition-transform"></i>
+        <h4 class="font-label-bold text-sm text-on-surface mb-2">Bảo hành chính hãng</h4>
+        <p class="text-xs text-secondary leading-relaxed">Hỗ trợ bảo hành theo chính sách hãng</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl border border-outline-variant hover:border-primary transition-all text-center group cursor-pointer">
+        <i class="ti ti-truck text-3xl text-primary mb-4 block group-hover:scale-110 transition-transform"></i>
+        <h4 class="font-label-bold text-sm text-on-surface mb-2">Giao hàng nhanh</h4>
+        <p class="text-xs text-secondary leading-relaxed">Nội thành trong ngày, toàn quốc 2-3 ngày</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-on-surface text-[#9ca3af] pt-16 pb-8 px-margin-mobile md:px-margin-desktop">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+    <div>
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center"><span class="text-on-primary font-bold text-xl italic">VP</span></div>
+        <div><div class="text-sm font-bold text-white tracking-widest uppercase italic">Velocity Prime</div><div class="text-[10px] tracking-wider">High Performance Sports</div></div>
+      </div>
+      <p class="text-sm leading-relaxed max-w-[240px]">Cửa hàng thể thao chính hãng — chuyên cung cấp đồ cầu lông, bóng đá, pickleball với đầy đủ thương hiệu uy tín.</p>
+    </div>
+    <div>
+      <h4 class="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Mua sắm</h4>
+      <ul class="space-y-2 text-sm"><li class="cursor-pointer hover:text-white transition-colors" onclick="navigateToSport('badminton')">Cầu lông</li><li class="cursor-pointer hover:text-white transition-colors" onclick="navigateToSport('football')">Bóng đá</li><li class="cursor-pointer hover:text-white transition-colors" onclick="navigateToSport('pickleball')">Pickleball</li><li class="cursor-pointer hover:text-white transition-colors">Khuyến mãi</li></ul>
+    </div>
+    <div>
+      <h4 class="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Hỗ trợ</h4>
+      <ul class="space-y-2 text-sm"><li class="cursor-pointer hover:text-white transition-colors">Chính sách đổi trả</li><li class="cursor-pointer hover:text-white transition-colors">Chính sách giao hàng</li><li class="cursor-pointer hover:text-white transition-colors">Hướng dẫn chọn size</li><li class="cursor-pointer hover:text-white transition-colors">Liên hệ</li></ul>
+    </div>
+    <div>
+      <h4 class="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Tài khoản</h4>
+      <ul class="space-y-2 text-sm"><li class="cursor-pointer hover:text-white transition-colors" onclick="openUserModal()">Đăng nhập</li><li class="cursor-pointer hover:text-white transition-colors" onclick="openUserModal()">Đăng ký</li><li class="cursor-pointer hover:text-white transition-colors">Lịch sử đơn hàng</li><li class="cursor-pointer hover:text-white transition-colors">Wishlist</li></ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10 pt-6 text-center text-xs">© 2026 VELOCITY PRIME. ENGINEERED FOR PERFORMANCE.</div>
+</footer>
+
+</div><!-- /mainContent -->
+
+<!-- ==================== ADMIN PAGE ==================== -->
+<div id="adminPage" style="display:none;" class="pt-[120px] min-h-screen bg-surface-container-low">
+  <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-8">
+    <!-- Admin Header -->
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-4">
+        <button onclick="navigateToHome()" class="flex items-center gap-2 text-secondary hover:text-primary transition-colors text-sm">
+          <span class="material-symbols-outlined text-base">arrow_back</span> Trang chủ
+        </button>
+        <div class="h-6 w-px bg-outline-variant"></div>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center"><span class="material-symbols-outlined text-white text-sm">admin_panel_settings</span></div>
+          <div>
+            <div class="font-bold text-on-surface text-sm">Trang quản trị</div>
+            <div class="text-[11px] text-secondary">Velocity Prime Admin</div>
+          </div>
+        </div>
+      </div>
+      <button onclick="adminLogout()" class="flex items-center gap-2 text-sm text-secondary hover:text-error transition-colors border border-outline-variant rounded-lg px-4 py-2">
+        <span class="material-symbols-outlined text-base">logout</span> Đăng xuất
+      </button>
+    </div>
+
+    <!-- Admin Tabs -->
+    <div class="flex gap-1 mb-6 bg-white border border-outline-variant rounded-xl p-1.5 w-fit">
+      <button id="adminTab-featured" onclick="switchAdminTab('featured')" class="admin-tab px-5 py-2 rounded-lg text-sm font-semibold transition-all bg-primary text-white">
+        <span class="material-symbols-outlined text-base align-middle mr-1">star</span> Sản phẩm nổi bật
+      </button>
+      <button id="adminTab-sale" onclick="switchAdminTab('sale')" class="admin-tab px-5 py-2 rounded-lg text-sm font-semibold transition-all text-secondary hover:text-on-surface">
+        <span class="material-symbols-outlined text-base align-middle mr-1">local_offer</span> Hàng giảm giá
+      </button>
+      <button id="adminTab-add" onclick="switchAdminTab('add')" class="admin-tab px-5 py-2 rounded-lg text-sm font-semibold transition-all text-secondary hover:text-on-surface">
+        <span class="material-symbols-outlined text-base align-middle mr-1">add_circle</span> Thêm sản phẩm
+      </button>
+    </div>
+
+    <!-- Tab: Featured Products -->
+    <div id="adminPanel-featured">
+      <div class="bg-white rounded-xl border border-outline-variant p-6 mb-6">
+        <h3 class="font-bold text-on-surface mb-1">Sản phẩm nổi bật (Bộ sưu tập mới)</h3>
+        <p class="text-sm text-secondary mb-5">Chọn tối đa 3 sản phẩm để hiển thị trong phần "Bộ sưu tập mới" trên trang chủ.</p>
+        <div class="flex gap-3 mb-4 flex-wrap">
+          <input id="adminFeaturedSearch" type="text" placeholder="Tìm sản phẩm..." class="px-3 py-2 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary w-64" onkeyup="renderAdminProductList('featured')"/>
+        </div>
+        <div class="mb-6">
+          <div class="text-xs font-bold text-secondary uppercase tracking-wider mb-3">Đang hiển thị (<span id="featuredCount">0</span>/3)</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="featuredSlots">
+            <!-- slots rendered by JS -->
+          </div>
+        </div>
+        <div class="border-t border-outline-variant pt-4">
+          <div class="text-xs font-bold text-secondary uppercase tracking-wider mb-3">Chọn từ danh sách sản phẩm</div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-h-80 overflow-y-auto" id="adminFeaturedList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Sale Products -->
+    <div id="adminPanel-sale" style="display:none">
+      <div class="bg-white rounded-xl border border-outline-variant p-6 mb-6">
+        <h3 class="font-bold text-on-surface mb-1">Hàng giảm giá</h3>
+        <p class="text-sm text-secondary mb-5">Chọn sản phẩm để hiển thị trong carousel "Hàng giảm giá". Có thể đặt % giảm cho từng sản phẩm.</p>
+        <input id="adminSaleSearch" type="text" placeholder="Tìm sản phẩm..." class="px-3 py-2 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary w-64 mb-4" onkeyup="renderAdminProductList('sale')"/>
+        <div class="mb-6">
+          <div class="text-xs font-bold text-secondary uppercase tracking-wider mb-3">Đang trong carousel (<span id="saleCount">0</span> sản phẩm)</div>
+          <div class="space-y-2" id="saleSlots"></div>
+        </div>
+        <div class="border-t border-outline-variant pt-4">
+          <div class="text-xs font-bold text-secondary uppercase tracking-wider mb-3">Chọn từ danh sách sản phẩm</div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-h-80 overflow-y-auto" id="adminSaleList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Add Product -->
+    <div id="adminPanel-add" style="display:none">
+      <div class="bg-white rounded-xl border border-outline-variant p-6">
+        <h3 class="font-bold text-on-surface mb-1">Thêm sản phẩm mới</h3>
+        <p class="text-sm text-secondary mb-6">Điền thông tin để tạo sản phẩm mới qua API.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div><label class="text-sm font-medium text-on-surface block mb-1.5">Tên sản phẩm *</label><input id="newProdName" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="text" placeholder="VD: Yonex ArcSaber 11 Pro"/></div>
+          <div><label class="text-sm font-medium text-on-surface block mb-1.5">Thương hiệu *</label><input id="newProdBrand" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="text" placeholder="VD: Yonex"/></div>
+          <div><label class="text-sm font-medium text-on-surface block mb-1.5">Giá bán (₫) *</label><input id="newProdPrice" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="number" placeholder="VD: 2500000"/></div>
+          <div><label class="text-sm font-medium text-on-surface block mb-1.5">Danh mục *</label>
+            <select id="newProdCategory" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary bg-white">
+              <option value="6">Vợt cầu lông</option>
+              <option value="5">Giày cầu lông</option>
+              <option value="4">Quần áo cầu lông</option>
+              <option value="7">Phụ kiện cầu lông</option>
+              <option value="9">Giày đá bóng</option>
+              <option value="10">Bóng đá</option>
+              <option value="8">Quần áo bóng đá</option>
+              <option value="11">Phụ kiện bóng đá</option>
+              <option value="14">Vợt Pickleball</option>
+              <option value="15">Phụ kiện Pickleball</option>
+              <option value="12">Quần áo Pickleball</option>
+              <option value="13">Giày Pickleball</option>
+            </select>
+          </div>
+          <div class="md:col-span-2"><label class="text-sm font-medium text-on-surface block mb-1.5">Mô tả</label><textarea id="newProdDesc" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary resize-none" rows="3" placeholder="Mô tả chi tiết sản phẩm..."></textarea></div>
+          <div><label class="text-sm font-medium text-on-surface block mb-1.5">Thông số kỹ thuật (JSON)</label><textarea id="newProdSpecs" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary resize-none font-mono" rows="3" placeholder='{"Trọng lượng":"83g","Độ cứng":"Cứng"}'></textarea></div>
+          <div><label class="text-sm font-medium text-on-surface block mb-1.5">Số lượng tồn kho</label><input id="newProdStock" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="number" placeholder="VD: 50" value="50"/></div>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button onclick="submitNewProduct()" class="flex items-center gap-2 px-8 py-3 bg-primary text-on-primary rounded-lg font-bold text-sm hover:bg-surface-tint transition-colors">
+            <span class="material-symbols-outlined text-base">add_circle</span> Tạo sản phẩm
+          </button>
+          <button onclick="clearNewProductForm()" class="px-6 py-3 border border-outline-variant rounded-lg text-sm font-semibold text-secondary hover:text-on-surface hover:border-on-surface transition-colors">Xóa form</button>
+        </div>
+        <div id="addProductResult" class="mt-4 hidden"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="sportPage" style="display:none;" class="pt-[120px] min-h-screen bg-surface-container-low">
+  <!-- Sport Page Header Banner -->
+  <div id="sportPageBanner" class="relative h-56 md:h-72 flex items-end overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" id="sportPageBg"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+    <div class="relative z-10 px-margin-mobile md:px-margin-desktop pb-8 w-full">
+      <button onclick="navigateToHome()" class="flex items-center gap-2 text-white/70 text-sm mb-3 hover:text-white transition-colors">
+        <span class="material-symbols-outlined text-base">arrow_back</span> Trang chủ
+      </button>
+      <h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-white" id="sportPageTitle">Cầu lông</h1>
+      <p class="text-white/70 font-label-bold text-sm mt-1 uppercase tracking-widest" id="sportPageSub"></p>
+    </div>
+  </div>
+
+  <!-- Content: Sidebar + Grid -->
+  <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6 layout-grid">
+      <!-- Sidebar -->
+      <aside class="w-full h-fit max-h-[calc(100vh-100px)] overflow-y-auto flex flex-col gap-5 sidebar-filter sticky top-24 z-10 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+        <!-- Danh mục -->
+        <div class="bg-white border border-[#68000d] rounded overflow-hidden shadow-sm">
+          <div class="bg-[#68000d] text-white px-4 py-2 font-bold text-sm uppercase">Danh mục sản phẩm</div>
+          <ul class="p-2 space-y-1 text-sm text-on-surface" id="spSidebarCategories">
+            <!-- Rendered by JS -->
+          </ul>
+        </div>
+        
+        <!-- Theo kích cỡ -->
+        <div class="bg-white border border-[#68000d] rounded overflow-hidden shadow-sm">
+          <div class="bg-[#68000d] text-white px-4 py-2 font-bold text-sm uppercase">Theo kích cỡ</div>
+          <div class="p-3 grid grid-cols-5 gap-2 text-sm" id="spSizeFilters">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Mức giá -->
+        <div class="bg-white border border-[#68000d] rounded overflow-hidden shadow-sm">
+          <div class="bg-[#68000d] text-white px-4 py-2 font-bold text-sm uppercase">Mức giá</div>
+          <div class="p-4 pb-4">
+            <div class="flex gap-2 mb-3">
+              <input class="flex-1 min-w-0 border border-outline-variant rounded-lg px-3 py-2 text-sm outline-none focus:border-primary" type="number" id="spPriceMin" placeholder="Từ" min="0"/>
+              <input class="flex-1 min-w-0 border border-outline-variant rounded-lg px-3 py-2 text-sm outline-none focus:border-primary" type="number" id="spPriceMax" placeholder="Đến" min="0"/>
+            </div>
+            <button class="btn-effect w-full py-2 bg-primary text-on-primary rounded-lg text-sm font-semibold hover:bg-surface-tint transition-colors" onclick="filterSportPage()">Áp dụng</button>
+          </div>
+        </div>
+
+        <!-- Thương hiệu (Accordion) -->
+        <details class="bg-white border border-[#68000d] rounded shadow-sm group">
+          <summary class="bg-[#68000d] text-white px-4 py-2 font-bold text-sm uppercase cursor-pointer list-none flex justify-between items-center outline-none">
+            Thương hiệu
+            <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180">expand_more</span>
+          </summary>
+          <div class="p-3 text-sm flex flex-col gap-2" id="spBrandFilters"></div>
+        </details>
+      </aside>
+
+      <!-- Product Grid -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <span class="font-headline-md text-xl font-semibold italic text-on-background" id="spCatalogTitle"></span>
+            <span class="text-sm text-secondary ml-2" id="spCatalogCount"></span>
+          </div>
+          <select class="px-3 py-2 border border-outline-variant rounded-lg text-sm text-on-surface bg-white outline-none cursor-pointer" onchange="sortSportPage(this.value)">
+            <option value="">Sắp xếp</option>
+            <option value="price-asc">Giá tăng dần</option>
+            <option value="price-desc">Giá giảm dần</option>
+            <option value="rating">Đánh giá cao</option>
+            <option value="new">Mới nhất</option>
+          </select>
+        </div>
+        <div class="product-grid" id="spProductGrid">
+          <div style="grid-column:1/-1;text-align:center;padding:60px;color:#857372">
+            <span class="material-symbols-outlined text-5xl text-outline-variant block mb-4">hourglass_top</span>
+            <p class="text-lg font-semibold">Đang tải sản phẩm...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CART PANEL ==================== -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="px-5 py-4 border-b border-outline-variant flex items-center justify-between">
+    <h3 class="text-lg font-bold text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-primary">shopping_cart</span> Giá»  hàng</h3>
+    <button class="material-symbols-outlined text-secondary hover:text-on-surface" onclick="closeCart()">close</button>
+  </div>
+  <div class="flex-1 overflow-y-auto p-4" id="cartItems"></div>
+  <div class="p-5 border-t border-outline-variant" id="cartFooter"></div>
+</div>
+
+<!-- ==================== PRODUCT DETAIL MODAL ==================== -->
+<div class="detail-modal-bg" id="detailModal">
+  <div class="bg-white rounded-2xl w-[850px] max-w-full max-h-[90vh] overflow-y-auto relative shadow-2xl" id="detailModalContent"></div>
+</div>
+
+<!-- ==================== CHECKOUT MODAL ==================== -->
+<div class="modal-bg" id="checkoutModal">
+  <div class="bg-white rounded-2xl w-[420px] max-w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+    <div class="px-6 pt-6 flex items-center justify-between">
+      <h3 class="text-lg font-bold text-on-surface">Thông tin giao hàng</h3>
+      <button class="material-symbols-outlined text-secondary hover:text-on-surface" onclick="closeCheckoutModal()">close</button>
+    </div>
+    <div class="p-6 space-y-4">
+      <div class="mb-2">
+        <label class="text-sm font-bold text-on-surface block mb-2">Thông tin người nhận</label>
+        <div class="flex gap-4 mb-4">
+          <label class="flex items-center gap-2 cursor-pointer text-sm border border-outline-variant p-2 rounded-lg flex-1 hover:border-primary transition-colors">
+            <input type="radio" name="addrType" value="default" checked onchange="toggleAddressType('default')" class="accent-primary w-4 h-4">
+            <span class="font-medium text-on-surface">Mặc định</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer text-sm border border-outline-variant p-2 rounded-lg flex-1 hover:border-primary transition-colors">
+            <input type="radio" name="addrType" value="other" onchange="toggleAddressType('other')" class="accent-primary w-4 h-4">
+            <span class="font-medium text-on-surface">Địa chỉ khác</span>
+          </label>
+        </div>
+      </div>
+      <div id="checkoutAddressFields" class="space-y-4 bg-surface-container-low p-4 rounded-xl relative overflow-hidden transition-all duration-300">
+        <div id="defaultAddressOverlay" class="absolute inset-0 z-10 cursor-not-allowed"></div>
+        <div><label class="text-sm font-medium text-on-surface block mb-1">Họ và tên</label><input id="checkoutName" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white disabled:bg-gray-100 disabled:text-gray-500" type="text" placeholder="Nguyễn Văn A" value="Nguyễn Văn Khách" disabled/></div>
+        <div><label class="text-sm font-medium text-on-surface block mb-1">Số điện thoại</label><input id="checkoutPhone" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white disabled:bg-gray-100 disabled:text-gray-500" type="tel" placeholder="0912 345 678" value="0988123456" disabled/></div>
+        <div><label class="text-sm font-medium text-on-surface block mb-1">Địa chỉ chi tiết</label><input id="checkoutAddress" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white disabled:bg-gray-100 disabled:text-gray-500" type="text" placeholder="Số nhà, tên đường, phường/xã..." value="123 Cầu Giấy, Quận Cầu Giấy, Hà Nội" disabled/></div>
+      </div>
+
+      <div><label class="text-sm font-medium text-on-surface block mb-1">Phương thức thanh toán</label>
+        <select class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none cursor-pointer focus:border-primary transition-colors">
+          <option>Thanh toán khi nhận hàng (COD)</option>
+          <option>Chuyển khoản ngân hàng (QR Code)</option>
+          <option>Ví điện tử MoMo / ZaloPay</option>
+        </select>
+      </div>
+      <button class="w-full py-3 bg-primary text-on-primary rounded-lg font-bold text-sm hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="showToast('Đặt hàng thành công! Cảm ơn bạn.'); closeCheckoutModal(); cart=[]; updateCartBadge(); closeCart();">
+        <span class="material-symbols-outlined text-lg">check_circle</span> Xác nhận đặt hàng
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== WISHLIST MODAL ==================== -->
+<div class="modal-bg" id="wishlistModal">
+  <div class="bg-white rounded-2xl w-[600px] max-w-full max-h-[90vh] flex flex-col shadow-2xl">
+    <div class="px-6 py-4 border-b border-outline-variant flex items-center justify-between">
+      <h3 class="text-lg font-bold text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary">favorite</span> Sản phẩm yêu thích
+      </h3>
+      <button class="material-symbols-outlined text-secondary hover:text-on-surface" onclick="closeWishlistModal()">close</button>
+    </div>
+    <div class="flex-1 overflow-y-auto p-6" id="wishlistItems"></div>
+  </div>
+</div>
+
+<!-- ==================== USER MODAL ==================== -->
+<div class="modal-bg" id="userModal">
+  <div class="bg-white rounded-2xl w-[400px] max-w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+    <div class="px-6 pt-6 flex items-center justify-between">
+      <h3 class="text-lg font-bold text-on-surface" id="modalTitle">Đăng nhập</h3>
+      <button class="material-symbols-outlined text-secondary hover:text-on-surface" onclick="closeUserModal()">close</button>
+    </div>
+    <div class="flex border-b border-outline-variant mx-6 mt-4">
+      <div class="modal-tab px-5 py-2.5 text-sm font-medium cursor-pointer border-b-2 border-primary text-on-surface" onclick="switchModalTab('login',this)">Đăng nhập</div>
+      <div class="modal-tab px-5 py-2.5 text-sm font-medium cursor-pointer border-b-2 border-transparent text-secondary hover:text-on-surface" onclick="switchModalTab('register',this)">Đăng ký</div>
+    </div>
+    <div class="p-6" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ==================== AI CHAT ==================== -->
+<button class="fixed bottom-7 right-7 z-[200] bg-primary text-on-primary w-14 h-14 rounded-full border-none cursor-pointer flex items-center justify-center shadow-2xl hover:bg-surface-tint hover:scale-105 transition-all active:scale-95" onclick="toggleChat()" title="Chat với AI">
+  <span class="material-symbols-outlined text-[28px]">smart_toy</span>
+</button>
+<div class="ai-bubble" id="aiChat">
+  <div class="p-4 bg-primary flex items-center gap-3">
+    <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center"><span class="material-symbols-outlined text-white">smart_toy</span></div>
+    <div><h4 class="text-sm font-bold text-white">VP Sport AI</h4><span class="text-[11px] text-white/70">Tư vấn 24/7</span></div>
+  </div>
+  <div class="h-[220px] overflow-y-auto p-4 flex flex-col gap-3" id="aiMsgs">
+    <div class="max-w-[85%] p-3 rounded-xl text-sm leading-relaxed bg-surface-container text-on-surface self-start rounded-tl-sm">Xin chào! Tôi có thể giúp bạn tìm sản phẩm phù hợp, tra cứu đơn hàng, hoặc tư vấn chọn size. Bạn cần gì?</div>
+  </div>
+  <div class="flex border-t border-outline-variant">
+    <input type="text" id="aiInput" placeholder="Nhập câu hỏi..." class="flex-1 px-4 py-3 text-sm border-none outline-none bg-transparent" onkeydown="if(event.key==='Enter')sendAI()"/>
+    <button class="px-4 py-3 bg-primary text-on-primary" onclick="sendAI()"><span class="material-symbols-outlined text-lg">send</span></button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="ti ti-check"></i><span id="toastMsg"></span></div>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+// ===== CONSTANTS =====
+const API_BASE = 'http://localhost:8111';
+let ALL_API_PRODUCTS = [];
+let PRODUCTS = { badminton: [], football: [], pickleball: [] };
+
+const SUB_CATS = {
+  badminton: ['Tất cả', 'Vợt cầu lông', 'Giày', 'Quần áo', 'Cầu lông', 'Phụ kiện'],
+  football: ['Tất cả', 'Giày đá bóng', 'Quần áo', 'Bóng đá', 'Phụ kiện'],
+  pickleball: ['Tất cả', 'Vợt Pickleball', 'Bóng Pickleball', 'Giày', 'Quần áo', 'Phụ kiện']
+};
+const BRANDS = {
+  badminton: ['Yonex', 'Victor', 'Li-Ning'],
+  football: ['Nike', 'Adidas', 'Puma'],
+  pickleball: ['Selkirk', 'Joola', 'Passion', 'Dill', 'Penn', 'K-Swiss']
+};
+const SPORT_TITLE = { badminton: 'Cầu lông', football: 'Bóng đá', pickleball: 'Pickleball' };
+
+const SPORT_CAT_IDS = {
+  badminton: [1, 4, 5, 6, 7],
+  football: [2, 8, 9, 10, 11],
+  pickleball: [3, 12, 13, 14, 15]
+};
+const CAT_ID_TO_SUB = {
+  4: 'Quần áo', 5: 'Giày', 6: 'Vợt cầu lông', 7: 'Phụ kiện',
+  8: 'Quần áo', 9: 'Giày đá bóng', 10: 'Bóng đá', 11: 'Phụ kiện',
+  12: 'Quần áo', 13: 'Giày', 14: 'Vợt Pickleball', 15: 'Phụ kiện',
+  1: 'Tất cả', 2: 'Tất cả', 3: 'Tất cả'
+};
+
+let currentSport = 'badminton';
+let currentSub = 'Tất cả';
+let cart = [];
+let wishlist = new Set();
+
+// ===== NAVIGATION =====
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    const navH = document.getElementById('main-nav').offsetHeight;
+    window.scrollTo({ top: el.offsetTop - navH, behavior: 'smooth' });
+  }
+}
+
+// Auto-hide header on scroll
+let lastScrollTop = 0;
+window.addEventListener('scroll', () => {
+  const st = window.scrollY;
+  const nav = document.getElementById('main-nav');
+  if (st > lastScrollTop && st > 200) {
+    nav.classList.add('nav-hidden');
+  } else {
+    nav.classList.remove('nav-hidden');
+  }
+  lastScrollTop = st <= 0 ? 0 : st;
+}, false);
+
+// ===== SPORT TABS (kept for internal use) =====
+function selectSport(sport) { currentSport = sport; }
+
+// ===== MAP API PRODUCT =====
+function mapProduct(p) {
+  const catId = p.category ? p.category.id : (p.categoryId || p.category_id);
+  let subCat = CAT_ID_TO_SUB[catId] || 'Tất cả';
+  if (catId === 15 && p.name && p.name.toLowerCase().includes('bóng')) subCat = 'Bóng Pickleball';
+  if (catId === 7 && p.name) {
+    const n = p.name.toLowerCase();
+    if (n.includes('cầu') && !n.includes('túi') && !n.includes('balo') && !n.includes('bao') && !n.includes('cước') && !n.includes('quấn')) subCat = 'Cầu lông';
+  }
+  const variantPrice = p.variants && p.variants.length > 0 ? parseFloat(p.variants[0].price) : 0;
+  return {
+    id: p.id,
+    name: p.name || '',
+    brand: p.brand || '',
+    desc: p.description || '',
+    price: p.price || variantPrice || 0,
+    oldPrice: null,
+    icon: guessIcon(p.category),
+    rating: (3.5 + Math.random() * 1.5).toFixed(1) * 1,
+    reviews: Math.floor(Math.random() * 50 + 5),
+    badge: Math.random() > 0.7 ? ['new','hot','sale'][Math.floor(Math.random()*3)] : '',
+    cat: subCat,
+    catId: catId,
+    variants: p.variants || [],
+    specifications: p.specifications || ''
+  };
+}
+
+function guessIcon(cat) {
+  if (!cat) return 'ti-tag';
+  const slug = (cat.slug || '').toLowerCase();
+  const name = (cat.name || '').toLowerCase();
+  if (slug.includes('vot') || name.includes('vợt')) return 'ti-device-gamepad-2';
+  if (slug.includes('giay') || name.includes('giày')) return 'ti-shoe';
+  if (slug.includes('quan-ao') || name.includes('quần áo')) return 'ti-shirt';
+  if (slug.includes('bong') || name.includes('bóng')) return 'ti-circle';
+  if (slug.includes('phu-kien') || name.includes('phụ kiện')) return 'ti-backpack';
+  return 'ti-tag';
+}
+
+// ===== CART =====
+function addToCart(id, size = null) {
+  const all = Object.values(PRODUCTS).flat();
+  const p = all.find(x => x.id === id);
+  if (!p) return;
+  const existing = cart.find(c => c.id === id && c.size === size);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...p, qty: 1, size: size });
+  }
+  updateCartBadge();
+  showToast(`Đã thêm "${p.name}" ${size ? '(Size: ' + size + ')' : ''} vào giỏ hàng`);
+}
+
+function updateCartBadge() {
+  document.getElementById('cartBadge').textContent = cart.reduce((s, c) => s + c.qty, 0);
+}
+
+function openCart() {
+  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartPanel').classList.add('open');
+  renderCart();
+}
+function closeCart() {
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartPanel').classList.remove('open');
+}
+
+function renderCart() {
+  const items = document.getElementById('cartItems');
+  const footer = document.getElementById('cartFooter');
+  if (!cart.length) {
+    items.innerHTML = `<div class="text-center py-12 text-secondary">
+      <span class="material-symbols-outlined text-5xl text-outline-variant block mb-3">shopping_cart</span>
+      <p class="font-semibold text-on-surface">Giỏ hàng trống</p>
+      <p class="text-sm mt-1">Thêm sản phẩm yêu thích vào giỏ!</p>
+    </div>`;
+    footer.innerHTML = '';
+    return;
+  }
+  items.innerHTML = cart.map((p, i) => `
+    <div class="flex gap-3 py-3 border-b border-outline-variant/50">
+      <div class="w-16 h-16 bg-surface-container rounded-lg flex items-center justify-center flex-shrink-0">
+        <i class="ti ${p.icon} text-2xl text-outline-variant"></i>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-semibold text-on-surface truncate">${p.name}</div>
+        <div class="text-xs text-secondary">${p.brand} ${p.size ? '<span class="ml-2 font-bold text-primary">Size: ' + p.size + '</span>' : ''}</div>
+        <div class="text-sm font-bold text-primary mt-1">${(p.price * p.qty).toLocaleString('vi-VN')}₫</div>
+        <div class="flex items-center gap-2 mt-2">
+          <button class="w-7 h-7 border border-outline-variant rounded flex items-center justify-center text-sm hover:bg-surface-container" onclick="changeQty(${i},-1)">−</button>
+          <span class="text-sm font-semibold w-6 text-center">${p.qty}</span>
+          <button class="w-7 h-7 border border-outline-variant rounded flex items-center justify-center text-sm hover:bg-surface-container" onclick="changeQty(${i},1)">+</button>
+        </div>
+      </div>
+      <button class="text-secondary hover:text-error self-start mt-1" onclick="removeItem(${i})"><i class="ti ti-trash text-lg"></i></button>
+    </div>
+  `).join('');
+  const subtotal = cart.reduce((s, c) => s + c.price * c.qty, 0);
+  const ship = subtotal >= 500000 ? 0 : 30000;
+  footer.innerHTML = `
+    <div class="flex justify-between text-sm text-secondary mb-1"><span>Tạm tính</span><span>${subtotal.toLocaleString('vi-VN')}₫</span></div>
+    <div class="flex justify-between text-sm text-secondary mb-3"><span>Phí vận chuyển</span><span>${ship === 0 ? '<span class="text-primary font-semibold">Miễn phí</span>' : ship.toLocaleString('vi-VN') + '₫'}</span></div>
+    <div class="flex justify-between text-lg font-bold mb-4"><span class="text-on-surface">Tổng cộng</span><span class="text-primary">${(subtotal + ship).toLocaleString('vi-VN')}₫</span></div>
+    <button class="w-full py-3.5 bg-primary text-on-primary rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-surface-tint transition-colors" onclick="openCheckoutModal()">
+      <span class="material-symbols-outlined">credit_card</span> Thanh toán ngay
+    </button>
+  `;
+}
+
+function changeQty(i, delta) { cart[i].qty = Math.max(1, cart[i].qty + delta); updateCartBadge(); renderCart(); }
+function removeItem(i) { cart.splice(i, 1); updateCartBadge(); renderCart(); }
+
+// ===== WISHLIST =====
+function toggleWishlist(id, btn) {
+  if (wishlist.has(id)) { wishlist.delete(id); if(btn) btn.classList.remove('active'); showToast('Đã xóa khỏi yêu thích'); }
+  else { wishlist.add(id); if(btn) btn.classList.add('active'); showToast('Đã thêm vào yêu thích'); }
+}
+function openWishlistModal() {
+  document.getElementById('wishlistModal').classList.add('open');
+  renderWishlistItems();
+}
+function closeWishlistModal() {
+  document.getElementById('wishlistModal').classList.remove('open');
+}
+function renderWishlistItems() {
+  const container = document.getElementById('wishlistItems');
+  const all = Object.values(PRODUCTS).flat();
+  const items = all.filter(p => wishlist.has(p.id));
+  if (!items.length) {
+    container.innerHTML = `<div class="text-center py-12 text-secondary">
+      <span class="material-symbols-outlined text-5xl text-outline-variant block mb-3">favorite_border</span>
+      <p class="font-semibold text-on-surface">Danh sách trống</p>
+    </div>`;
+    return;
+  }
+  container.innerHTML = items.map(p => `
+    <div class="flex gap-4 p-4 border border-outline-variant rounded-xl mb-3 items-center">
+      <div class="w-16 h-16 bg-surface-container rounded-lg flex items-center justify-center flex-shrink-0">
+        <i class="ti ${p.icon} text-2xl text-outline-variant"></i>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-bold text-on-surface truncate">${p.name}</div>
+        <div class="text-xs text-secondary mt-1">${p.brand}</div>
+        <div class="text-sm font-bold text-primary mt-1">${p.price.toLocaleString('vi-VN')}₫</div>
+      </div>
+      <div class="flex gap-2">
+        <button class="btn-effect px-3 py-1.5 bg-primary text-white text-xs font-bold rounded-lg" onclick="closeWishlistModal();openProductDetail(${p.id})">Xem</button>
+        <button class="btn-effect px-3 py-1.5 bg-surface-variant text-on-surface text-xs font-bold rounded-lg" onclick="toggleWishlist(${p.id});renderWishlistItems()">Xoá</button>
+      </div>
+    </div>
+  `).join('');
+}
+function toggleWishlistView() { openWishlistModal(); }
+
+// ===== PRODUCT DETAIL =====
+function openProductDetail(id) {
+  const all = Object.values(PRODUCTS).flat();
+  const p = all.find(x => x.id === id);
+  if (!p) return;
+
+  let specsHtml = '';
+  if (p.specifications) {
+    try {
+      const specs = typeof p.specifications === 'string' ? JSON.parse(p.specifications) : p.specifications;
+      specsHtml = `<div class="mt-4"><div class="text-sm font-bold text-on-surface mb-2">THÔNG SỐ KỸ THUẬT</div><div class="grid grid-cols-2 gap-2">${Object.entries(specs).map(([k,v]) => `<div class="text-xs"><span class="text-secondary capitalize">${k.replace(/_/g, ' ')}:</span> <span class="text-on-surface font-medium">${v}</span></div>`).join('')}</div></div>`;
+    } catch(e) {}
+  }
+
+  let variantsHtml = '';
+  let uniqueSizes = [];
+  if (p.variants && p.variants.length > 0) {
+    uniqueSizes = [...new Set(p.variants.map(v => v.size).filter(Boolean))];
+    if (uniqueSizes.length > 0) {
+      variantsHtml = `<div class="mt-4 mb-5">
+        <div class="text-sm font-bold text-on-surface mb-2">CHỌN KÍCH CỠ <span class="text-error">*</span></div>
+        <div class="flex flex-wrap gap-2" id="detailSizeOptions">${uniqueSizes.map(s => 
+          `<button class="px-4 py-2 border border-outline-variant rounded-lg text-sm hover:border-primary transition-colors focus:outline-none" onclick="selectDetailSize(this, '${s}')">${s}</button>`
+        ).join('')}</div>
+      </div>`;
+    }
+  }
+
+  window.currentSelectedSize = null;
+  window.currentSelectedProductId = p.id;
+  window.currentProductHasSize = uniqueSizes.length > 0;
+
+  document.getElementById('detailModalContent').innerHTML = `
+    <button class="absolute top-4 right-4 w-9 h-9 bg-surface-container rounded-full flex items-center justify-center text-secondary hover:text-on-surface hover:bg-outline-variant transition-all z-10" onclick="closeProductDetail()">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+      <div class="bg-surface-container flex items-center justify-center min-h-[300px] md:min-h-[400px] relative rounded-tl-2xl md:rounded-bl-2xl">
+        <i class="ti ${p.icon}" style="font-size:120px;color:#d8c2c0"></i>
+        ${p.badge ? `<span class="absolute top-4 left-4 px-3 py-1 text-xs font-bold rounded ${p.badge==='new'?'bg-blue-100 text-blue-800':p.badge==='sale'?'bg-red-100 text-red-800':'bg-amber-100 text-amber-800'}">${p.badge==='new'?'Mới':p.badge==='sale'?'Sale':'Hot'}</span>` : ''}
+      </div>
+      <div class="p-6 md:p-8 flex flex-col">
+        <div class="text-xs font-semibold text-secondary uppercase tracking-widest mb-1">${p.brand}</div>
+        <h2 class="text-xl md:text-2xl font-bold text-on-surface leading-tight mb-3">${p.name}</h2>
+        <div class="flex items-center gap-2 mb-4 text-sm">
+          <span style="color:#f59e0b">${'★'.repeat(Math.round(p.rating))}${'☆'.repeat(5-Math.round(p.rating))}</span>
+          <span class="text-secondary">${p.rating} (${p.reviews} đánh giá)</span>
+        </div>
+        <div class="flex items-center gap-3 mb-3">
+          <span class="text-2xl font-bold text-primary">${p.price.toLocaleString('vi-VN')}₫</span>
+          ${p.oldPrice ? `<span class="text-base text-secondary line-through">${p.oldPrice.toLocaleString('vi-VN')}₫</span>` : ''}
+        </div>
+        <p class="text-sm text-secondary leading-relaxed mb-4">${p.desc}</p>
+        ${specsHtml}
+        ${variantsHtml}
+        <div class="mt-auto pt-4 flex gap-3">
+          <button id="btnConfirmAddToCart" class="btn-effect flex-1 py-3 ${uniqueSizes.length > 0 ? 'bg-surface-variant text-secondary' : 'bg-primary text-on-primary hover:bg-surface-tint'} rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-colors" onclick="confirmAddToCart()">
+            <i class="ti ti-shopping-cart-plus"></i> ${uniqueSizes.length > 0 ? 'Vui lòng chọn Size' : 'Thêm vào giỏ'}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('detailModal').classList.add('open');
+}
+
+function selectDetailSize(btn, size) {
+  const buttons = document.getElementById('detailSizeOptions').querySelectorAll('button');
+  buttons.forEach(b => {
+    b.classList.remove('border-primary', 'bg-primary/10', 'text-primary', 'font-bold');
+    b.classList.add('border-outline-variant');
+  });
+  btn.classList.remove('border-outline-variant');
+  btn.classList.add('border-primary', 'bg-primary/10', 'text-primary', 'font-bold');
+  
+  window.currentSelectedSize = size;
+  
+  const addBtn = document.getElementById('btnConfirmAddToCart');
+  addBtn.className = 'flex-1 py-3 bg-primary text-on-primary hover:bg-surface-tint rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-colors';
+  addBtn.innerHTML = '<i class="ti ti-shopping-cart-plus"></i> Thêm vào giỏ';
+}
+
+function confirmAddToCart() {
+  if (window.currentProductHasSize && !window.currentSelectedSize) {
+    showToast('Vui lòng chọn Kích cỡ trước khi thêm vào giỏ!');
+    return;
+  }
+  addToCart(window.currentSelectedProductId, window.currentSelectedSize);
+  closeProductDetail();
+}
+function closeProductDetail() { document.getElementById('detailModal').classList.remove('open'); }
+document.getElementById('detailModal')?.addEventListener('click', function(e) { if (e.target === this) closeProductDetail(); });
+
+// ===== MODALS =====
+function openCheckoutModal() {
+  if (!cart.length) { showToast('Giỏ hàng đang trống!'); return; }
+  document.getElementById('checkoutModal').classList.add('open');
+}
+function closeCheckoutModal() { document.getElementById('checkoutModal').classList.remove('open'); }
+
+function toggleAddressType(type) {
+  const isOther = type === 'other';
+  const nameInput = document.getElementById('checkoutName');
+  const phoneInput = document.getElementById('checkoutPhone');
+  const addrInput = document.getElementById('checkoutAddress');
+  const overlay = document.getElementById('defaultAddressOverlay');
+  
+  if (isOther) {
+    nameInput.disabled = false;
+    phoneInput.disabled = false;
+    addrInput.disabled = false;
+    overlay.style.display = 'none';
+    
+    // Clear values for user to enter new address
+    if (nameInput.value === 'Nguyễn Văn Khách') nameInput.value = '';
+    if (phoneInput.value === '0988123456') phoneInput.value = '';
+    if (addrInput.value === '123 Cầu Giấy, Quận Cầu Giấy, Hà Nội') addrInput.value = '';
+  } else {
+    nameInput.disabled = true;
+    phoneInput.disabled = true;
+    addrInput.disabled = true;
+    overlay.style.display = 'block';
+    
+    // Restore default values
+    nameInput.value = 'Nguyễn Văn Khách';
+    phoneInput.value = '0988123456';
+    addrInput.value = '123 Cầu Giấy, Quận Cầu Giấy, Hà Nội';
+  }
+}
+document.getElementById('checkoutModal')?.addEventListener('click', function(e) { if (e.target === this) closeCheckoutModal(); });
+
+function openUserModal() {
+  window.location.href = 'login.html';
+}
+const AI_REPLIES = {
+  'vợt': ['Yonex ArcSaber 11 Pro là lựa chọn hàng đầu cho game tốc độ. Bạn đang ở level nào để mình tư vấn thêm?', 'Victor Thruster F Claw II rất phù hợp người chơi smash. Budget khoảng bao nhiêu?'],
+  'giày': ['Yonex Power Cushion 65 Z3 đang sale 15%. Bạn mang size bao nhiêu?', 'Với cầu lông, giày Yonex luôn là top lựa chọn về đệm và độ bám.'],
+  'size': ['Để tư vấn size giày, cho mình biết size thường bạn mang (EU/US) và chiều dài bàn chân nhé!', 'Áo thi đấu: S=<165cm/60kg, M=165-175cm/60-75kg, L=>175cm/75kg.'],
+  'đơn hàng': ['Bạn có thể cung cấp mã đơn hàng để mình kiểm tra trạng thái nhé!', 'Giao hàng nội thành trong ngày, tỉnh thành khác 2-3 ngày.'],
+  'pickleball': ['Selkirk AMPED S2 và Joola Ben Johns đang rất hot. Bạn muốn tìm hiểu dòng nào?', 'Vợt Pickleball composite mới nhất vừa về hàng. Mình tư vấn nhé!'],
+  'bóng đá': ['Nike Phantom GX2 Elite đang là dòng giày hot nhất. Bạn chơi sân cỏ nhân tạo hay sân trong nhà?']
+};
+const AI_DEFAULT = ['Tôi có thể giúp bạn tìm sản phẩm, tư vấn size hoặc tra cứu đơn hàng. Hãy cho tôi biết bạn cần gì!', 'Bạn có thể hỏi về sản phẩm cụ thể như vợt, giày, áo đấu... Tôi sẽ tư vấn chi tiết!'];
+
+function toggleChat() { document.getElementById('aiChat').classList.toggle('open'); }
+function sendAI() {
+  const inp = document.getElementById('aiInput');
+  const text = inp.value.trim();
+  if (!text) return;
+  const msgs = document.getElementById('aiMsgs');
+  msgs.innerHTML += `<div class="max-w-[85%] p-3 rounded-xl text-sm leading-relaxed bg-primary text-on-primary self-end rounded-tr-sm">${text}</div>`;
+  inp.value = '';
+  const lower = text.toLowerCase();
+  let reply = AI_DEFAULT[Math.floor(Math.random() * AI_DEFAULT.length)];
+  for (const [key, replies] of Object.entries(AI_REPLIES)) {
+    if (lower.includes(key)) { reply = replies[Math.floor(Math.random() * replies.length)]; break; }
+  }
+  setTimeout(() => {
+    msgs.innerHTML += `<div class="max-w-[85%] p-3 rounded-xl text-sm leading-relaxed bg-surface-container text-on-surface self-start rounded-tl-sm">${reply}</div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 600);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ===== FETCH API DATA =====
+async function fetchProducts() {
+  try {
+    const res = await fetch(API_BASE + '/products');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    ALL_API_PRODUCTS = await res.json();
+
+    PRODUCTS.badminton = ALL_API_PRODUCTS.filter(p => SPORT_CAT_IDS.badminton.includes(p.category?.id)).map(mapProduct);
+    PRODUCTS.football = ALL_API_PRODUCTS.filter(p => SPORT_CAT_IDS.football.includes(p.category?.id)).map(mapProduct);
+    PRODUCTS.pickleball = ALL_API_PRODUCTS.filter(p => SPORT_CAT_IDS.pickleball.includes(p.category?.id)).map(mapProduct);
+
+    // Update stats
+    const total = ALL_API_PRODUCTS.length;
+    document.getElementById('statProducts').textContent = total + '+';
+
+    selectSport('badminton');
+    renderBentoGrid();
+    renderSaleCarousel();
+      initDraggableMarquees();
+    // If currently on a sport page, refresh it too
+    if (currentSportPage) { renderSpBrands(); filterSportPage(); }
+    showToast(`Đã tải ${total} sản phẩm từ server`);
+  } catch (err) {
+    console.error('Lỗi khi tải sản phẩm:', err);
+    showToast('Không kết nối được server — vui lòng khởi động backend');
+    if (currentSportPage) { renderSpBrands(); filterSportPage(); }
+  }
+}
+
+// ===== BENTO GRID RENDER =====
+// Admin-selected featured product IDs (up to 3), persisted in memory
+let featuredProductIds = [];
+let saleProductsConfig = []; // [{id, discount}]
+
+function renderBentoGrid() {
+  const allMapped = Object.values(PRODUCTS).flat();
+  let picks = featuredProductIds.length
+    ? featuredProductIds.map(id => allMapped.find(p => p.id === id)).filter(Boolean)
+    : allMapped.slice(0, 8);
+  if (!picks.length) return;
+
+  const cardsHtml = picks.map(p => {
+    return `<div class="w-[360px] flex-shrink-0 bg-surface-container rounded-xl border border-outline-variant hover:border-primary transition-all cursor-pointer p-6 flex flex-col items-center text-center product-card-hover" onclick="openProductDetail(${p.id})">
+      <div class="w-full h-48 flex items-center justify-center mb-4"><i class="ti ${p.icon}" style="font-size:80px;color:#d8c2c0"></i></div>
+      <div class="text-xs font-semibold text-secondary uppercase tracking-wider mb-2">${p.brand}</div>
+      <h3 class="font-headline-md text-xl italic text-on-background line-clamp-1 mb-2">${p.name}</h3>
+      <p class="text-primary font-bold text-lg">${p.price.toLocaleString('vi-VN')}₫</p>
+    </div>`;
+  }).join('');
+
+  const loopHtml = `<div class="flex gap-6 flex-shrink-0">${cardsHtml}</div><div class="flex gap-6 flex-shrink-0">${cardsHtml}</div>`;
+
+  document.getElementById('bentoGrid').innerHTML = `
+    <div class="marquee-container py-4">
+      <div class="animate-marquee gap-6" style="animation-duration: ${Math.max(60, picks.length * 15)}s;">
+        ${loopHtml}
+      </div>
+    </div>
+  `;
+}
+
+// ===== SALE CAROUSEL RENDER =====
+function renderSaleCarousel() {
+  const allMapped = Object.values(PRODUCTS).flat();
+  let salePicks;
+  if (saleProductsConfig.length) {
+    salePicks = saleProductsConfig.map(cfg => {
+      const p = allMapped.find(x => x.id === cfg.id);
+      return p ? { ...p, discount: cfg.discount } : null;
+    }).filter(Boolean);
+  } else {
+    salePicks = allMapped.filter(p => p.badge === 'sale').slice(0, 8);
+    if (salePicks.length < 2) salePicks = allMapped.slice(0, 8);
+    salePicks = salePicks.map(p => ({ ...p, discount: Math.floor(Math.random() * 3 + 2) * 10 }));
+  }
+
+  if (!salePicks.length) return;
+
+  const cardsHtml = salePicks.map(p => {
+    const salePrice = Math.round(p.price * (1 - p.discount / 100));
+    return `<div class="w-[340px] flex-shrink-0 bg-white p-4 rounded-xl flex flex-col items-center text-center shadow-md border border-outline-variant cursor-pointer hover:border-primary transition-all product-card-hover" onclick="openProductDetail(${p.id})">
+      <div class="relative w-full h-52 bg-surface-container-low mb-4 overflow-hidden rounded-lg flex items-center justify-center">
+        <div class="absolute top-2 right-2 bg-primary text-on-primary px-2 py-1 text-[10px] font-bold rounded z-10">-${p.discount}%</div>
+        <i class="ti ${p.icon}" style="font-size:64px;color:#d8c2c0"></i>
+      </div>
+      <div class="text-[10px] font-semibold text-secondary uppercase tracking-wider mb-1">${p.brand}</div>
+      <h5 class="font-label-bold text-label-bold uppercase italic text-on-background text-sm line-clamp-2 mb-1">${p.name}</h5>
+      <p class="text-outline line-through text-sm">${p.price.toLocaleString('vi-VN')}₫</p>
+      <p class="text-primary font-stats-display text-stats-display">${salePrice.toLocaleString('vi-VN')}₫</p>
+    </div>`;
+  }).join('');
+
+  const loopHtml = `<div class="flex gap-6 flex-shrink-0">${cardsHtml}</div><div class="flex gap-6 flex-shrink-0">${cardsHtml}</div>`;
+
+  document.getElementById('saleCarousel').innerHTML = `
+    <div class="marquee-container py-4">
+      <div class="animate-marquee gap-6" style="animation-duration: ${Math.max(60, salePicks.length * 15)}s;">
+        ${loopHtml}
+      </div>
+    </div>
+  `;
+}
+
+// ===== ADMIN AUTH =====
+let isAdmin = false;
+
+function handleLogin() {
+  const emailEl = document.querySelector('#modalBody input[type="email"]');
+  const passEl = document.querySelector('#modalBody input[type="password"]');
+  if (!emailEl || !passEl) return;
+  const email = emailEl.value.trim();
+  const pass = passEl.value;
+  if (email === 'admin' && pass === 'admin123') {
+    isAdmin = true;
+    closeUserModal();
+    showToast('Đăng nhập admin thành công!');
+    // Show admin button in nav
+    document.getElementById('adminNavBtn')?.classList.remove('hidden');
+    navigateToAdmin();
+  } else {
+    showToast('Đăng nhập thành công!');
+    closeUserModal();
+  }
+}
+
+function adminLogout() {
+  isAdmin = false;
+  localStorage.removeItem('isAdmin');
+  localStorage.removeItem('isLoggedIn');
+  document.getElementById('adminNavBtn')?.classList.add('hidden');
+  navigateToHome();
+  showToast('Đã đăng xuất');
+}
+
+function navigateToAdmin() {
+  if (!isAdmin) { openUserModal(); return; }
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('sportPage').style.display = 'none';
+  document.getElementById('adminPage').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Reset nav highlights
+  document.querySelectorAll('.nav-link').forEach(el => {
+    el.classList.remove('text-white', 'bg-primary/20', 'border-b-2', 'border-primary');
+    el.classList.add('text-gray-300');
+  });
+  const adminNav = document.getElementById('adminNavBtn');
+  if (adminNav) {
+    adminNav.classList.add('text-white', 'bg-primary/20', 'border-b-2', 'border-primary');
+    adminNav.classList.remove('text-gray-300');
+  }
+  switchAdminTab('featured');
+}
+
+// ===== ADMIN TABS =====
+function switchAdminTab(tab) {
+  ['featured','sale','add'].forEach(t => {
+    document.getElementById(`adminPanel-${t}`).style.display = t === tab ? 'block' : 'none';
+    const btn = document.getElementById(`adminTab-${t}`);
+    if (t === tab) { btn.classList.add('bg-primary','text-white'); btn.classList.remove('text-secondary'); }
+    else { btn.classList.remove('bg-primary','text-white'); btn.classList.add('text-secondary'); }
+  });
+  if (tab === 'featured') renderAdminFeaturedPanel();
+  if (tab === 'sale') renderAdminSalePanel();
+}
+
+// ===== ADMIN: FEATURED =====
+function renderAdminFeaturedPanel() {
+  renderFeaturedSlots();
+  renderAdminProductList('featured');
+}
+
+function renderFeaturedSlots() {
+  const allMapped = Object.values(PRODUCTS).flat();
+  document.getElementById('featuredCount').textContent = featuredProductIds.length;
+  const slots = document.getElementById('featuredSlots');
+  const picks = featuredProductIds.map(id => allMapped.find(p => p.id === id)).filter(Boolean);
+  // Always show 3 slots
+  slots.innerHTML = [0,1,2].map(i => {
+    const p = picks[i];
+    return p
+      ? `<div class="border border-primary rounded-xl p-3 relative bg-primary/5">
+          <button onclick="removeFeatured(${p.id})" class="absolute top-2 right-2 w-6 h-6 bg-error/10 text-error rounded-full flex items-center justify-center hover:bg-error/20 transition-colors"><span class="material-symbols-outlined text-sm">close</span></button>
+          <div class="w-full h-24 bg-surface-container rounded-lg flex items-center justify-center mb-2"><i class="ti ${p.icon}" style="font-size:40px;color:#d8c2c0"></i></div>
+          <div class="text-[10px] text-secondary uppercase">${p.brand}</div>
+          <div class="text-xs font-semibold text-on-surface truncate">${p.name}</div>
+          <div class="text-xs text-primary font-bold mt-0.5">${p.price.toLocaleString('vi-VN')}₫</div>
+        </div>`
+      : `<div class="border-2 border-dashed border-outline-variant rounded-xl p-3 flex flex-col items-center justify-center h-[160px] text-secondary">
+          <span class="material-symbols-outlined text-3xl text-outline-variant mb-1">add_photo_alternate</span>
+          <div class="text-xs">Slot ${i+1} trống</div>
+        </div>`;
+  }).join('');
+}
+
+function renderAdminProductList(type) {
+  const searchId = type === 'featured' ? 'adminFeaturedSearch' : 'adminSaleSearch';
+  const listId = type === 'featured' ? 'adminFeaturedList' : 'adminSaleList';
+  const search = (document.getElementById(searchId)?.value || '').toLowerCase();
+  const allMapped = Object.values(PRODUCTS).flat();
+  let products = search ? allMapped.filter(p => p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)) : allMapped;
+
+  document.getElementById(listId).innerHTML = products.map(p => {
+    const isSelected = type === 'featured'
+      ? featuredProductIds.includes(p.id)
+      : saleProductsConfig.some(c => c.id === p.id);
+    return `<div class="border rounded-xl p-2 cursor-pointer transition-all ${isSelected ? 'border-primary bg-primary/5' : 'border-outline-variant hover:border-primary'}"
+        onclick="${type === 'featured' ? `toggleFeatured(${p.id})` : `toggleSale(${p.id})`}">
+      <div class="w-full h-16 bg-surface-container rounded-lg flex items-center justify-center mb-1.5"><i class="ti ${p.icon}" style="font-size:28px;color:#d8c2c0"></i></div>
+      <div class="text-[9px] text-secondary uppercase truncate">${p.brand}</div>
+      <div class="text-[11px] font-semibold text-on-surface truncate leading-tight">${p.name}</div>
+      <div class="text-[11px] text-primary font-bold">${p.price.toLocaleString('vi-VN')}₫</div>
+      ${isSelected ? '<div class="mt-1 text-center"><span class="text-[9px] bg-primary text-white px-2 py-0.5 rounded-full">Đã chọn ✓</span></div>' : ''}
+    </div>`;
+  }).join('');
+}
+
+function toggleFeatured(id) {
+  if (featuredProductIds.includes(id)) {
+    featuredProductIds = featuredProductIds.filter(x => x !== id);
+  } else {
+    if (featuredProductIds.length >= 3) { showToast('Tối đa 3 sản phẩm nổi bật!'); return; }
+    featuredProductIds.push(id);
+  }
+  renderFeaturedSlots();
+  renderAdminProductList('featured');
+  renderBentoGrid();
+}
+
+function removeFeatured(id) {
+  featuredProductIds = featuredProductIds.filter(x => x !== id);
+  renderFeaturedSlots();
+  renderAdminProductList('featured');
+  renderBentoGrid();
+}
+
+// ===== ADMIN: SALE =====
+function renderAdminSalePanel() {
+  renderSaleSlots();
+  renderAdminProductList('sale');
+}
+
+function renderSaleSlots() {
+  const allMapped = Object.values(PRODUCTS).flat();
+  document.getElementById('saleCount').textContent = saleProductsConfig.length;
+  const slots = document.getElementById('saleSlots');
+  if (!saleProductsConfig.length) {
+    slots.innerHTML = `<div class="text-sm text-secondary text-center py-6 border-2 border-dashed border-outline-variant rounded-xl">Chưa có sản phẩm nào. Chọn từ danh sách bên dưới.</div>`;
+    return;
+  }
+  slots.innerHTML = saleProductsConfig.map(cfg => {
+    const p = allMapped.find(x => x.id === cfg.id);
+    if (!p) return '';
+    return `<div class="flex items-center gap-3 p-3 border border-outline-variant rounded-xl bg-white">
+      <div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center flex-shrink-0"><i class="ti ${p.icon}" style="font-size:24px;color:#d8c2c0"></i></div>
+      <div class="flex-1 min-w-0">
+        <div class="text-[10px] text-secondary uppercase">${p.brand}</div>
+        <div class="text-sm font-semibold text-on-surface truncate">${p.name}</div>
+        <div class="text-xs text-primary">${p.price.toLocaleString('vi-VN')}₫</div>
+      </div>
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <label class="text-xs text-secondary">Giảm</label>
+        <input type="number" min="5" max="90" value="${cfg.discount}" class="w-16 px-2 py-1 border border-outline-variant rounded text-sm text-center outline-none focus:border-primary" onchange="updateSaleDiscount(${p.id},this.value)"/>
+        <span class="text-xs text-secondary">%</span>
+      </div>
+      <button onclick="removeSale(${p.id})" class="w-8 h-8 flex items-center justify-center text-secondary hover:text-error transition-colors flex-shrink-0"><span class="material-symbols-outlined text-lg">delete</span></button>
+    </div>`;
+  }).join('');
+}
+
+function toggleSale(id) {
+  const idx = saleProductsConfig.findIndex(c => c.id === id);
+  if (idx >= 0) { saleProductsConfig.splice(idx,1); }
+  else { saleProductsConfig.push({ id, discount: 20 }); }
+  renderSaleSlots();
+  renderAdminProductList('sale');
+  renderSaleCarousel();
+      initDraggableMarquees();
+}
+
+function removeSale(id) {
+  saleProductsConfig = saleProductsConfig.filter(c => c.id !== id);
+  renderSaleSlots();
+  renderAdminProductList('sale');
+  renderSaleCarousel();
+      initDraggableMarquees();
+}
+
+function updateSaleDiscount(id, val) {
+  const cfg = saleProductsConfig.find(c => c.id === id);
+  if (cfg) { cfg.discount = parseInt(val) || 20; renderSaleCarousel();
+      initDraggableMarquees(); }
+}
+
+// ===== ADMIN: ADD PRODUCT =====
+async function submitNewProduct() {
+  const name = document.getElementById('newProdName').value.trim();
+  const brand = document.getElementById('newProdBrand').value.trim();
+  const price = parseFloat(document.getElementById('newProdPrice').value);
+  const categoryId = parseInt(document.getElementById('newProdCategory').value);
+  const description = document.getElementById('newProdDesc').value.trim();
+  const specsRaw = document.getElementById('newProdSpecs').value.trim();
+  const stock = parseInt(document.getElementById('newProdStock').value) || 50;
+  const resultEl = document.getElementById('addProductResult');
+
+  if (!name || !brand || !price) {
+    resultEl.className = 'mt-4 p-3 bg-error/10 text-error rounded-lg text-sm';
+    resultEl.textContent = '⚠️ Vui lòng điền đầy đủ: Tên, Thương hiệu, Giá bán.';
+    resultEl.classList.remove('hidden');
+    return;
+  }
+  let specifications = null;
+  if (specsRaw) { try { specifications = JSON.parse(specsRaw); } catch(e) { specifications = specsRaw; } }
+
+  const payload = { name, brand, price, description, stock, category: { id: categoryId }, specifications };
+
+  resultEl.className = 'mt-4 p-3 bg-surface-container rounded-lg text-sm text-secondary flex items-center gap-2';
+  resultEl.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">progress_activity</span> Đang tạo sản phẩm...';
+  resultEl.classList.remove('hidden');
+
+  try {
+    const res = await fetch(API_BASE + '/products', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const created = await res.json();
+    resultEl.className = 'mt-4 p-3 bg-green-50 text-green-800 rounded-lg text-sm';
+    resultEl.innerHTML = `✅ Tạo thành công! ID: <strong>${created.id}</strong> — "${created.name}"`;
+    clearNewProductForm();
+    // Reload products
+    initDraggableMarquees();
+    await fetchProducts();
+    showToast(`Đã thêm sản phẩm "${name}"`);
+  } catch(err) {
+    resultEl.className = 'mt-4 p-3 bg-error/10 text-error rounded-lg text-sm';
+    resultEl.textContent = `❌ Lỗi: ${err.message}. Kiểm tra backend tại localhost:8111.`;
+  }
+}
+
+function clearNewProductForm() {
+  ['newProdName','newProdBrand','newProdPrice','newProdDesc','newProdSpecs','newProdStock'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = id === 'newProdStock' ? '50' : '';
+  });
+}
+
+
+
+// ===== ROUTER / PAGE NAVIGATION =====
+const SPORT_BANNERS = {
+  badminton: {
+    bg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDbqAmI-A4Et4u04N82zDCfOts67WJ-XxgeHxrQh7qGwZk7WhT9iQQ9WpAYtvVWMsXRLIAQ_ElZkl_3JuLmPWoA0KLuoskOrKqvbVLCHJ_cwPNrnvXsZnrDZxRyXbRooV7vHYszJzA4NhMR86Y3dIDTglaqZk35XNohkmlC0vAV5ZcnOK8X9VEL6t3gclqbnnGvo7SBzkeZnonYH6sO9f6PWlYnwNza7cyhtgjc5deNc9FKBsFSDtgGAiC_ZIq9ofcJRri05thnY28f',
+    title: 'Cầu lông',
+    sub: 'Vợt cao cấp · Giày chuyên dụng · Phụ kiện',
+    navId: 'nav-badminton'
+  },
+  football: {
+    bg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBDvnVWGe9174Uck9FwRTgeoyJ5m-kS1FFq3IdBZ2XqYZJmUuDIxrwKBaynlA5jJup9J86Evu1bQ-u1MvhdqVqZ7V_4ZhUwSqQOqldmpBRZZI4tD8w9oycTmXj4KSgKvUHu3SOVlMEB-TZXi8cfA87NOHmvAa55ojxapeeLurdeGe5deGIwHdzUf-vlpyx8zts_7xnw1IHU9mYMuSnvz0osu_J6s16jfye5D3YNT9wkG1hrmkxJw_ip-CIPqmBa6L0-0mkD8N9sDXee',
+    title: 'Bóng đá',
+    sub: 'Giày đá bóng · Bóng · Trang phục thi đấu',
+    navId: 'nav-football'
+  },
+  pickleball: {
+    bg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBU5aYizwXy-EByEbDoais7cWGHQrAIDyGJ__0hBk9vwO3RvExjHJw_UyoeEqiPZfy5kz4plzAWizNCd_XRQiN64iEzYvj_KllbRO0NNAH-EAGtvd_IzgJG-gck5nbLUtgRnAX8bJwvi1l3GVPfsD3cByOIkubFotzJ0Mdn9-8uhWkohqVtU6iAso0kBKcsQYOoRMOF2C8FCRdYFug_h70vhtX68msFdotLozfIYMBfJ_IMw-f3FzwqfFEWLF5f0ZSgBZW2_7P0U_bk',
+    title: 'Pickleball',
+    sub: 'Vợt composite · Bóng Pickleball · Gear chuyên dụng',
+    navId: 'nav-pickleball'
+  }
+};
+
+let currentSportPage = null;
+let spCurrentSub = 'Tất cả';
+
+function navigateToSport(sport) {
+  currentSportPage = sport;
+  spCurrentSub = 'Tất cả';
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('sportPage').style.display = 'block';
+  document.getElementById('adminPage').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const info = SPORT_BANNERS[sport];
+  document.getElementById('sportPageBg').style.backgroundImage = `url('${info.bg}')`;
+  document.getElementById('sportPageTitle').textContent = info.title;
+  document.getElementById('sportPageSub').textContent = info.sub;
+  document.getElementById('spCatalogTitle').textContent = info.title;
+
+  // Update nav active state
+  document.querySelectorAll('.nav-link').forEach(el => {
+    el.classList.remove('text-white', 'bg-primary/20', 'border-b-2', 'border-primary');
+    el.classList.add('text-gray-300');
+  });
+  const activeNav = document.getElementById(info.navId);
+  if (activeNav) {
+    activeNav.classList.add('text-white', 'bg-primary/20', 'border-b-2', 'border-primary');
+    activeNav.classList.remove('text-gray-300');
+  }
+
+  renderSpSubTabs();
+  renderSpBrands();
+  filterSportPage();
+}
+
+function navigateToHome() {
+  currentSportPage = null;
+  document.getElementById('mainContent').style.display = 'block';
+  document.getElementById('sportPage').style.display = 'none';
+  document.getElementById('adminPage').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Reset nav
+  document.querySelectorAll('.nav-link').forEach(el => {
+    el.classList.remove('text-white', 'bg-primary/20', 'border-b-2', 'border-primary');
+    el.classList.add('text-gray-300');
+  });
+  const homeNav = document.getElementById('nav-home');
+  if (homeNav) {
+    homeNav.classList.add('text-white', 'bg-primary/20', 'border-b-2', 'border-primary');
+    homeNav.classList.remove('text-gray-300');
+  }
+}
+
+function renderSpSubTabs() {
+  const cats = SUB_CATS[currentSportPage] || [];
+  const container = document.getElementById('spSidebarCategories');
+  if(container) {
+    container.innerHTML = cats.map(c =>
+      `<li><button class="hover-slide-right w-full text-left px-3 py-2 rounded hover:bg-surface-container transition-colors ${c === spCurrentSub ? 'font-bold text-primary bg-primary/10' : ''}" onclick="selectSpSub('${c}')">${c.toUpperCase()}</button></li>`
+    ).join('');
+  }
+  
+  const sizeContainer = document.getElementById('spSizeFilters');
+  if(sizeContainer) {
+    let sizes = [];
+    const lowerSub = (spCurrentSub || '').toLowerCase();
+    
+    // Determine sizes based on subcategory
+    if (lowerSub.includes('giày')) {
+      sizes = ['36','37','38','39','40','41','42','43','44','45'];
+    } else if (lowerSub.includes('quần áo')) {
+      sizes = ['S','M','L','XL','XXL'];
+    }
+    
+    // Hide entire block if no sizes
+    if (sizes.length === 0) {
+      sizeContainer.parentElement.style.display = 'none';
+    } else {
+      sizeContainer.parentElement.style.display = 'block';
+      sizeContainer.innerHTML = sizes.map(s => 
+        `<label class="flex items-center justify-center py-1.5 border border-outline-variant rounded hover:border-primary cursor-pointer select-none size-filter-label" data-size="${s}">
+           <input type="checkbox" value="${s}" class="hidden" onchange="toggleSizeFilter(this)"/>
+           <span>${s}</span>
+         </label>`
+      ).join('');
+    }
+  }
+}
+
+function toggleSizeFilter(input) {
+  if(input.checked) {
+    input.parentElement.classList.add('border-primary', 'bg-primary/10', 'text-primary', 'font-bold');
+    input.parentElement.classList.remove('border-outline-variant');
+  } else {
+    input.parentElement.classList.remove('border-primary', 'bg-primary/10', 'text-primary', 'font-bold');
+    input.parentElement.classList.add('border-outline-variant');
+  }
+  filterSportPage();
+}
+
+function selectSpSub(sub) {
+  spCurrentSub = sub;
+  renderSpSubTabs();
+  filterSportPage();
+}
+
+function renderSpBrands() {
+  const brands = BRANDS[currentSportPage] || [];
+  const apiBrands = [...new Set((PRODUCTS[currentSportPage] || []).map(p => p.brand).filter(Boolean))];
+  const allBrands = [...new Set([...brands, ...apiBrands])];
+  document.getElementById('spBrandFilters').innerHTML = allBrands.map(b =>
+    `<label class="filter-item"><input type="checkbox" onchange="filterSportPage()"/> ${b}</label>`
+  ).join('');
+}
+
+function filterSportPage() {
+  if (!currentSportPage) return;
+  let products = PRODUCTS[currentSportPage] || [];
+  const search = (document.getElementById('spSearchInput')?.value || '').toLowerCase();
+  
+  const minP = parseFloat(document.getElementById('spPriceMin')?.value) || 0;
+  const maxP = parseFloat(document.getElementById('spPriceMax')?.value) || Infinity;
+
+  const checkedBrands = [...document.querySelectorAll('#spBrandFilters input:checked')].map(i => i.parentElement.textContent.trim());
+  const checkedSizes = [...document.querySelectorAll('#spSizeFilters input:checked')].map(i => i.value);
+
+  if (spCurrentSub !== 'Tất cả') products = products.filter(p => p.cat === spCurrentSub);
+  if (search) products = products.filter(p => (p.name||'').toLowerCase().includes(search) || (p.brand||'').toLowerCase().includes(search));
+  if (checkedBrands.length) products = products.filter(p => checkedBrands.includes(p.brand));
+  
+  if (checkedSizes.length) {
+     products = products.filter(p => {
+        if(!p.variants || p.variants.length === 0) return false;
+        return p.variants.some(v => checkedSizes.includes(v.size));
+     });
+  }
+
+  products = products.filter(p => p.price >= minP && p.price <= maxP);
+
+  document.getElementById('spCatalogCount').textContent = `(${products.length} sản phẩm)`;
+  renderSpProducts(products);
+}
+
+function sortSportPage(val) {
+  if (!currentSportPage) return;
+  let products = PRODUCTS[currentSportPage] || [];
+  if (spCurrentSub !== 'Tất cả') products = products.filter(p => p.cat === spCurrentSub);
+  if (val === 'price-asc') products = [...products].sort((a, b) => a.price - b.price);
+  else if (val === 'price-desc') products = [...products].sort((a, b) => b.price - a.price);
+  else if (val === 'rating') products = [...products].sort((a, b) => b.rating - a.rating);
+  else if (val === 'new') products = [...products].filter(p => p.badge === 'new').concat(products.filter(p => p.badge !== 'new'));
+  renderSpProducts(products);
+}
+
+function renderSpProducts(products) {
+  const grid = document.getElementById('spProductGrid');
+  if (!products.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:#857372">
+      <i class="ti ti-search-off" style="font-size:48px;display:block;margin-bottom:12px;color:#d8c2c0"></i>
+      <p style="font-size:16px;font-weight:600">Không tìm thấy sản phẩm</p>
+      <p style="font-size:13px;margin-top:4px">Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</p>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = products.map(p => `
+    <div class="product-card-hover bg-white rounded-xl overflow-hidden border border-outline-variant cursor-pointer flex flex-col h-full" onclick="openProductDetail(${p.id})">
+      <div class="relative overflow-hidden aspect-[4/3] bg-surface-container flex items-center justify-center">
+        <i class="ti ${p.icon}" style="font-size:64px;color:#d8c2c0"></i>
+        ${p.badge ? `<span class="absolute top-3 left-3 px-3 py-1 text-[11px] font-bold rounded ${p.badge==='new'?'bg-blue-100 text-blue-800':p.badge==='sale'?'bg-red-100 text-red-800':'bg-amber-100 text-amber-800'}">${p.badge==='new'?'Mới':p.badge==='sale'?'Sale':'Hot'}</span>` : ''}
+        <button class="wishlist-btn absolute top-3 right-3 w-8 h-8 bg-white rounded-full border border-outline-variant flex items-center justify-center ${wishlist.has(p.id)?'active':''}" onclick="event.stopPropagation();toggleWishlist(${p.id},this)">
+          <i class="ti ti-heart text-sm text-secondary"></i>
+        </button>
+      </div>
+      <div class="p-4 flex flex-col flex-1">
+        <div class="text-[11px] font-semibold text-secondary uppercase tracking-wider mb-1">${p.brand}</div>
+        <div class="text-sm font-semibold text-on-surface mb-1 line-clamp-2 leading-tight">${p.name}</div>
+        <div class="text-xs text-secondary mb-2 line-clamp-1">${p.desc}</div>
+        <div class="flex items-center gap-1 mb-2">
+          <span class="text-xs" style="color:#f59e0b">${'★'.repeat(Math.round(p.rating))}${'☆'.repeat(5-Math.round(p.rating))}</span>
+          <span class="text-[11px] text-secondary">${p.rating}</span>
+        </div>
+        <div class="mt-auto pt-2">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="font-stats-display text-lg text-primary">${p.price.toLocaleString('vi-VN')}₫</span>
+              ${p.oldPrice ? `<span class="text-xs text-secondary line-through ml-1">${p.oldPrice.toLocaleString('vi-VN')}₫</span>` : ''}
+            </div>
+          </div>
+          <button class="btn-effect mt-3 w-full py-2 bg-on-surface text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-2 hover:bg-primary transition-colors" onclick="event.stopPropagation();openProductDetail(${p.id})">
+            <i class="ti ti-shopping-cart-plus"></i> Chọn tuỳ chọn
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Also update footer links
+function spNavigate(sport) { navigateToSport(sport); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+
+
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Initialize page
+
+function initDraggableMarquees() {
+  const containers = document.querySelectorAll('.marquee-container:has(.animate-marquee)');
+  
+  containers.forEach(container => {
+    if (container._isDraggableInit) return;
+    container._isDraggableInit = true;
+    
+    container.classList.add('scrollbar-hide');
+    
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let isAutoScrolling = true;
+    let speed = 0.5;
+    
+    const content = container.querySelector('.animate-marquee');
+    if (content && content.style.animationDuration) {
+      const duration = parseFloat(content.style.animationDuration);
+      if (!isNaN(duration)) speed = Math.max(0.2, 50 / duration);
+      content.style.animation = 'none';
+    }
+
+    const autoScroll = () => {
+      if (!isDown && isAutoScrolling) {
+        container.scrollLeft += speed;
+        const firstWrapper = content.children[0];
+        if (firstWrapper) {
+          const gap = parseFloat(getComputedStyle(content).gap) || 0;
+          const jumpDistance = firstWrapper.offsetWidth + gap;
+          if (container.scrollLeft >= jumpDistance) {
+            container.scrollLeft -= jumpDistance;
+          }
+        }
+      }
+      requestAnimationFrame(autoScroll);
+    };
+
+    const onDragStart = (x) => {
+      isDown = true;
+      isAutoScrolling = false;
+      container.style.cursor = 'grabbing';
+      startX = x - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+    };
+
+    const onDragEnd = () => {
+      isDown = false;
+      container.style.cursor = 'grab';
+      isAutoScrolling = true;
+    };
+
+    const onDragMove = (e, x) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const walk = (x - startX) * 2;
+      container.scrollLeft = scrollLeft - walk;
+      
+      const firstWrapper = content.children[0];
+      if (firstWrapper) {
+        const gap = parseFloat(getComputedStyle(content).gap) || 0;
+        const jumpDistance = firstWrapper.offsetWidth + gap;
+        if (container.scrollLeft <= 0) {
+          container.scrollLeft += jumpDistance;
+          startX = x - container.offsetLeft;
+          scrollLeft = container.scrollLeft;
+        } else if (container.scrollLeft >= jumpDistance) {
+          container.scrollLeft -= jumpDistance;
+          startX = x - container.offsetLeft;
+          scrollLeft = container.scrollLeft;
+        }
+      }
+    };
+
+    container.addEventListener('mousedown', (e) => onDragStart(e.pageX));
+    container.addEventListener('mouseleave', onDragEnd);
+    container.addEventListener('mouseup', onDragEnd);
+    container.addEventListener('mousemove', (e) => onDragMove(e, e.pageX));
+    
+    container.addEventListener('touchstart', (e) => onDragStart(e.touches[0].pageX), {passive: true});
+    container.addEventListener('touchend', onDragEnd);
+    container.addEventListener('touchmove', (e) => onDragMove(e, e.touches[0].pageX), {passive: false});
+
+    // We do NOT pause on hover, so that it continues to auto-scroll unless the user actually clicks to drag.
+
+    requestAnimationFrame(autoScroll);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initDraggableMarquees();
+  fetchProducts();
+  const params = new URLSearchParams(window.location.search);
+  const toastMsg = params.get('toast');
+  if (toastMsg === 'admin') {
+    showToast('Đăng nhập admin thành công!');
+    setTimeout(navigateToAdmin, 500);
+  } else if (toastMsg === 'login') {
+    showToast('Đăng nhập thành công!');
+  } else if (toastMsg === 'register') {
+    showToast('Đăng ký thành công!');
+  }
+  if (localStorage.getItem('isAdmin') === 'true') {
+    isAdmin = true;
+    document.getElementById('adminNavBtn')?.classList.remove('hidden');
+  }
+  if (toastMsg) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+});
+</script>
+</body>
+</html>
