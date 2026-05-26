@@ -891,7 +891,7 @@ html, body { height: 100%; margin: 0; }
 <!-- ==================== JAVASCRIPT ==================== -->
 <script>
 // ===== CONSTANTS =====
-const API_BASE = 'http://localhost:8111';
+const API_BASE = 'http://localhost:8080';
 let ALL_API_PRODUCTS = [];
 let PRODUCTS = { badminton: [], football: [], pickleball: [] };
 
@@ -1280,7 +1280,7 @@ function showToast(msg) {
 // ===== FETCH API DATA =====
 async function fetchProducts() {
   try {
-    const res = await fetch(API_BASE + '/products');
+    const res = await fetch(API_BASE + '/products/all');
     if (!res.ok) throw new Error('HTTP ' + res.status);
     ALL_API_PRODUCTS = await res.json();
 

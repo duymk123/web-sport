@@ -1,0 +1,12 @@
+{
+  "name": "websport-frontend",
+  "version": "1.0.0",
+  "description": "Velocity Prime - High Performance Sports Frontend",
+  "scripts": {
+    "dev": "lite-server",
+    "start": "lite-server"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
