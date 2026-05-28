@@ -1,330 +1,305 @@
 <!DOCTYPE html>
 <html class="light" lang="vi">
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Đăng nhập - VELOCITY PRIME</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-  <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" rel="stylesheet"/>
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "on-primary": "#ffffff",
-            "surface-container-highest": "#e2e2e2",
-            "on-tertiary-fixed-variant": "#454747",
-            "surface-bright": "#ffffff",
-            "on-tertiary-fixed": "#1a1c1c",
-            "secondary-fixed-dim": "#c6c6c6",
-            "surface-container": "#f5f5f5",
-            "surface-container-lowest": "#ffffff",
-            "primary-fixed-dim": "#ffb3af",
-            "surface-dim": "#f5f5f5",
-            "tertiary": "#474747",
-            "on-primary-fixed-variant": "#930017",
-            "surface-container-low": "#fafafa",
-            "on-error": "#ffffff",
-            "on-secondary-container": "#1b1b1b",
-            "outline-variant": "#d8c2c0",
-            "error-container": "#f9dedc",
-            "surface-variant": "#f1dedd",
-            "error": "#b3261e",
-            "on-secondary-fixed": "#1b1b1b",
-            "inverse-primary": "#ffb3af",
-            "on-primary-container": "#410005",
-            "tertiary-fixed-dim": "#c6c6c7",
-            "inverse-surface": "#313030",
-            "secondary": "#5e5e5e",
-            "outline": "#857372",
-            "primary-container": "#ffdad7",
-            "on-tertiary-container": "#282a2a",
-            "surface-tint": "#c00021",
-            "primary-fixed": "#ffdad7",
-            "inverse-on-surface": "#f5f0ef",
-            "on-primary-fixed": "#410005",
-            "on-secondary-fixed-variant": "#474747",
-            "on-error-container": "#410002",
-            "primary": "#c00021",
-            "tertiary-container": "#909191",
-            "on-background": "#1c1b1b",
-            "background": "#ffffff",
-            "secondary-fixed": "#e2e2e2",
-            "surface": "#ffffff",
-            "on-tertiary": "#ffffff",
-            "on-surface": "#1c1b1b",
-            "tertiary-fixed": "#e2e2e2",
-            "secondary-container": "#e2e2e2",
-            "on-surface-variant": "#534342",
-            "on-secondary": "#ffffff",
-            "surface-container-high": "#ebebeb"
-          },
-          borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
-          spacing: { "section-gap": "120px", "margin-mobile": "20px", unit: "4px", "margin-desktop": "64px", gutter: "24px" },
-          fontFamily: {
-            "headline-lg": ["Oswald"], "label-bold": ["Inter"], "headline-lg-mobile": ["Oswald"],
-            "body-md": ["Inter"], "stats-display": ["Oswald"], "headline-md": ["Oswald"],
-            "display-lg": ["Oswald"], "body-lg": ["Inter"]
-          },
-          fontSize: {
-            "headline-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
-            "label-bold": ["14px", { lineHeight: "1.0", letterSpacing: "0.1em", fontWeight: "700" }],
-            "headline-lg-mobile": ["36px", { lineHeight: "1.1", fontWeight: "700" }],
-            "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
-            "stats-display": ["24px", { lineHeight: "1.0", fontWeight: "700" }],
-            "headline-md": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
-            "display-lg": ["84px", { lineHeight: "1.0", letterSpacing: "-0.04em", fontWeight: "700" }],
-            "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
-          }
-        }
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Đăng Nhập | VELOCITY PRIME</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "on-primary": "#ffffff",
+        "surface-container-highest": "#e2e2e2",
+        "on-tertiary-fixed-variant": "#454747",
+        "surface-bright": "#ffffff",
+        "on-tertiary-fixed": "#1a1c1c",
+        "secondary-fixed-dim": "#c6c6c6",
+        "surface-container": "#f5f5f5",
+        "surface-container-lowest": "#ffffff",
+        "primary-fixed-dim": "#ffb3af",
+        "surface-dim": "#f5f5f5",
+        "tertiary": "#474747",
+        "on-primary-fixed-variant": "#930017",
+        "surface-container-low": "#fafafa",
+        "on-error": "#ffffff",
+        "on-secondary-container": "#1b1b1b",
+        "outline-variant": "#d8c2c0",
+        "error-container": "#f9dedc",
+        "surface-variant": "#f1dedd",
+        "error": "#b3261e",
+        "on-secondary-fixed": "#1b1b1b",
+        "inverse-primary": "#ffb3af",
+        "on-primary-container": "#410005",
+        "tertiary-fixed-dim": "#c6c6c7",
+        "inverse-surface": "#313030",
+        "secondary": "#5e5e5e",
+        "outline": "#857372",
+        "primary-container": "#ffdad7",
+        "on-tertiary-container": "#282a2a",
+        "surface-tint": "#c00021",
+        "primary-fixed": "#ffdad7",
+        "inverse-on-surface": "#f5f0ef",
+        "on-primary-fixed": "#410005",
+        "on-secondary-fixed-variant": "#474747",
+        "on-error-container": "#410002",
+        "primary": "#c00021",
+        "tertiary-container": "#909191",
+        "on-background": "#1c1b1b",
+        "background": "#ffffff",
+        "secondary-fixed": "#e2e2e2",
+        "surface": "#ffffff",
+        "on-tertiary": "#ffffff",
+        "on-surface": "#1c1b1b",
+        "tertiary-fixed": "#e2e2e2",
+        "secondary-container": "#e2e2e2",
+        "on-surface-variant": "#534342",
+        "on-secondary": "#ffffff",
+        "surface-container-high": "#ebebeb"
+      },
+      fontFamily: {
+        "headline-lg": ["Oswald"], "label-bold": ["Inter"], "headline-lg-mobile": ["Oswald"],
+        "body-md": ["Inter"], "stats-display": ["Oswald"], "headline-md": ["Oswald"],
+        "display-lg": ["Oswald"], "body-lg": ["Inter"]
       }
     }
-  </script>
-  <link rel="stylesheet" href="style.css"/>
+  }
+}
+</script>
+<style>
+  .input-error {
+    border-color: #b3261e !important;
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  }
+  @keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+  }
+  .btn-effect { transition: all 0.25s ease; }
+  .btn-effect:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(104, 0, 13, 0.25); }
+  .btn-effect:active { transform: scale(0.96) translateY(0); box-shadow: 0 2px 10px rgba(104, 0, 13, 0.15); }
+</style>
 </head>
-<body class="bg-white text-on-background font-body-md">
-  <div class="min-h-screen flex">
-    <!-- Left: Background Image -->
-    <div class="hidden lg:flex lg:w-1/2 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80'); background-position: center;">
-      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-white opacity-30"></div>
-    </div>
+<body class="bg-background text-on-background font-body-md h-screen flex flex-col md:flex-row">
 
-    <!-- Right: Form -->
-    <div class="w-full lg:w-1/2 flex flex-col">
-      <!-- Header -->
-      <header class="bg-on-surface text-white py-4 px-margin-mobile md:px-margin-desktop flex items-center justify-between">
-        <div class="flex items-center gap-2 cursor-pointer" onclick="window.history.back()">
-          <span class="material-symbols-outlined">arrow_back</span>
-          <span class="font-headline-md text-lg">VP PRIME</span>
-        </div>
-        <a href="index.html" class="material-symbols-outlined text-2xl hover:opacity-80">close</a>
-      </header>
-
-      <!-- Form Container -->
-      <div class="flex-1 flex items-center justify-center px-margin-mobile md:px-margin-desktop py-12">
-        <div class="max-w-md w-full">
-          <!-- Tab Navigation -->
-          <div class="flex gap-4 mb-8 border-b-2 border-outline-variant">
-            <button class="pb-3 px-4 text-lg font-bold border-b-2 border-primary text-primary transition-colors" id="loginTab" onclick="switchLoginTab('login')">
-              Đăng nhập
-            </button>
-            <button class="pb-3 px-4 text-lg font-bold border-b-2 border-transparent text-secondary hover:text-on-surface transition-colors" id="registerTab" onclick="switchLoginTab('register')">
-              Đăng ký
-            </button>
-          </div>
-
-          <!-- Login Form -->
-          <div id="loginForm" class="space-y-4">
-            <div>
-              <label class="block text-sm font-bold text-on-surface mb-2">Email hoặc Số điện thoại</label>
-              <input type="text" id="loginEmail" placeholder="Nhập email hoặc số điện thoại" 
-                class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-            </div>
-            <div>
-              <label class="block text-sm font-bold text-on-surface mb-2">Mật khẩu</label>
-              <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" 
-                class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-            </div>
-            <div class="flex items-center justify-between text-sm">
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" class="w-4 h-4 accent-primary" id="rememberMe"/>
-                <span class="text-secondary">Ghi nhớ tôi</span>
-              </label>
-              <a href="#" class="text-primary hover:underline">Quên mật khẩu?</a>
-            </div>
-            <button class="w-full py-3 bg-primary text-on-primary rounded-lg font-bold text-base hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="handleLogin()">
-              <span class="material-symbols-outlined text-lg">login</span> Đăng nhập
-            </button>
-            <p class="text-center text-sm text-secondary mt-4">Chưa có tài khoản? <span class="text-primary font-bold cursor-pointer" onclick="switchLoginTab('register')">Đăng ký ngay</span></p>
-          </div>
-
-          <!-- Register Form -->
-          <div id="registerForm" style="display:none;" class="space-y-4">
-            <div>
-              <label class="block text-sm font-bold text-on-surface mb-2">Họ và tên</label>
-              <input type="text" id="registerName" placeholder="Nhập họ và tên" 
-                class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-              <span class="text-xs text-error hidden" id="nameError">Vui lòng nhập họ và tên.</span>
-            </div>
-            <div>
-              <label class="block text-sm font-bold text-on-surface mb-2">Email</label>
-              <input type="email" id="registerEmail" placeholder="Nhập email" 
-                class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-              <span class="text-xs text-error hidden" id="emailError">Vui lòng nhập email.</span>
-            </div>
-            <div>
-              <label class="block text-sm font-bold text-on-surface mb-2">Số điện thoại</label>
-              <input type="tel" id="registerPhone" placeholder="Nhập số điện thoại" 
-                class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-              <span class="text-xs text-error hidden" id="phoneError">Vui lòng nhập số điện thoại.</span>
-            </div>
-            <div>
-              <label class="block text-sm font-bold text-on-surface mb-2">Mật khẩu</label>
-              <input type="password" id="registerPassword" placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)" 
-                class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-              <span class="text-xs text-error hidden" id="passwordError">Mật khẩu phải có ít nhất 6 ký tự.</span>
-            </div>
-            <div>
-              <label class="block text-sm font-bold text-on-surface mb-2">Xác nhận mật khẩu</label>
-              <input type="password" id="registerPasswordConfirm" placeholder="Nhập lại mật khẩu" 
-                class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-              <span class="text-xs text-error hidden" id="confirmError">Mật khẩu không khớp.</span>
-            </div>
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" class="w-4 h-4 accent-primary" id="agreeTerms" required/>
-              <span class="text-sm text-secondary">Tôi đồng ý với <span class="text-primary font-bold">Điều khoản sử dụng</span> và <span class="text-primary font-bold">Chính sách bảo mật</span></span>
-            </label>
-            <button class="w-full py-3 bg-primary text-on-primary rounded-lg font-bold text-base hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="handleRegister()">
-              <span class="material-symbols-outlined text-lg">person_add</span> Đăng ký
-            </button>
-            <p class="text-center text-sm text-secondary mt-4">Đã có tài khoản? <span class="text-primary font-bold cursor-pointer" onclick="switchLoginTab('login')">Đăng nhập ngay</span></p>
-          </div>
-
-          <!-- Social Login -->
-          <div class="mt-8 pt-6 border-t border-outline-variant">
-            <p class="text-center text-sm text-secondary mb-4">Hoặc đăng nhập bằng</p>
-            <div class="grid grid-cols-2 gap-3">
-              <button class="py-2.5 border border-outline-variant rounded-lg hover:border-primary transition-colors flex items-center justify-center gap-2 text-sm font-medium">
-                <i class="ti ti-brand-google text-lg"></i> Google
-              </button>
-              <button class="py-2.5 border border-outline-variant rounded-lg hover:border-primary transition-colors flex items-center justify-center gap-2 text-sm font-medium">
-                <i class="ti ti-brand-facebook text-lg"></i> Facebook
-              </button>
-            </div>
-          </div>
-        </div>
+  <!-- Trái: Hình ảnh/Brand -->
+  <div class="hidden md:flex flex-1 bg-on-surface text-white flex-col justify-center items-center p-12 relative overflow-hidden">
+    <div class="absolute inset-0 bg-primary/20 mix-blend-multiply z-10"></div>
+    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80" class="absolute inset-0 w-full h-full object-cover opacity-60" alt="Sports Background">
+    
+    <div class="relative z-20 text-center max-w-md">
+      <div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-primary/50">
+        <i class="ti ti-activity text-3xl text-white"></i>
       </div>
+      <h1 class="font-headline-lg text-headline-lg italic uppercase tracking-wider mb-4">Velocity Prime</h1>
+      <p class="text-white/80 font-body-lg">Hệ sinh thái thể thao chuyên nghiệp. Nâng tầm hiệu suất của bạn ngay hôm nay.</p>
     </div>
   </div>
 
-  <!-- Toast -->
-  <div class="toast" id="toast"><i class="ti ti-check"></i><span id="toastMsg"></span></div>
+  <!-- Phải: Form -->
+  <div class="flex-1 flex flex-col justify-center items-center p-6 md:p-12 relative bg-surface">
+    <button onclick="goBack()" class="absolute top-6 left-6 flex items-center gap-2 text-secondary hover:text-primary transition-colors">
+      <span class="material-symbols-outlined text-base">arrow_back</span> Quay lại
+    </button>
 
-  <script>
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      document.getElementById('toastMsg').textContent = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2800);
-    }
-
-    function switchLoginTab(tab) {
-      const loginForm = document.getElementById('loginForm');
-      const registerForm = document.getElementById('registerForm');
-      const loginTab = document.getElementById('loginTab');
-      const registerTab = document.getElementById('registerTab');
+    <div class="w-full max-w-[400px]">
       
-      if (tab === 'login') {
-        loginForm.style.display = 'block';
-        registerForm.style.display = 'none';
-        loginTab.classList.add('border-primary', 'text-primary');
-        loginTab.classList.remove('border-transparent', 'text-secondary');
-        registerTab.classList.add('border-transparent', 'text-secondary');
-        registerTab.classList.remove('border-primary', 'text-primary');
+      <!-- Tabs -->
+      <div class="flex border-b border-outline-variant mb-8">
+        <button id="tabLogin" class="flex-1 py-3 text-sm font-bold text-primary border-b-2 border-primary transition-colors" onclick="switchTab('login')">Đăng Nhập</button>
+        <button id="tabRegister" class="flex-1 py-3 text-sm font-bold text-secondary border-b-2 border-transparent transition-colors hover:text-on-surface" onclick="switchTab('register')">Đăng Ký</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="formLogin" class="block animate-[fadeIn_0.3s_ease]">
+        <h2 class="text-2xl font-bold text-on-surface mb-6">Chào mừng trở lại!</h2>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="text-sm font-medium text-on-surface block mb-1">Tên đăng nhập</label>
+            <input id="loginUsername" class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors" type="text" placeholder="Nhập tên đăng nhập"/>
+            <p id="errLoginUsername" class="text-error text-xs mt-1 hidden"></p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-on-surface block mb-1">Mật khẩu</label>
+            <input id="loginPassword" class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors" type="password" placeholder="••••••••"/>
+            <p id="errLoginPassword" class="text-error text-xs mt-1 hidden"></p>
+          </div>
+          
+          <div class="flex items-center justify-between mt-2">
+            <label class="flex items-center gap-2 text-sm text-secondary cursor-pointer">
+              <input type="checkbox" class="rounded border-outline-variant text-primary focus:ring-primary"/>
+              Ghi nhớ đăng nhập
+            </label>
+            <span class="text-xs text-primary font-semibold cursor-pointer hover:underline">Quên mật khẩu?</span>
+          </div>
+
+          <button class="btn-effect w-full py-3 mt-6 bg-primary text-on-primary rounded-lg font-bold text-sm" onclick="handleLogin()">
+            Đăng Nhập
+          </button>
+        </div>
+      </div>
+
+      <!-- Register Form -->
+      <div id="formRegister" class="hidden animate-[fadeIn_0.3s_ease]">
+        <h2 class="text-2xl font-bold text-on-surface mb-6">Tạo tài khoản mới</h2>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="text-sm font-medium text-on-surface block mb-1">Tên đăng nhập</label>
+            <input id="regUsername" class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors" type="text" placeholder="Nhập tên đăng nhập"/>
+            <p id="errRegUsername" class="text-error text-xs mt-1 hidden"></p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-on-surface block mb-1">Họ và tên</label>
+            <input id="regName" class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors" type="text" placeholder="Ví dụ: Nguyễn Văn A"/>
+            <p id="errRegName" class="text-error text-xs mt-1 hidden"></p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-on-surface block mb-1">Số điện thoại</label>
+            <input id="regPhone" class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors" type="tel" placeholder="0912 345 678"/>
+            <p id="errRegPhone" class="text-error text-xs mt-1 hidden"></p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-on-surface block mb-1">Mật khẩu</label>
+            <input id="regPassword" class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors" type="password" placeholder="Tối thiểu 6 ký tự"/>
+            <p id="errRegPassword" class="text-error text-xs mt-1 hidden"></p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-on-surface block mb-1">Xác nhận mật khẩu</label>
+            <input id="regConfirmPassword" class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors" type="password" placeholder="••••••••"/>
+            <p id="errRegConfirmPassword" class="text-error text-xs mt-1 hidden"></p>
+          </div>
+
+          <button class="btn-effect w-full py-3 mt-6 bg-on-surface text-white rounded-lg font-bold text-sm" onclick="handleRegister()">
+            Đăng Ký Tài Khoản
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+  function switchTab(tab) {
+    const isLogin = tab === 'login';
+    
+    document.getElementById('formLogin').style.display = isLogin ? 'block' : 'none';
+    document.getElementById('formRegister').style.display = isLogin ? 'none' : 'block';
+    
+    document.getElementById('tabLogin').className = isLogin 
+      ? 'flex-1 py-3 text-sm font-bold text-primary border-b-2 border-primary transition-colors' 
+      : 'flex-1 py-3 text-sm font-bold text-secondary border-b-2 border-transparent transition-colors hover:text-on-surface';
+      
+    document.getElementById('tabRegister').className = isLogin 
+      ? 'flex-1 py-3 text-sm font-bold text-secondary border-b-2 border-transparent transition-colors hover:text-on-surface' 
+      : 'flex-1 py-3 text-sm font-bold text-primary border-b-2 border-primary transition-colors';
+      
+    // Clear errors when switching tabs
+    clearErrors();
+  }
+
+  function showError(inputId, errId, msg) {
+    const input = document.getElementById(inputId);
+    const err = document.getElementById(errId);
+    input.classList.add('input-error');
+    err.textContent = msg;
+    err.classList.remove('hidden');
+    
+    // Remove error class after animation
+    setTimeout(() => {
+      input.classList.remove('input-error');
+    }, 400);
+  }
+
+  function clearErrors() {
+    ['loginUsername', 'loginPassword', 'regUsername', 'regName', 'regPhone', 'regPassword', 'regConfirmPassword'].forEach(id => {
+      document.getElementById(id).classList.remove('border-error');
+    });
+    ['errLoginUsername', 'errLoginPassword', 'errRegUsername', 'errRegName', 'errRegPhone', 'errRegPassword', 'errRegConfirmPassword'].forEach(id => {
+      document.getElementById(id).classList.add('hidden');
+    });
+  }
+
+  function handleLogin() {
+    clearErrors();
+    const username = document.getElementById('loginUsername').value.trim();
+    const pass = document.getElementById('loginPassword').value.trim();
+    let hasError = false;
+
+    if (!username) { showError('loginUsername', 'errLoginUsername', 'Vui lòng nhập tên đăng nhập.'); hasError = true; }
+    
+    if (!pass) { showError('loginPassword', 'errLoginPassword', 'Vui lòng nhập mật khẩu.'); hasError = true; }
+
+    if (hasError) return;
+
+    if (username === 'admin' && pass === 'admin') {
+      localStorage.setItem('isAdmin', 'true');
+      localStorage.setItem('isLoggedIn', 'true');
+      if (sessionStorage.getItem('pendingCheckout')) {
+        sessionStorage.removeItem('pendingCheckout');
+        window.location.href = 'checkout.html';
       } else {
-        loginForm.style.display = 'none';
-        registerForm.style.display = 'block';
-        registerTab.classList.add('border-primary', 'text-primary');
-        registerTab.classList.remove('border-transparent', 'text-secondary');
-        loginTab.classList.add('border-transparent', 'text-secondary');
-        loginTab.classList.remove('border-primary', 'text-primary');
+        window.location.href = 'index.html?toast=admin';
       }
-    }
-
-    function handleLogin() {
-      const email = document.getElementById('loginEmail').value.trim();
-      const password = document.getElementById('loginPassword').value;
-      
-      if (!email || !password) {
-        showToast('Vui lòng điền đầy đủ thông tin!');
-        return;
-      }
-      
-      // Save user info to localStorage
-      const currentUser = {
-        email: email,
-        name: email.split('@')[0] || email,
-        phone: '0912345678',
-        address: '123 Cầu Giấy, Quận Cầu Giấy, Hà Nội'
-      };
+    } else if (username && pass) {
+      // Giả lập login thành công cho user thường
+      localStorage.setItem('isAdmin', 'false');
       localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('currentUser', JSON.stringify(currentUser));
-      
-      showToast('Đăng nhập thành công!');
-      
-      // Redirect based on referrer or back to home
-      setTimeout(() => {
-        const referrer = sessionStorage.getItem('loginReferrer');
-        if (referrer === 'checkout') {
-          sessionStorage.removeItem('loginReferrer');
-          window.location.href = 'checkout.html';
-        } else {
-          window.location.href = 'index.html';
-        }
-      }, 800);
+      if (sessionStorage.getItem('pendingCheckout')) {
+        sessionStorage.removeItem('pendingCheckout');
+        window.location.href = 'checkout.html';
+      } else {
+        window.location.href = 'index.html?toast=login';
+      }
     }
+  }
 
-    function handleRegister() {
-      const name = document.getElementById('registerName').value.trim();
-      const email = document.getElementById('registerEmail').value.trim();
-      const phone = document.getElementById('registerPhone').value.trim();
-      const password = document.getElementById('registerPassword').value;
-      const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
-      const agreeTerms = document.getElementById('agreeTerms').checked;
-      
-      // Hide all errors first
-      document.querySelectorAll('[id$="Error"]').forEach(el => el.classList.add('hidden'));
-      
-      let isValid = true;
-      
-      if (!name) {
-        document.getElementById('nameError').classList.remove('hidden');
-        isValid = false;
-      }
-      
-      if (!email) {
-        document.getElementById('emailError').classList.remove('hidden');
-        isValid = false;
-      }
-      
-      if (!phone) {
-        document.getElementById('phoneError').classList.remove('hidden');
-        isValid = false;
-      }
-      
-      if (password.length < 6) {
-        document.getElementById('passwordError').classList.remove('hidden');
-        isValid = false;
-      }
-      
-      if (password !== passwordConfirm) {
-        document.getElementById('confirmError').classList.remove('hidden');
-        isValid = false;
-      }
-      
-      if (!agreeTerms) {
-        showToast('Vui lòng chấp nhận điều khoản!');
-        return;
-      }
-      
-      if (!isValid) return;
-      
-      // Register user
-      const currentUser = { name, email, phone };
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('currentUser', JSON.stringify(currentUser));
-      
-      showToast('Đăng ký thành công!');
-      
-      // Switch to login tab
-      setTimeout(() => {
-        switchLoginTab('login');
-        document.getElementById('loginEmail').value = email;
-        document.getElementById('loginPassword').value = '';
-      }, 500);
+  function handleRegister() {
+    clearErrors();
+    const username = document.getElementById('regUsername').value.trim();
+    const name = document.getElementById('regName').value.trim();
+    const phone = document.getElementById('regPhone').value.trim();
+    const pass = document.getElementById('regPassword').value.trim();
+    const confirmPass = document.getElementById('regConfirmPassword').value.trim();
+    let hasError = false;
+
+    if (!username) { showError('regUsername', 'errRegUsername', 'Vui lòng nhập tên đăng nhập.'); hasError = true; }
+    if (!name) { showError('regName', 'errRegName', 'Vui lòng nhập họ và tên.'); hasError = true; }
+    
+    if (!phone) { showError('regPhone', 'errRegPhone', 'Vui lòng nhập số điện thoại.'); hasError = true; }
+    else if (!/^[0-9]{9,11}$/.test(phone)) { showError('regPhone', 'errRegPhone', 'Số điện thoại không hợp lệ.'); hasError = true; }
+    
+    if (!pass) { showError('regPassword', 'errRegPassword', 'Vui lòng nhập mật khẩu.'); hasError = true; }
+    else if (pass.length < 6) { showError('regPassword', 'errRegPassword', 'Mật khẩu phải có ít nhất 6 ký tự.'); hasError = true; }
+    
+    if (!confirmPass) { showError('regConfirmPassword', 'errRegConfirmPassword', 'Vui lòng xác nhận mật khẩu.'); hasError = true; }
+    else if (pass !== confirmPass) { showError('regConfirmPassword', 'errRegConfirmPassword', 'Mật khẩu xác nhận không khớp.'); hasError = true; }
+
+    if (hasError) return;
+
+    // Giả lập đăng ký thành công
+    localStorage.setItem('isAdmin', 'false');
+    localStorage.setItem('isLoggedIn', 'true');
+    window.location.href = 'index.html?toast=register';
+  }
+
+  function goBack() {
+    window.history.back();
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('tab') === 'register') {
+      switchTab('register');
     }
-  </script>
+  });
+</script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="light" lang="vi">
 <head>
 <meta charset="utf-8"/>
@@ -441,7 +441,7 @@ tailwind.config = {
     </div>
     <div>
       <h4 class="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Tài khoản</h4>
-      <ul class="space-y-2 text-sm"><li class="cursor-pointer hover:text-white transition-colors" onclick="openUserModal()">Đăng nhập</li><li class="cursor-pointer hover:text-white transition-colors" onclick="openUserModal()">Đăng ký</li><li class="cursor-pointer hover:text-white transition-colors">Lịch sử đơn hàng</li><li class="cursor-pointer hover:text-white transition-colors">Wishlist</li></ul>
+      <ul class="space-y-2 text-sm"><li class="cursor-pointer hover:text-white transition-colors" onclick="openUserModal()">Đăng nhập</li><li class="cursor-pointer hover:text-white transition-colors" onclick="openUserModal('register')">Đăng ký</li><li class="cursor-pointer hover:text-white transition-colors">Lịch sử đơn hàng</li><li class="cursor-pointer hover:text-white transition-colors">Wishlist</li></ul>
     </div>
   </div>
   <div class="border-t border-white/10 pt-6 text-center text-xs">© 2026 VELOCITY PRIME. ENGINEERED FOR PERFORMANCE.</div>
@@ -809,8 +809,8 @@ tailwind.config = {
       <!-- Login Form -->
       <div id="loginForm" class="space-y-4">
         <div>
-          <label class="block text-sm font-bold text-on-surface mb-2">Email hoặc Số điện thoại</label>
-          <input type="text" id="loginEmail" placeholder="Nhập email hoặc số điện thoại" 
+          <label class="block text-sm font-bold text-on-surface mb-2">Tên đăng nhập</label>
+          <input type="text" id="loginUsername" placeholder="Nhập tên đăng nhập" 
             class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
         </div>
         <div>
@@ -821,7 +821,7 @@ tailwind.config = {
         <div class="flex items-center justify-between text-sm">
           <label class="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" class="w-4 h-4 accent-primary" id="rememberMe"/>
-            <span class="text-secondary">Ghi nhớ tôi</span>
+            <span class="text-secondary">Ghi nhớ đăng nhập</span>
           </label>
           <a href="#" class="text-primary hover:underline">Quên mật khẩu?</a>
         </div>
@@ -834,18 +834,8 @@ tailwind.config = {
       <!-- Register Form -->
       <div id="registerForm" style="display:none;" class="space-y-4">
         <div>
-          <label class="block text-sm font-bold text-on-surface mb-2">Họ và tên</label>
-          <input type="text" id="registerName" placeholder="Nhập họ và tên" 
-            class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-        </div>
-        <div>
-          <label class="block text-sm font-bold text-on-surface mb-2">Email</label>
-          <input type="email" id="registerEmail" placeholder="Nhập email" 
-            class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-        </div>
-        <div>
-          <label class="block text-sm font-bold text-on-surface mb-2">Số điện thoại</label>
-          <input type="tel" id="registerPhone" placeholder="Nhập số điện thoại" 
+          <label class="block text-sm font-bold text-on-surface mb-2">Tên đăng nhập</label>
+          <input type="text" id="registerUsername" placeholder="Nhập tên đăng nhập" 
             class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
         </div>
         <div>
@@ -854,8 +844,13 @@ tailwind.config = {
             class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
         </div>
         <div>
-          <label class="block text-sm font-bold text-on-surface mb-2">Xác nhận mật khẩu</label>
-          <input type="password" id="registerPasswordConfirm" placeholder="Nhập lại mật khẩu" 
+          <label class="block text-sm font-bold text-on-surface mb-2">Họ và tên</label>
+          <input type="text" id="registerName" placeholder="Nhập họ và tên" 
+            class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
+        </div>
+        <div>
+          <label class="block text-sm font-bold text-on-surface mb-2">Số điện thoại</label>
+          <input type="tel" id="registerPhone" placeholder="Nhập số điện thoại" 
             class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
         </div>
         <label class="flex items-center gap-2 cursor-pointer">

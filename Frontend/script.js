@@ -547,7 +547,7 @@ function confirmBuyNow() {
   
   // Check if user is logged in
   if (!localStorage.getItem('isLoggedIn')) {
-    window.pendingCheckout = true;
+    sessionStorage.setItem('pendingCheckout', 'true');
     openLoginPage();
   } else {
     // Go directly to checkout
@@ -595,21 +595,19 @@ function toggleAddressType(type) {
 }
 document.getElementById('checkoutModal')?.addEventListener('click', function(e) { if (e.target === this) closeCheckoutModal(); });
 
-function openUserModal() {
-  // Open full-page login instead of modal
-  openLoginPage();
+function openUserModal(tab = 'login') {
+  if (tab === 'register') {
+    window.location.href = 'login.html?tab=register';
+  } else {
+    window.location.href = 'login.html';
+  }
 }
 
 // ===== LOGIN PAGE FUNCTIONS =====
 let currentUser = null;
 
 function openLoginPage() {
-  document.getElementById('mainContent').style.display = 'none';
-  document.getElementById('sportPage').style.display = 'none';
-  document.getElementById('adminPage').style.display = 'none';
-  document.getElementById('checkoutPage').style.display = 'none';
-  document.getElementById('loginPage').style.display = 'flex';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.location.href = 'login.html';
 }
 
 function closeLoginPage() {
@@ -642,26 +640,26 @@ function switchLoginTab(tab) {
 }
 
 function handleLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
+  const username = document.getElementById('loginUsername').value.trim();
   const password = document.getElementById('loginPassword').value;
   
-  if (!email || !password) {
+  if (!username || !password) {
     showToast('Vui lòng điền đầy đủ thông tin!');
     return;
   }
   
   // Mock authentication
-  if (email === 'admin' && password === 'admin123') {
+  if (username === 'admin' && password === 'admin123') {
     isAdmin = true;
     document.getElementById('adminNavBtn')?.classList.remove('hidden');
   }
   
   // Set user info
   currentUser = {
-    email: email,
-    name: email.split('@')[0],
-    phone: '0912345678',
-    address: '123 Cầu Giấy, Quận Cầu Giấy, Hà Nội'
+    username: username,
+    name: username,
+    phone: '',
+    address: ''
   };
   localStorage.setItem('isLoggedIn', 'true');
   localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -678,20 +676,14 @@ function handleLogin() {
 }
 
 function handleRegister() {
-  const name = document.getElementById('registerName').value.trim();
-  const email = document.getElementById('registerEmail').value.trim();
-  const phone = document.getElementById('registerPhone').value.trim();
+  const username = document.getElementById('registerUsername').value.trim();
   const password = document.getElementById('registerPassword').value;
-  const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+  const name = document.getElementById('registerName').value.trim();
+  const phone = document.getElementById('registerPhone').value.trim();
   const agreeTerms = document.getElementById('agreeTerms').checked;
   
-  if (!name || !email || !phone || !password || !passwordConfirm) {
+  if (!username || !name || !phone || !password) {
     showToast('Vui lòng điền đầy đủ thông tin!');
-    return;
-  }
-  
-  if (password !== passwordConfirm) {
-    showToast('Mật khẩu không khớp!');
     return;
   }
   
@@ -706,22 +698,22 @@ function handleRegister() {
   }
   
   // Register user
-  currentUser = { name, email, phone };
+  currentUser = { username, name, phone };
   localStorage.setItem('isLoggedIn', 'true');
   localStorage.setItem('currentUser', JSON.stringify(currentUser));
   
   showToast('Đăng ký thành công!');
   
-  // Switch to login tab
+  // Switch to login tab and fill username
   switchLoginTab('login');
-  document.getElementById('loginEmail').value = email;
+  document.getElementById('loginUsername').value = username;
   document.getElementById('loginPassword').value = '';
 }
 
 // ===== CHECKOUT PAGE FUNCTIONS =====
 function openCheckoutPage() {
   if (!localStorage.getItem('isLoggedIn')) {
-    window.pendingCheckout = true;
+    sessionStorage.setItem('pendingCheckout', 'true');
     openLoginPage();
     return;
   }
@@ -963,24 +955,8 @@ function renderSaleCarousel() {
 // ===== ADMIN AUTH =====
 let isAdmin = false;
 
-function handleLogin() {
-  const emailEl = document.querySelector('#modalBody input[type="email"]');
-  const passEl = document.querySelector('#modalBody input[type="password"]');
-  if (!emailEl || !passEl) return;
-  const email = emailEl.value.trim();
-  const pass = passEl.value;
-  if (email === 'admin' && pass === 'admin123') {
-    isAdmin = true;
-    closeUserModal();
-    showToast('Đăng nhập admin thành công!');
-    // Show admin button in nav
-    document.getElementById('adminNavBtn')?.classList.remove('hidden');
-    navigateToAdmin();
-  } else {
-    showToast('Đăng nhập thành công!');
-    closeUserModal();
-  }
-}
+// Note: handleLogin is already defined above for the login page.
+// The modal login now redirects to the full login page via openUserModal().
 
 function adminLogout() {
   isAdmin = false;
