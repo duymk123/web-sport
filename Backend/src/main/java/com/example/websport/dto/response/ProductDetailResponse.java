@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Builder
-public class ProductDetailResponse {
+public class ProductDetailResponse implements Serializable {
     private Long id;
     private String name;
     private String brand;

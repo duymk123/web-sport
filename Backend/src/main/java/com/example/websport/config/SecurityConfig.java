@@ -1,0 +1,67 @@
+package com.example.websport.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    // 1. Cấu hình công cụ băm mật khẩu (BCrypt)
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    // 2. Cấu hình phân luồng, cấp quyền cho từng API
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable()) // Tắt CSRF bảo vệ mặc định (vì mình sẽ dùng Token)
+                .authorizeHttpRequests(auth -> auth
+
+                        // ==========================================
+                        // LUỒNG 1: MỞ CỬA TỰ DO (Khách không cần đăng nhập vẫn xem được)
+                        // ==========================================
+                        .requestMatchers("/api/v1/auth/**").permitAll() // Cổng Đăng nhập & Đăng ký
+
+                        .requestMatchers(HttpMethod.GET, "/api/v1/products/**").permitAll()     // Xem sản phẩm
+                        .requestMatchers(HttpMethod.GET, "/api/v1/categories/**").permitAll()   // Xem danh mục
+                        .requestMatchers(HttpMethod.GET, "/api/v1/product-types/**").permitAll()// Xem loại sản phẩm
+
+
+                        // ==========================================
+                        // LUỒNG 2: KHU VỰC CỦA ADMIN (Chỉ quyền ADMIN mới được sửa dữ liệu)
+                        // ==========================================
+                        // Đối với Sản phẩm
+                        .requestMatchers(HttpMethod.POST, "/api/v1/products/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/products/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/products/**").hasAuthority("ADMIN")
+
+                        // Đối với Danh mục (Categories)
+                        .requestMatchers(HttpMethod.POST, "/api/v1/categories/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/categories/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/categories/**").hasAuthority("ADMIN")
+
+                        // Đối với Loại sản phẩm (Product Types)
+                        .requestMatchers(HttpMethod.POST, "/api/v1/product-types/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/product-types/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/product-types/**").hasAuthority("ADMIN")
+
+
+                        // ==========================================
+                        // LUỒNG 3: CÁC YÊU CẦU CÒN LẠI (Giỏ hàng, Hồ sơ...)
+                        // ==========================================
+                        // Bất kỳ ai (USER hay ADMIN) miễn là có đăng nhập (có Token) thì mới được qua
+                        .anyRequest().authenticated()
+                );
+
+        return http.build();
+    }
+}
