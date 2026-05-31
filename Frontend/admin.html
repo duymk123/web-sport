@@ -135,6 +135,9 @@ tailwind.config = {
       <button id="adminTab-add" onclick="switchAdminTab('add')" class="admin-tab px-5 py-2 rounded-lg text-sm font-semibold transition-all text-secondary hover:text-on-surface">
         <span class="material-symbols-outlined text-base align-middle mr-1">add_circle</span> Thêm sản phẩm
       </button>
+      <button id="adminTab-users" onclick="switchAdminTab('users')" class="admin-tab px-5 py-2 rounded-lg text-sm font-semibold transition-all text-secondary hover:text-on-surface">
+        <span class="material-symbols-outlined text-base align-middle mr-1">group</span> Quản lý User
+      </button>
     </div>
 
     <!-- Tab: Featured Products -->
@@ -213,6 +216,42 @@ tailwind.config = {
           <button onclick="clearNewProductForm()" class="px-6 py-3 border border-outline-variant rounded-lg text-sm font-semibold text-secondary hover:text-on-surface hover:border-on-surface transition-colors">Xóa form</button>
         </div>
         <div id="addProductResult" class="mt-4 hidden"></div>
+      </div>
+    </div>
+
+    <!-- Tab: Users Management -->
+    <div id="adminPanel-users" style="display:none">
+      <div class="bg-white rounded-xl border border-outline-variant p-6">
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h3 class="font-bold text-on-surface mb-1">Quản lý User</h3>
+            <p class="text-sm text-secondary">Quản lý danh sách tài khoản người dùng trong hệ thống.</p>
+          </div>
+          <div class="flex gap-2">
+            <input id="adminUserSearch" type="text" placeholder="Tìm kiếm user..." class="px-3 py-2 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary w-64" onkeyup="renderAdminUserList()"/>
+            <button class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-surface-tint flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm">add</span> Thêm User
+            </button>
+          </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-surface-container-low text-secondary font-semibold border-b border-outline-variant">
+              <tr>
+                <th class="py-3 px-4 rounded-tl-lg">ID</th>
+                <th class="py-3 px-4">Tên đăng nhập</th>
+                <th class="py-3 px-4">Họ và tên</th>
+                <th class="py-3 px-4">Vai trò</th>
+                <th class="py-3 px-4">Trạng thái</th>
+                <th class="py-3 px-4 rounded-tr-lg">Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="adminUserTableBody" class="divide-y divide-outline-variant">
+              <!-- Users rendered by JS -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
