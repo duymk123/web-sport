@@ -3,10 +3,7 @@ package com.example.websport.entity;
 import com.example.websport.common.EnumRole;
 import com.example.websport.common.EnumStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.management.relation.RoleStatus;
 
@@ -16,6 +13,7 @@ import javax.management.relation.RoleStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +32,10 @@ public class User {
     private String phoneNumber;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private EnumStatus status;
 
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private EnumRole role;
 }
