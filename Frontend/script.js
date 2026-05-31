@@ -725,7 +725,6 @@ function openCheckoutPage() {
   
   document.getElementById('mainContent').style.display = 'none';
   document.getElementById('sportPage').style.display = 'none';
-  document.getElementById('adminPage').style.display = 'none';
   document.getElementById('loginPage').style.display = 'none';
   document.getElementById('checkoutPage').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -963,27 +962,18 @@ function adminLogout() {
   localStorage.removeItem('isAdmin');
   localStorage.removeItem('isLoggedIn');
   document.getElementById('adminNavBtn')?.classList.add('hidden');
+  // If on admin.html, redirect to index
+  if (window.location.pathname.includes('admin.html')) {
+    window.location.href = 'index.html';
+    return;
+  }
   navigateToHome();
   showToast('Đã đăng xuất');
 }
 
 function navigateToAdmin() {
   if (!isAdmin) { openUserModal(); return; }
-  document.getElementById('mainContent').style.display = 'none';
-  document.getElementById('sportPage').style.display = 'none';
-  document.getElementById('adminPage').style.display = 'block';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  // Reset nav highlights
-  document.querySelectorAll('.nav-link').forEach(el => {
-    el.classList.remove('text-white', 'bg-primary/20', 'border-b-2', 'border-primary');
-    el.classList.add('text-gray-300');
-  });
-  const adminNav = document.getElementById('adminNavBtn');
-  if (adminNav) {
-    adminNav.classList.add('text-white', 'bg-primary/20', 'border-b-2', 'border-primary');
-    adminNav.classList.remove('text-gray-300');
-  }
-  switchAdminTab('featured');
+  window.location.href = 'admin.html';
 }
 
 // ===== ADMIN TABS =====
@@ -1250,7 +1240,6 @@ function navigateToSport(sport) {
   spPriceMax = Infinity;
   document.getElementById('mainContent').style.display = 'none';
   document.getElementById('sportPage').style.display = 'block';
-  document.getElementById('adminPage').style.display = 'none';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const info = SPORT_BANNERS[sport];
@@ -1287,7 +1276,6 @@ function navigateToHome() {
   currentSportPage = null;
   document.getElementById('mainContent').style.display = 'block';
   document.getElementById('sportPage').style.display = 'none';
-  document.getElementById('adminPage').style.display = 'none';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // Reset nav
@@ -1655,7 +1643,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const toastMsg = params.get('toast');
   if (toastMsg === 'admin') {
     showToast('Đăng nhập admin thành công!');
-    setTimeout(navigateToAdmin, 500);
+    setTimeout(() => { window.location.href = 'admin.html'; }, 500);
   } else if (toastMsg === 'login') {
     showToast('Đăng nhập thành công!');
   } else if (toastMsg === 'register') {

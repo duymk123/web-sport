@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trang Quản Trị | VELOCITY PRIME</title>
+<meta name="description" content="Trang quản trị hệ thống Velocity Prime - Quản lý sản phẩm, giảm giá, bộ sưu tập nổi bật."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "on-primary": "#ffffff",
+        "surface-container-highest": "#e2e2e2",
+        "on-tertiary-fixed-variant": "#454747",
+        "surface-bright": "#ffffff",
+        "on-tertiary-fixed": "#1a1c1c",
+        "secondary-fixed-dim": "#c6c6c6",
+        "surface-container": "#f5f5f5",
+        "surface-container-lowest": "#ffffff",
+        "primary-fixed-dim": "#ffb3af",
+        "surface-dim": "#f5f5f5",
+        "tertiary": "#474747",
+        "on-primary-fixed-variant": "#930017",
+        "surface-container-low": "#fafafa",
+        "on-error": "#ffffff",
+        "on-secondary-container": "#1b1b1b",
+        "outline-variant": "#d8c2c0",
+        "error-container": "#f9dedc",
+        "surface-variant": "#f1dedd",
+        "error": "#b3261e",
+        "on-secondary-fixed": "#1b1b1b",
+        "inverse-primary": "#ffb3af",
+        "on-primary-container": "#410005",
+        "tertiary-fixed-dim": "#c6c6c7",
+        "inverse-surface": "#313030",
+        "secondary": "#5e5e5e",
+        "outline": "#857372",
+        "primary-container": "#ffdad7",
+        "on-tertiary-container": "#282a2a",
+        "surface-tint": "#c00021",
+        "primary-fixed": "#ffdad7",
+        "inverse-on-surface": "#f5f0ef",
+        "on-primary-fixed": "#410005",
+        "on-secondary-fixed-variant": "#474747",
+        "on-error-container": "#410002",
+        "primary": "#c00021",
+        "tertiary-container": "#909191",
+        "on-tertiary": "#ffffff",
+        "on-background": "#1c1b1b",
+        "background": "#ffffff",
+        "secondary-fixed": "#e2e2e2",
+        "surface": "#ffffff",
+        "on-surface": "#1c1b1b",
+        "tertiary-fixed": "#e2e2e2",
+        "secondary-container": "#e2e2e2",
+        "on-surface-variant": "#534342",
+        "on-secondary": "#ffffff",
+        "surface-container-high": "#ebebeb"
+      },
+      borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+      spacing: { "section-gap": "120px", "margin-mobile": "20px", unit: "4px", "margin-desktop": "64px", gutter: "24px" },
+      fontFamily: {
+        "headline-lg": ["Oswald"], "label-bold": ["Inter"], "headline-lg-mobile": ["Oswald"],
+        "body-md": ["Inter"], "stats-display": ["Oswald"], "headline-md": ["Oswald"],
+        "display-lg": ["Oswald"], "body-lg": ["Inter"]
+      },
+      fontSize: {
+        "headline-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+        "label-bold": ["14px", { lineHeight: "1.0", letterSpacing: "0.1em", fontWeight: "700" }],
+        "headline-lg-mobile": ["36px", { lineHeight: "1.1", fontWeight: "700" }],
+        "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
+        "stats-display": ["24px", { lineHeight: "1.0", fontWeight: "700" }],
+        "headline-md": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+        "display-lg": ["84px", { lineHeight: "1.0", letterSpacing: "-0.04em", fontWeight: "700" }],
+        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
+      }
+    }
+  }
+}
+</script>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+
+<!-- ==================== ADMIN HEADER ==================== -->
+<header class="bg-[#111] border-b-4 border-primary shadow-2xl">
+  <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-4 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 bg-primary flex items-center justify-center skew-x-[-15deg] group-hover:scale-105 transition-transform duration-300">
+          <span class="text-white font-display-lg text-2xl font-black italic skew-x-[15deg] tracking-tighter">VP</span>
+        </div>
+        <div class="hidden sm:block">
+          <div class="font-headline-lg text-sm font-black text-white tracking-[0.2em] uppercase italic">Velocity <span class="text-primary">Prime</span></div>
+          <div class="text-[9px] text-gray-400 tracking-[0.3em] uppercase mt-0.5">Admin Panel</div>
+        </div>
+      </a>
+      <div class="h-8 w-px bg-gray-700"></div>
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center"><span class="material-symbols-outlined text-white text-sm">admin_panel_settings</span></div>
+        <div>
+          <div class="font-bold text-white text-sm">Trang quản trị</div>
+          <div class="text-[11px] text-gray-400">Velocity Prime Admin</div>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors">
+        <span class="material-symbols-outlined text-base">home</span> Trang chủ
+      </a>
+      <button onclick="adminLogout()" class="flex items-center gap-2 text-sm text-gray-300 hover:text-red-400 transition-colors border border-gray-600 rounded-lg px-4 py-2">
+        <span class="material-symbols-outlined text-base">logout</span> Đăng xuất
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ==================== ADMIN CONTENT ==================== -->
+<div class="min-h-screen bg-surface-container-low">
+  <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-8">
+
+    <!-- Admin Tabs -->
+    <div class="flex gap-1 mb-6 bg-white border border-outline-variant rounded-xl p-1.5 w-fit">
+      <button id="adminTab-featured" onclick="switchAdminTab('featured')" class="admin-tab px-5 py-2 rounded-lg text-sm font-semibold transition-all bg-primary text-white">
+        <span class="material-symbols-outlined text-base align-middle mr-1">star</span> Sản phẩm nổi bật
+      </button>
+      <button id="adminTab-sale" onclick="switchAdminTab('sale')" class="admin-tab px-5 py-2 rounded-lg text-sm font-semibold transition-all text-secondary hover:text-on-surface">
+        <span class="material-symbols-outlined text-base align-middle mr-1">local_offer</span> Hàng giảm giá
+      </button>
+      <button id="adminTab-add" onclick="switchAdminTab('add')" class="admin-tab px-5 py-2 rounded-lg text-sm font-semibold transition-all text-secondary hover:text-on-surface">
+        <span class="material-symbols-outlined text-base align-middle mr-1">add_circle</span> Thêm sản phẩm
+      </button>
+    </div>
+
+    <!-- Tab: Featured Products -->
+    <div id="adminPanel-featured">
+      <div class="bg-white rounded-xl border border-outline-variant p-6 mb-6">
+        <h3 class="font-bold text-on-surface mb-1">Sản phẩm nổi bật (Bộ sưu tập mới)</h3>
+        <p class="text-sm text-secondary mb-5">Chọn tối đa 3 sản phẩm để hiển thị trong phần "Bộ sưu tập mới" trên trang chủ.</p>
+        <div class="flex gap-3 mb-4 flex-wrap">
+          <input id="adminFeaturedSearch" type="text" placeholder="Tìm sản phẩm..." class="px-3 py-2 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary w-64" onkeyup="renderAdminProductList('featured')"/>
+        </div>
+        <div class="mb-6">
+          <div class="text-xs font-bold text-secondary uppercase tracking-wider mb-3">Đang hiển thị (<span id="featuredCount">0</span>/3)</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="featuredSlots">
+            <!-- slots rendered by JS -->
+          </div>
+        </div>
+        <div class="border-t border-outline-variant pt-4">
+          <div class="text-xs font-bold text-secondary uppercase tracking-wider mb-3">Chọn từ danh sách sản phẩm</div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-h-80 overflow-y-auto" id="adminFeaturedList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Sale Products -->
+    <div id="adminPanel-sale" style="display:none">
+      <div class="bg-white rounded-xl border border-outline-variant p-6 mb-6">
+        <h3 class="font-bold text-on-surface mb-1">Hàng giảm giá</h3>
+        <p class="text-sm text-secondary mb-5">Chọn sản phẩm để hiển thị trong carousel "Hàng giảm giá". Có thể đặt % giảm cho từng sản phẩm.</p>
+        <input id="adminSaleSearch" type="text" placeholder="Tìm sản phẩm..." class="px-3 py-2 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary w-64 mb-4" onkeyup="renderAdminProductList('sale')"/>
+        <div class="mb-6">
+          <div class="text-xs font-bold text-secondary uppercase tracking-wider mb-3">Đang trong carousel (<span id="saleCount">0</span> sản phẩm)</div>
+          <div class="space-y-2" id="saleSlots"></div>
+        </div>
+        <div class="border-t border-outline-variant pt-4">
+          <div class="text-xs font-bold text-secondary uppercase tracking-wider mb-3">Chọn từ danh sách sản phẩm</div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-h-80 overflow-y-auto" id="adminSaleList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Add Product -->
+    <div id="adminPanel-add" style="display:none">
+      <div class="bg-white rounded-xl border border-outline-variant p-6">
+        <h3 class="font-bold text-on-surface mb-1">Thêm sản phẩm mới</h3>
+        <p class="text-sm text-secondary mb-6">Tạo sản phẩm qua <code class="text-xs bg-surface-container px-1 rounded">POST /api/v1/products</code> — phải có ít nhất 1 variant.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div><label class="text-sm font-medium text-on-surface block mb-1.5">Tên sản phẩm *</label><input id="newProdName" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="text" placeholder="VD: Yonex ArcSaber 11 Pro"/></div>
+          <div><label class="text-sm font-medium text-on-surface block mb-1.5">Thương hiệu *</label><input id="newProdBrand" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="text" placeholder="VD: Yonex"/></div>
+          <div><label class="text-sm font-medium text-on-surface block mb-1.5">Danh mục (categoryId) *</label>
+            <select id="newProdCategory" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary bg-white">
+              <option value="">-- Đang tải từ API --</option>
+            </select>
+          </div>
+          <div><label class="text-sm font-medium text-on-surface block mb-1.5">Loại sản phẩm (typeId)</label>
+            <input id="newProdType" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="number" placeholder="VD: 1" value="1"/>
+          </div>
+          <div class="md:col-span-2"><label class="text-sm font-medium text-on-surface block mb-1.5">Mô tả (description)</label><textarea id="newProdDesc" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary resize-none" rows="3" placeholder="Mô tả chi tiết sản phẩm..."></textarea></div>
+          <div class="md:col-span-2"><label class="text-sm font-medium text-on-surface block mb-1.5">URL hình ảnh (imageUrls[0]) — bỏ trống nếu không có</label><input id="newProdImage" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="text" placeholder="https://example.com/image.jpg"/></div>
+          <div class="md:col-span-2">
+            <div class="border border-dashed border-primary/40 rounded-xl p-4 bg-primary/5">
+              <div class="text-xs font-bold text-primary uppercase tracking-wider mb-3">Variant đầu tiên (variants[0]) — bắt buộc</div>
+              <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                <div><label class="text-xs font-medium text-secondary block mb-1">SKU</label><input id="newProdSku" class="w-full px-3 py-2 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="text" placeholder="SKU-001"/></div>
+                <div><label class="text-xs font-medium text-secondary block mb-1">Màu sắc</label><input id="newProdColor" class="w-full px-3 py-2 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="text" placeholder="Trắng"/></div>
+                <div><label class="text-xs font-medium text-secondary block mb-1">Kích cỡ *</label><input id="newProdSizeV" class="w-full px-3 py-2 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="text" placeholder="42 hoặc M"/></div>
+                <div><label class="text-xs font-medium text-secondary block mb-1">Giá bán (₫) *</label><input id="newProdPrice" class="w-full px-3 py-2 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="number" placeholder="2500000"/></div>
+                <div><label class="text-xs font-medium text-secondary block mb-1">Tồn kho</label><input id="newProdStock" class="w-full px-3 py-2 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary" type="number" placeholder="50" value="50"/></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button onclick="submitNewProduct()" class="flex items-center gap-2 px-8 py-3 bg-primary text-on-primary rounded-lg font-bold text-sm hover:bg-surface-tint transition-colors">
+            <span class="material-symbols-outlined text-base">add_circle</span> Tạo sản phẩm
+          </button>
+          <button onclick="clearNewProductForm()" class="px-6 py-3 border border-outline-variant rounded-lg text-sm font-semibold text-secondary hover:text-on-surface hover:border-on-surface transition-colors">Xóa form</button>
+        </div>
+        <div id="addProductResult" class="mt-4 hidden"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="ti ti-check"></i><span id="toastMsg"></span></div>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script src="script.js"></script>
+<script>
+// Admin page initialization
+document.addEventListener('DOMContentLoaded', async () => {
+  // Check admin auth
+  if (localStorage.getItem('isAdmin') !== 'true') {
+    window.location.href = 'login.html';
+    return;
+  }
+  isAdmin = true;
+
+  // Load categories and products for admin panels
+  await loadCategories();
+  await fetchProducts();
+  await loadCategoryDropdown();
+
+  // Show first tab
+  switchAdminTab('featured');
+});
+
+function adminLogout() {
+  localStorage.removeItem('isAdmin');
+  localStorage.removeItem('isLoggedIn');
+  window.location.href = 'index.html';
+}
+</script>
+</body>
+</html>
