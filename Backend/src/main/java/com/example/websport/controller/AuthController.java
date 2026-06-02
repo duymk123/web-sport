@@ -5,10 +5,7 @@ import com.example.websport.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,6 +58,26 @@ public class AuthController {
     public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordReq req) {
         try {
             return ResponseEntity.ok(authService.resetPassword(req));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    // CẬP NHẬT THÔNG TIN CÁ NHÂN
+    @PutMapping("/update-profile")
+    public ResponseEntity<?> updateProfile(@RequestBody UpdateProfileReq req) {
+        try {
+            return ResponseEntity.ok(authService.updateProfile(req));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    // LẤY THÔNG TIN CÁ NHÂN
+    @GetMapping("/profile")
+    public ResponseEntity<?> getProfile(@RequestParam String username) {
+        try {
+            return ResponseEntity.ok(authService.getProfile(username));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

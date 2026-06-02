@@ -607,17 +607,197 @@ function openUserModal(tab = 'login') {
   }
 }
 
-function openUserProfileModal() {
+async function openUserProfileModal() {
   const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  const username = user.username;
+  if (!username) {
+    showToast('Vui lòng đăng nhập!');
+    return;
+  }
+
+  // Hiển thị dữ liệu tạm từ local storage trước
   document.getElementById('profileFullName').textContent = user.name || 'Người dùng';
   document.getElementById('profileRole').textContent = user.role || 'CUSTOMER';
-  document.getElementById('profileUsername').textContent = user.username || '';
+  document.getElementById('profileFullNameInfo').textContent = user.name || 'Người dùng';
+  document.getElementById('profileUsername').textContent = username;
   document.getElementById('profilePhone').textContent = user.phone || 'Chưa cập nhật';
+  document.getElementById('profileAddress').textContent = user.address || 'Chưa cập nhật';
+
+  // Hiển thị modal
   document.getElementById('userProfileModal').classList.add('open');
+
+  // Reset về View Mode ban đầu
+  document.getElementById('profileViewMode').classList.remove('hidden');
+  document.getElementById('profileEditMode').classList.add('hidden');
+  document.getElementById('profileChangePasswordMode').classList.add('hidden');
+
+  // Gọi API lấy thông tin mới nhất từ Backend
+  try {
+    const res = await fetch(`${API_BASE}/auth/profile?username=${encodeURIComponent(username)}`);
+    if (res.ok) {
+      const data = await res.json();
+      
+      document.getElementById('profileFullName').textContent = data.fullName || 'Người dùng';
+      document.getElementById('profileRole').textContent = data.role || 'CUSTOMER';
+      document.getElementById('profileFullNameInfo').textContent = data.fullName || 'Người dùng';
+      document.getElementById('profileUsername').textContent = data.username || username;
+      document.getElementById('profilePhone').textContent = data.phoneNumber || 'Chưa cập nhật';
+      document.getElementById('profileAddress').textContent = data.address || 'Chưa cập nhật';
+
+      // Cập nhật lại local storage để đồng bộ
+      const updatedUser = {
+        username: data.username || username,
+        name: data.fullName,
+        role: data.role,
+        phone: data.phoneNumber || '',
+        address: data.address || ''
+      };
+      localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+    }
+  } catch (e) {
+    console.error('Không thể đồng bộ thông tin từ server:', e);
+  }
 }
 
 function closeUserProfileModal() {
   document.getElementById('userProfileModal').classList.remove('open');
+}
+
+function toggleEditProfile() {
+  const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  document.getElementById('editFullName').value = user.name || '';
+  document.getElementById('editPhone').value = user.phone || '';
+  document.getElementById('editAddress').value = user.address || '';
+
+  document.getElementById('profileViewMode').classList.add('hidden');
+  document.getElementById('profileEditMode').classList.remove('hidden');
+  document.getElementById('profileChangePasswordMode').classList.add('hidden');
+}
+
+function cancelEditProfile() {
+  document.getElementById('profileEditMode').classList.add('hidden');
+  document.getElementById('profileViewMode').classList.remove('hidden');
+}
+
+async function saveProfile() {
+  const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  const username = user.username;
+  if (!username) return;
+
+  const fullname = document.getElementById('editFullName').value.trim();
+  const phone = document.getElementById('editPhone').value.trim();
+  const address = document.getElementById('editAddress').value.trim();
+
+  if (!fullname) {
+    showToast('Họ tên không được để trống!');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/auth/update-profile`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: username,
+        fullname: fullname,
+        phoneNumber: phone,
+        address: address
+      })
+    });
+
+    if (!res.ok) {
+      const errMsg = await res.text();
+      showToast(errMsg || 'Cập nhật thông tin thất bại!');
+      return;
+    }
+
+    const data = await res.json();
+    showToast('Cập nhật thông tin thành công!');
+
+    // Cập nhật UI
+    document.getElementById('profileFullName').textContent = data.fullName;
+    document.getElementById('profileFullNameInfo').textContent = data.fullName;
+    document.getElementById('profilePhone').textContent = data.phoneNumber || 'Chưa cập nhật';
+    document.getElementById('profileAddress').textContent = data.address || 'Chưa cập nhật';
+
+    // Cập nhật Local Storage
+    const updatedUser = {
+      username: username,
+      name: data.fullName,
+      role: data.role,
+      phone: data.phoneNumber || '',
+      address: data.address || ''
+    };
+    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+
+    // Quay lại View Mode
+    cancelEditProfile();
+  } catch (e) {
+    showToast('Không thể kết nối đến máy chủ!');
+  }
+}
+
+function openChangePasswordForm() {
+  document.getElementById('cpOldPassword').value = '';
+  document.getElementById('cpNewPassword').value = '';
+  document.getElementById('cpConfirmPassword').value = '';
+
+  document.getElementById('profileViewMode').classList.add('hidden');
+  document.getElementById('profileChangePasswordMode').classList.remove('hidden');
+  document.getElementById('profileEditMode').classList.add('hidden');
+}
+
+function cancelChangePassword() {
+  document.getElementById('profileChangePasswordMode').classList.add('hidden');
+  document.getElementById('profileViewMode').classList.remove('hidden');
+}
+
+async function submitChangePassword() {
+  const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  const username = user.username;
+  if (!username) return;
+
+  const oldPassword = document.getElementById('cpOldPassword').value;
+  const newPassword = document.getElementById('cpNewPassword').value;
+  const confirmPassword = document.getElementById('cpConfirmPassword').value;
+
+  if (!oldPassword || !newPassword || !confirmPassword) {
+    showToast('Vui lòng nhập đầy đủ thông tin!');
+    return;
+  }
+
+  if (newPassword.length < 6) {
+    showToast('Mật khẩu mới phải có ít nhất 6 ký tự!');
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    showToast('Xác nhận mật khẩu mới không khớp!');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/auth/change-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: username,
+        oldPassword: oldPassword,
+        newPassword: newPassword
+      })
+    });
+
+    if (!res.ok) {
+      const errMsg = await res.text();
+      showToast(errMsg || 'Đổi mật khẩu thất bại!');
+      return;
+    }
+
+    showToast('Đổi mật khẩu thành công!');
+    cancelChangePassword();
+  } catch (e) {
+    showToast('Không thể kết nối đến máy chủ!');
+  }
 }
 
 function logoutUser() {
@@ -642,6 +822,7 @@ function openLoginPage() {
 function closeLoginPage() {
   document.getElementById('loginPage').style.display = 'none';
   document.getElementById('mainContent').style.display = 'block';
+  document.getElementById('blogPage').style.display = 'none';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -699,11 +880,11 @@ async function handleLogin() {
     }
     
     currentUser = {
-      username: username,
+      username: data.username || username,
       name: data.fullName,
       role: data.role,
-      phone: '',
-      address: ''
+      phone: data.phoneNumber || '',
+      address: data.address || ''
     };
     
     localStorage.setItem('isLoggedIn', 'true');
@@ -781,11 +962,11 @@ async function handleRegister() {
       }
       
       currentUser = {
-        username: username,
+        username: data.username || username,
         name: data.fullName,
         role: data.role,
-        phone: phone,
-        address: ''
+        phone: data.phoneNumber || phone,
+        address: data.address || ''
       };
       
       localStorage.setItem('isLoggedIn', 'true');
@@ -823,6 +1004,7 @@ function openCheckoutPage() {
   
   document.getElementById('mainContent').style.display = 'none';
   document.getElementById('sportPage').style.display = 'none';
+  document.getElementById('blogPage').style.display = 'none';
   document.getElementById('loginPage').style.display = 'none';
   document.getElementById('checkoutPage').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -848,6 +1030,7 @@ function openCheckoutPage() {
 function closeCheckoutPage() {
   document.getElementById('checkoutPage').style.display = 'none';
   document.getElementById('mainContent').style.display = 'block';
+  document.getElementById('blogPage').style.display = 'none';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1339,6 +1522,7 @@ function navigateToSport(sport) {
   spPriceMax = Infinity;
   document.getElementById('mainContent').style.display = 'none';
   document.getElementById('sportPage').style.display = 'block';
+  document.getElementById('blogPage').style.display = 'none';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const info = SPORT_BANNERS[sport];
@@ -1375,6 +1559,7 @@ function navigateToHome() {
   currentSportPage = null;
   document.getElementById('mainContent').style.display = 'block';
   document.getElementById('sportPage').style.display = 'none';
+  document.getElementById('blogPage').style.display = 'none';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // Reset nav
@@ -1386,6 +1571,28 @@ function navigateToHome() {
   if (homeNav) {
     homeNav.classList.add('text-white', 'bg-primary/20', 'border-b-2', 'border-primary');
     homeNav.classList.remove('text-gray-300');
+  }
+}
+
+function navigateToBlog() {
+  currentSportPage = null;
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('sportPage').style.display = 'none';
+  document.getElementById('blogPage').style.display = 'block';
+  document.getElementById('checkoutPage').style.display = 'none';
+  const loginPage = document.getElementById('loginPage');
+  if (loginPage) loginPage.style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Update nav active state
+  document.querySelectorAll('.nav-link').forEach(el => {
+    el.classList.remove('text-white', 'bg-primary/20', 'border-b-2', 'border-primary');
+    el.classList.add('text-gray-300');
+  });
+  const blogNav = document.getElementById('nav-blog');
+  if (blogNav) {
+    blogNav.classList.add('text-white', 'bg-primary/20', 'border-b-2', 'border-primary');
+    blogNav.classList.remove('text-gray-300');
   }
 }
 

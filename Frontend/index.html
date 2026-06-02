@@ -123,6 +123,7 @@ tailwind.config = {
       <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-football" onclick="navigateToSport('football')"><span class="inline-block skew-x-[10deg]">Bóng đá</span></a></li>
       <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-badminton" onclick="navigateToSport('badminton')"><span class="inline-block skew-x-[10deg]">Cầu lông</span></a></li>
       <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-pickleball" onclick="navigateToSport('pickleball')"><span class="inline-block skew-x-[10deg]">Pickleball</span></a></li>
+      <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-blog" onclick="navigateToBlog()"><span class="inline-block skew-x-[10deg]">Blog</span></a></li>
       <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-orders" onclick="openUserModal()"><span class="inline-block skew-x-[10deg]">Đơn hàng</span></a></li>
       <li><a class="hidden px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="adminNavBtn" onclick="navigateToAdmin()"><span class="inline-block skew-x-[10deg] flex items-center"><span class="material-symbols-outlined text-base mr-1">admin_panel_settings</span> Admin</span></a></li>
     </ul>
@@ -221,137 +222,7 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ===== NEWS & BLOG ===== -->
-<section class="bg-surface-container py-16 overflow-hidden" id="news-blog">
-  <div class="px-margin-mobile md:px-margin-desktop mb-8 flex justify-between items-end">
-    <div class="border-l-4 border-primary pl-4">
-      <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-on-background m-0 leading-tight tracking-tight">
-        TIN TỨC <span class="text-primary">HOT</span>
-      </h2>
-      <p class="text-secondary mt-1 tracking-[0.2em] text-xs uppercase font-medium">Cập nhật xu hướng & thiết bị mới nhất</p>
-    </div>
-  </div>
-  
-  <div class="w-full marquee-container py-4">
-    <div class="animate-marquee gap-6 flex items-stretch" style="animation-duration: 120s;">
-      <!-- Original Loop -->
-      <div class="flex gap-6">
-        <!-- Item 1: Large -->
-        <div class="w-[480px] h-[320px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer flex-shrink-0 relative">
-          <div class="h-[200px] w-full overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 1">
-          </div>
-          <div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md"><span class="block skew-x-[10deg]">SỰ KIỆN</span></div>
-          <div class="p-5 flex-1 flex flex-col justify-between">
-            <h3 class="font-bold text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">Giải vô địch Cầu lông Thế giới 2026: Những công nghệ vợt đột phá</h3>
-            <p class="text-xs text-secondary font-medium">22 Tháng 5, 2026</p>
-          </div>
-        </div>
 
-        <!-- Item 2: Small stacked -->
-        <div class="w-[320px] flex flex-col gap-6 flex-shrink-0">
-          <div class="h-[148px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex group cursor-pointer">
-            <div class="w-[130px] h-full overflow-hidden flex-shrink-0 relative">
-              <img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 2">
-            </div>
-            <div class="p-4 flex-1 flex flex-col justify-center">
-              <span class="text-[10px] font-black text-primary mb-1 uppercase tracking-wider">Đánh giá</span>
-              <h3 class="font-bold text-[13px] leading-snug line-clamp-3 group-hover:text-primary transition-colors">Siêu phẩm giày đá bóng siêu nhẹ mới từ Nike</h3>
-            </div>
-          </div>
-          <div class="h-[148px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex group cursor-pointer">
-            <div class="w-[130px] h-full overflow-hidden flex-shrink-0 relative">
-              <img src="https://images.unsplash.com/photo-1622279457486-69d73ad5e4d2?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 3">
-            </div>
-            <div class="p-4 flex-1 flex flex-col justify-center">
-              <span class="text-[10px] font-black text-primary mb-1 uppercase tracking-wider">Xu hướng</span>
-              <h3 class="font-bold text-[13px] leading-snug line-clamp-3 group-hover:text-primary transition-colors">Cơn sốt Pickleball đang bùng nổ toàn cầu như thế nào?</h3>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 3: Tall portrait -->
-        <div class="w-[280px] h-[320px] bg-[#111] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer flex-shrink-0 relative">
-          <img src="https://images.unsplash.com/photo-1551266130-9db0744cbdd1?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" alt="Blog 4">
-          <div class="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black/95 via-black/40 to-transparent">
-            <span class="text-[10px] font-black text-white bg-primary/90 px-3 py-1 rounded-sm w-max mb-3 skew-x-[-10deg]"><span class="block skew-x-[10deg]">HOT TREND</span></span>
-            <h3 class="font-bold text-white text-[17px] leading-snug">Top 5 trang phục thi đấu giải nhiệt mùa hè</h3>
-          </div>
-        </div>
-
-        <!-- Item 4: Wide -->
-        <div class="w-[420px] h-[320px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer flex-shrink-0">
-          <div class="h-[180px] w-full overflow-hidden relative">
-            <img src="https://images.unsplash.com/photo-1613918431703-9316527b16de?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 5">
-            <div class="absolute top-4 right-4 bg-[#111]/80 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1 border border-white/20"><span class="material-symbols-outlined text-[14px]">play_circle</span> VIDEO</div>
-          </div>
-          <div class="p-5 flex-1 flex flex-col justify-between">
-            <h3 class="font-bold text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">Hướng dẫn chọn vợt cầu lông cho người mới bắt đầu</h3>
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover"></div>
-              <p class="text-[13px] text-secondary font-medium">Chuyên gia Huy Hoàng</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Duplicated Loop for Marquee -->
-      <div class="flex gap-6">
-        <div class="w-[480px] h-[320px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer flex-shrink-0 relative">
-          <div class="h-[200px] w-full overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 1">
-          </div>
-          <div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md"><span class="block skew-x-[10deg]">SỰ KIỆN</span></div>
-          <div class="p-5 flex-1 flex flex-col justify-between">
-            <h3 class="font-bold text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">Giải vô địch Cầu lông Thế giới 2026: Những công nghệ vợt đột phá</h3>
-            <p class="text-xs text-secondary font-medium">22 Tháng 5, 2026</p>
-          </div>
-        </div>
-        <div class="w-[320px] flex flex-col gap-6 flex-shrink-0">
-          <div class="h-[148px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex group cursor-pointer">
-            <div class="w-[130px] h-full overflow-hidden flex-shrink-0 relative">
-              <img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 2">
-            </div>
-            <div class="p-4 flex-1 flex flex-col justify-center">
-              <span class="text-[10px] font-black text-primary mb-1 uppercase tracking-wider">Đánh giá</span>
-              <h3 class="font-bold text-[13px] leading-snug line-clamp-3 group-hover:text-primary transition-colors">Siêu phẩm giày đá bóng siêu nhẹ mới từ Nike</h3>
-            </div>
-          </div>
-          <div class="h-[148px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex group cursor-pointer">
-            <div class="w-[130px] h-full overflow-hidden flex-shrink-0 relative">
-              <img src="https://images.unsplash.com/photo-1622279457486-69d73ad5e4d2?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 3">
-            </div>
-            <div class="p-4 flex-1 flex flex-col justify-center">
-              <span class="text-[10px] font-black text-primary mb-1 uppercase tracking-wider">Xu hướng</span>
-              <h3 class="font-bold text-[13px] leading-snug line-clamp-3 group-hover:text-primary transition-colors">Cơn sốt Pickleball đang bùng nổ toàn cầu như thế nào?</h3>
-            </div>
-          </div>
-        </div>
-        <div class="w-[280px] h-[320px] bg-[#111] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer flex-shrink-0 relative">
-          <img src="https://images.unsplash.com/photo-1551266130-9db0744cbdd1?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" alt="Blog 4">
-          <div class="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black/95 via-black/40 to-transparent">
-            <span class="text-[10px] font-black text-white bg-primary/90 px-3 py-1 rounded-sm w-max mb-3 skew-x-[-10deg]"><span class="block skew-x-[10deg]">HOT TREND</span></span>
-            <h3 class="font-bold text-white text-[17px] leading-snug">Top 5 trang phục thi đấu giải nhiệt mùa hè</h3>
-          </div>
-        </div>
-        <div class="w-[420px] h-[320px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer flex-shrink-0">
-          <div class="h-[180px] w-full overflow-hidden relative">
-            <img src="https://images.unsplash.com/photo-1613918431703-9316527b16de?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 5">
-            <div class="absolute top-4 right-4 bg-[#111]/80 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1 border border-white/20"><span class="material-symbols-outlined text-[14px]">play_circle</span> VIDEO</div>
-          </div>
-          <div class="p-5 flex-1 flex flex-col justify-between">
-            <h3 class="font-bold text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">Hướng dẫn chọn vợt cầu lông cho người mới bắt đầu</h3>
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover"></div>
-              <p class="text-[13px] text-secondary font-medium">Chuyên gia Huy Hoàng</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-</section>
 
 <!-- ===== EQUIPMENT CATEGORIES ===== -->
 
@@ -449,9 +320,123 @@ tailwind.config = {
 
 </div><!-- /mainContent -->
 
+<!-- ==================== BLOG PAGE ==================== -->
+<div id="blogPage" style="display:none;" class="pt-[120px] min-h-screen bg-surface-container-low">
+  <!-- Blog Page Header Banner -->
+  <div class="relative h-56 md:h-72 flex items-end overflow-hidden mb-12">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=1200&auto=format&fit=crop')"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent"></div>
+    <div class="relative z-10 px-margin-mobile md:px-margin-desktop pb-8 w-full">
+      <button onclick="navigateToHome()" class="flex items-center gap-2 text-white/70 text-sm mb-3 hover:text-white transition-colors">
+        <span class="material-symbols-outlined text-base">arrow_back</span> Trang chủ
+      </button>
+      <h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-white">Tin Tức & Blog</h1>
+      <p class="text-white/70 font-label-bold text-sm mt-1 uppercase tracking-widest">Cập nhật xu hướng, đánh giá thiết bị & kinh nghiệm tập luyện</p>
+    </div>
+  </div>
 
+  <!-- Blog Content Grid -->
+  <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Article 1 -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer border border-outline-variant/30">
+        <div class="h-[240px] w-full overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 1">
+          <div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md"><span class="block skew-x-[10deg]">SỰ KIỆN</span></div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <span class="text-xs text-secondary font-medium">22 Tháng 5, 2026</span>
+            <h3 class="font-bold text-lg leading-snug mt-2 mb-3 group-hover:text-primary transition-colors">Giải vô địch Cầu lông Thế giới 2026: Những công nghệ vợt đột phá</h3>
+            <p class="text-sm text-secondary line-clamp-3">Khám phá các thiết kế vật liệu nano và công nghệ khí động học mới nhất được các tay vợt hàng đầu thế giới sử dụng tại giải đấu năm nay.</p>
+          </div>
+          <div class="mt-6 flex items-center justify-between text-primary font-bold text-sm">
+            <span>Đọc chi tiết</span>
+            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </div>
+        </div>
+      </div>
 
+      <!-- Article 2 -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer border border-outline-variant/30">
+        <div class="h-[240px] w-full overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 2">
+          <div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md"><span class="block skew-x-[10deg]">ĐÁNH GIÁ</span></div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <span class="text-xs text-secondary font-medium">18 Tháng 5, 2026</span>
+            <h3 class="font-bold text-lg leading-snug mt-2 mb-3 group-hover:text-primary transition-colors">Siêu phẩm giày đá bóng siêu nhẹ mới từ Nike</h3>
+            <p class="text-sm text-secondary line-clamp-3">Đánh giá chi tiết về mẫu giày đá bóng mới nhất của Nike với trọng lượng siêu nhẹ, tối ưu hóa tốc độ và độ bám trên mặt sân cỏ nhân tạo.</p>
+          </div>
+          <div class="mt-6 flex items-center justify-between text-primary font-bold text-sm">
+            <span>Đọc chi tiết</span>
+            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </div>
+        </div>
+      </div>
 
+      <!-- Article 3 -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer border border-outline-variant/30">
+        <div class="h-[240px] w-full overflow-hidden relative">
+          <img src="images/blog_pickleball.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 3">
+          <div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md"><span class="block skew-x-[10deg]">XU HƯỚNG</span></div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <span class="text-xs text-secondary font-medium">15 Tháng 5, 2026</span>
+            <h3 class="font-bold text-lg leading-snug mt-2 mb-3 group-hover:text-primary transition-colors">Cơn sốt Pickleball đang bùng nổ toàn cầu như thế nào?</h3>
+            <p class="text-sm text-secondary line-clamp-3">Vì sao môn thể thao kết hợp giữa tennis, cầu lông và bóng bàn lại thu hút hàng triệu người chơi ở mọi lứa tuổi trên khắp thế giới?</p>
+          </div>
+          <div class="mt-6 flex items-center justify-between text-primary font-bold text-sm">
+            <span>Đọc chi tiết</span>
+            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Article 4 -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer border border-outline-variant/30">
+        <div class="h-[240px] w-full overflow-hidden relative">
+          <img src="images/blog_apparel.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 4">
+          <div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md"><span class="block skew-x-[10deg]">HOT TREND</span></div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <span class="text-xs text-secondary font-medium">10 Tháng 5, 2026</span>
+            <h3 class="font-bold text-lg leading-snug mt-2 mb-3 group-hover:text-primary transition-colors">Top 5 trang phục thi đấu giải nhiệt mùa hè</h3>
+            <p class="text-sm text-secondary line-clamp-3">Tổng hợp những mẫu áo quần thi đấu sở hữu công nghệ vải thoáng khí, thấm hút mồ hôi cực tốt giúp bạn luôn thoải mái trong thời tiết nắng nóng.</p>
+          </div>
+          <div class="mt-6 flex items-center justify-between text-primary font-bold text-sm">
+            <span>Đọc chi tiết</span>
+            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Article 5 -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer border border-outline-variant/30">
+        <div class="h-[240px] w-full overflow-hidden relative">
+          <img src="images/blog_badminton.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 5">
+          <div class="absolute top-4 left-4 bg-[#111]/80 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1 border border-white/20"><span class="material-symbols-outlined text-[14px]">play_circle</span> VIDEO</div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <span class="text-xs text-secondary font-medium">05 Tháng 5, 2026</span>
+            <h3 class="font-bold text-lg leading-snug mt-2 mb-3 group-hover:text-primary transition-colors">Hướng dẫn chọn vợt cầu lông cho người mới bắt đầu</h3>
+            <p class="text-sm text-secondary line-clamp-3">Video hướng dẫn chi tiết cách lựa chọn cây vợt đầu tiên dựa trên trọng lượng, điểm cân bằng, độ dẻo của đũa vợt phù hợp với lối chơi.</p>
+          </div>
+          <div class="mt-6 flex items-center justify-between text-primary font-bold text-sm">
+            <span>Xem Video</span>
+            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 <div id="sportPage" style="display:none;" class="pt-[120px] min-h-screen bg-surface-container-low">
   <!-- Sport Page Header Banner -->
@@ -938,34 +923,125 @@ tailwind.config = {
 
 <!-- ==================== USER PROFILE MODAL ==================== -->
 <div class="modal-bg" id="userProfileModal">
-  <div class="bg-white rounded-2xl w-[360px] max-w-full overflow-hidden shadow-2xl relative p-6">
-    <button onclick="closeUserProfileModal()" class="absolute top-4 right-4 text-gray-500 hover:text-primary transition-colors">
+  <div class="bg-white rounded-2xl w-[420px] max-w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
+    <button onclick="closeUserProfileModal()" class="absolute top-4 right-4 z-10 text-gray-400 hover:text-primary transition-colors">
       <span class="material-symbols-outlined">close</span>
     </button>
-    <div class="text-center mb-6">
-      <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3 border border-primary/20">
-        <span class="material-symbols-outlined text-3xl text-primary">person</span>
+
+    <!-- Header -->
+    <div class="bg-gradient-to-br from-primary to-surface-tint px-6 pt-8 pb-6 rounded-t-2xl text-center">
+      <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-3 border-2 border-white/40 shadow-lg">
+        <span class="material-symbols-outlined text-4xl text-white">person</span>
       </div>
-      <h3 class="text-lg font-bold text-on-surface" id="profileFullName">Phan Minh Duy</h3>
-      <p class="text-xs text-secondary mt-1" id="profileRole">CUSTOMER</p>
+      <h3 class="text-lg font-bold text-white" id="profileFullName">Người dùng</h3>
+      <span class="inline-block mt-1 px-3 py-0.5 bg-white/20 text-white text-[11px] font-bold rounded-full tracking-wider uppercase" id="profileRole">CUSTOMER</span>
     </div>
-    
-    <div class="space-y-3 text-sm border-t border-b border-outline-variant/50 py-4 my-4">
-      <div class="flex justify-between">
-        <span class="text-secondary font-medium">Tên đăng nhập:</span>
-        <span class="font-bold text-on-surface" id="profileUsername">Duymk123</span>
+
+    <!-- Profile Info (View Mode) -->
+    <div class="px-6 py-5" id="profileViewMode">
+      <div class="space-y-3">
+        <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+          <span class="material-symbols-outlined text-primary text-xl">person</span>
+          <div class="flex-1 min-w-0">
+            <div class="text-[11px] text-secondary font-medium uppercase tracking-wider">Họ tên</div>
+            <div class="text-sm font-bold text-on-surface truncate" id="profileFullNameInfo">-</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+          <span class="material-symbols-outlined text-primary text-xl">account_circle</span>
+          <div class="flex-1 min-w-0">
+            <div class="text-[11px] text-secondary font-medium uppercase tracking-wider">Tên đăng nhập</div>
+            <div class="text-sm font-bold text-on-surface truncate" id="profileUsername">-</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+          <span class="material-symbols-outlined text-primary text-xl">phone</span>
+          <div class="flex-1 min-w-0">
+            <div class="text-[11px] text-secondary font-medium uppercase tracking-wider">Số điện thoại</div>
+            <div class="text-sm font-bold text-on-surface truncate" id="profilePhone">Chưa cập nhật</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+          <span class="material-symbols-outlined text-primary text-xl">location_on</span>
+          <div class="flex-1 min-w-0">
+            <div class="text-[11px] text-secondary font-medium uppercase tracking-wider">Địa chỉ</div>
+            <div class="text-sm font-bold text-on-surface" id="profileAddress">Chưa cập nhật</div>
+          </div>
+        </div>
       </div>
-      <div class="flex justify-between">
-        <span class="text-secondary font-medium">Số điện thoại:</span>
-        <span class="font-bold text-on-surface" id="profilePhone">-</span>
+
+      <!-- Action Buttons (View Mode) -->
+      <div class="mt-5 space-y-2">
+        <button class="w-full py-2.5 bg-on-surface text-white font-bold text-sm rounded-lg hover:bg-primary transition-colors flex items-center justify-center gap-2" onclick="toggleEditProfile()">
+          <span class="material-symbols-outlined text-base">edit</span> Cập nhật thông tin
+        </button>
+        <button class="w-full py-2.5 border-2 border-outline-variant text-on-surface font-bold text-sm rounded-lg hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2" onclick="openChangePasswordForm()">
+          <span class="material-symbols-outlined text-base">lock</span> Đổi mật khẩu
+        </button>
+        <button class="w-full py-2.5 bg-primary text-on-primary font-bold text-sm rounded-lg hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="logoutUser()">
+          <span class="material-symbols-outlined text-base">logout</span> Đăng Xuất
+        </button>
       </div>
     </div>
-    
-    <div class="space-y-2">
-      <button class="w-full py-2.5 bg-primary text-on-primary font-bold text-sm rounded-lg hover:bg-surface-tint transition-colors" onclick="logoutUser()">
-        Đăng Xuất
-      </button>
+
+    <!-- Edit Profile Mode (Hidden by default) -->
+    <div class="px-6 py-5 hidden" id="profileEditMode">
+      <h4 class="font-bold text-on-surface text-sm mb-4 flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-lg">edit_note</span> Chỉnh sửa thông tin
+      </h4>
+      <div class="space-y-3">
+        <div>
+          <label class="text-[11px] text-secondary font-medium uppercase tracking-wider block mb-1">Họ tên</label>
+          <input type="text" id="editFullName" class="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Nhập họ tên"/>
+        </div>
+        <div>
+          <label class="text-[11px] text-secondary font-medium uppercase tracking-wider block mb-1">Số điện thoại</label>
+          <input type="tel" id="editPhone" class="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Nhập số điện thoại"/>
+        </div>
+        <div>
+          <label class="text-[11px] text-secondary font-medium uppercase tracking-wider block mb-1">Địa chỉ</label>
+          <textarea id="editAddress" rows="2" class="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors resize-none" placeholder="Nhập địa chỉ giao hàng"></textarea>
+        </div>
+      </div>
+      <div class="mt-5 flex gap-2">
+        <button class="flex-1 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-lg hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="saveProfile()">
+          <span class="material-symbols-outlined text-base">save</span> Lưu thay đổi
+        </button>
+        <button class="flex-1 py-2.5 border-2 border-outline-variant text-on-surface font-bold text-sm rounded-lg hover:border-primary transition-colors flex items-center justify-center gap-2" onclick="cancelEditProfile()">
+          <span class="material-symbols-outlined text-base">close</span> Hủy
+        </button>
+      </div>
     </div>
+
+    <!-- Change Password Mode (Hidden by default) -->
+    <div class="px-6 py-5 hidden" id="profileChangePasswordMode">
+      <h4 class="font-bold text-on-surface text-sm mb-4 flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-lg">lock_reset</span> Đổi mật khẩu
+      </h4>
+      <div class="space-y-3">
+        <div>
+          <label class="text-[11px] text-secondary font-medium uppercase tracking-wider block mb-1">Mật khẩu cũ</label>
+          <input type="password" id="cpOldPassword" class="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Nhập mật khẩu cũ"/>
+        </div>
+        <div>
+          <label class="text-[11px] text-secondary font-medium uppercase tracking-wider block mb-1">Mật khẩu mới</label>
+          <input type="password" id="cpNewPassword" class="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Nhập mật khẩu mới (ít nhất 6 ký tự)"/>
+        </div>
+        <div>
+          <label class="text-[11px] text-secondary font-medium uppercase tracking-wider block mb-1">Xác nhận mật khẩu mới</label>
+          <input type="password" id="cpConfirmPassword" class="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Nhập lại mật khẩu mới"/>
+        </div>
+      </div>
+      <div class="mt-5 flex gap-2">
+        <button class="flex-1 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-lg hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="submitChangePassword()">
+          <span class="material-symbols-outlined text-base">check</span> Xác nhận
+        </button>
+        <button class="flex-1 py-2.5 border-2 border-outline-variant text-on-surface font-bold text-sm rounded-lg hover:border-primary transition-colors flex items-center justify-center gap-2" onclick="cancelChangePassword()">
+          <span class="material-symbols-outlined text-base">close</span> Hủy
+        </button>
+      </div>
+    </div>
+
   </div>
 </div>
 

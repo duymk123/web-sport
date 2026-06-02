@@ -23,7 +23,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Tắt CSRF bảo vệ mặc định (vì mình sẽ dùng Token)
+                .cors(org.springframework.security.config.Customizer.withDefaults()) // Kích hoạt CORS trong Security
+                .csrf(csrf -> csrf.disable()) // Tắt CSRF bảo vệ mặc định
+                .formLogin(form -> form.disable()) // Tắt form login mặc định (dùng JWT)
+                .httpBasic(basic -> basic.disable()) // Tắt HTTP Basic auth
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(org.springframework.security.config.http.SessionCreationPolicy.STATELESS)) // Stateless cho REST API
                 .authorizeHttpRequests(auth -> auth
 
                         // ==========================================

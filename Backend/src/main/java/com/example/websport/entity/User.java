@@ -5,7 +5,7 @@ import com.example.websport.common.EnumStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.management.relation.RoleStatus;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -34,6 +34,15 @@ public class User {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private EnumStatus status;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)

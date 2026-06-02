@@ -63,6 +63,9 @@ public class AuthServiceImpl implements AuthService {
                 .token(token)
                 .role(user.getRole().name())
                 .fullName(user.getFullname())
+                .username(user.getUsername())
+                .phoneNumber(user.getPhoneNumber())
+                .address(user.getAddress())
                 .build();
 
     }
@@ -130,5 +133,45 @@ public class AuthServiceImpl implements AuthService {
         passwordResetRepo.delete(resetToken);
 
         return "Đặt lại mật khẩu thành công! Bạn có thể đăng nhập bằng mật khẩu mới.";
+    }
+
+    @Override
+    public AuthResponse updateProfile(UpdateProfileReq req) {
+        User user = userRepo.findByUsername(req.getUsername())
+                .orElseThrow(() -> new RuntimeException("Tài khoản không tồn tại!"));
+
+        if (req.getFullname() != null && !req.getFullname().isEmpty()) {
+            user.setFullname(req.getFullname());
+        }
+        if (req.getPhoneNumber() != null) {
+            user.setPhoneNumber(req.getPhoneNumber());
+        }
+        if (req.getAddress() != null) {
+            user.setAddress(req.getAddress());
+        }
+        user.setUpdatedAt(java.time.LocalDateTime.now());
+        userRepo.save(user);
+
+        return AuthResponse.builder()
+                .fullName(user.getFullname())
+                .username(user.getUsername())
+                .phoneNumber(user.getPhoneNumber())
+                .address(user.getAddress())
+                .role(user.getRole().name())
+                .build();
+    }
+
+    @Override
+    public AuthResponse getProfile(String username) {
+        User user = userRepo.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Tài khoản không tồn tại!"));
+
+        return AuthResponse.builder()
+                .fullName(user.getFullname())
+                .username(user.getUsername())
+                .phoneNumber(user.getPhoneNumber())
+                .address(user.getAddress())
+                .role(user.getRole().name())
+                .build();
     }
 }
