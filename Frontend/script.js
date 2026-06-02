@@ -596,12 +596,41 @@ function toggleAddressType(type) {
 document.getElementById('checkoutModal')?.addEventListener('click', function(e) { if (e.target === this) closeCheckoutModal(); });
 
 function openUserModal(tab = 'login') {
-  if (tab === 'register') {
-    window.location.href = 'login.html?tab=register';
+  if (localStorage.getItem('isLoggedIn') === 'true') {
+    openUserProfileModal();
   } else {
-    window.location.href = 'login.html';
+    if (tab === 'register') {
+      window.location.href = 'login.html?tab=register';
+    } else {
+      window.location.href = 'login.html';
+    }
   }
 }
+
+function openUserProfileModal() {
+  const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  document.getElementById('profileFullName').textContent = user.name || 'Người dùng';
+  document.getElementById('profileRole').textContent = user.role || 'CUSTOMER';
+  document.getElementById('profileUsername').textContent = user.username || '';
+  document.getElementById('profilePhone').textContent = user.phone || 'Chưa cập nhật';
+  document.getElementById('userProfileModal').classList.add('open');
+}
+
+function closeUserProfileModal() {
+  document.getElementById('userProfileModal').classList.remove('open');
+}
+
+function logoutUser() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('isLoggedIn');
+  localStorage.removeItem('isAdmin');
+  localStorage.removeItem('currentUser');
+  closeUserProfileModal();
+  showToast('Đã đăng xuất thành công');
+  setTimeout(() => window.location.reload(), 1000);
+}
+
+document.getElementById('userProfileModal')?.addEventListener('click', function(e) { if (e.target === this) closeUserProfileModal(); });
 
 // ===== LOGIN PAGE FUNCTIONS =====
 let currentUser = null;
@@ -639,7 +668,7 @@ function switchLoginTab(tab) {
   }
 }
 
-function handleLogin() {
+async function handleLogin() {
   const username = document.getElementById('loginUsername').value.trim();
   const password = document.getElementById('loginPassword').value;
   
@@ -648,34 +677,53 @@ function handleLogin() {
     return;
   }
   
-  // Mock authentication
-  if (username === 'admin' && password === 'admin123') {
-    isAdmin = true;
-    document.getElementById('adminNavBtn')?.classList.remove('hidden');
-  }
-  
-  // Set user info
-  currentUser = {
-    username: username,
-    name: username,
-    phone: '',
-    address: ''
-  };
-  localStorage.setItem('isLoggedIn', 'true');
-  localStorage.setItem('currentUser', JSON.stringify(currentUser));
-  
-  showToast('Đăng nhập thành công!');
-  
-  // If user was trying to buy, go to checkout
-  if (window.pendingCheckout) {
-    window.pendingCheckout = false;
-    setTimeout(openCheckoutPage, 500);
-  } else {
-    closeLoginPage();
+  try {
+    const res = await fetch('http://localhost:8080/api/v1/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: username, password: password })
+    });
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      showToast(errorText || 'Sai tài khoản hoặc mật khẩu!');
+      return;
+    }
+    
+    const data = await res.json();
+    
+    localStorage.setItem('token', data.token);
+    isAdmin = data.role === 'ADMIN';
+    if (isAdmin) {
+      document.getElementById('adminNavBtn')?.classList.remove('hidden');
+    }
+    
+    currentUser = {
+      username: username,
+      name: data.fullName,
+      role: data.role,
+      phone: '',
+      address: ''
+    };
+    
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('isAdmin', isAdmin.toString());
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    
+    showToast('Đăng nhập thành công!');
+    
+    if (window.pendingCheckout) {
+      window.pendingCheckout = false;
+      setTimeout(openCheckoutPage, 500);
+    } else {
+      closeLoginPage();
+    }
+  } catch (e) {
+    showToast('Có lỗi xảy ra khi kết nối server');
   }
 }
 
-function handleRegister() {
+async function handleRegister() {
   const username = document.getElementById('registerUsername').value.trim();
   const password = document.getElementById('registerPassword').value;
   const name = document.getElementById('registerName').value.trim();
@@ -697,17 +745,67 @@ function handleRegister() {
     return;
   }
   
-  // Register user
-  currentUser = { username, name, phone };
-  localStorage.setItem('isLoggedIn', 'true');
-  localStorage.setItem('currentUser', JSON.stringify(currentUser));
-  
-  showToast('Đăng ký thành công!');
-  
-  // Switch to login tab and fill username
-  switchLoginTab('login');
-  document.getElementById('loginUsername').value = username;
-  document.getElementById('loginPassword').value = '';
+  try {
+    const res = await fetch('http://localhost:8080/api/v1/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fullname: name,
+        username: username,
+        password: password,
+        phonenumber: phone
+      })
+    });
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      showToast(errorText || 'Tên đăng nhập đã tồn tại!');
+      return;
+    }
+    
+    showToast('Đăng ký thành công! Đang đăng nhập...');
+    
+    // Tự động đăng nhập
+    const loginRes = await fetch('http://localhost:8080/api/v1/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: username, password: password })
+    });
+    
+    if (loginRes.ok) {
+      const data = await loginRes.json();
+      localStorage.setItem('token', data.token);
+      isAdmin = data.role === 'ADMIN';
+      if (isAdmin) {
+        document.getElementById('adminNavBtn')?.classList.remove('hidden');
+      }
+      
+      currentUser = {
+        username: username,
+        name: data.fullName,
+        role: data.role,
+        phone: phone,
+        address: ''
+      };
+      
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('isAdmin', isAdmin.toString());
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      
+      setTimeout(() => {
+        if (window.pendingCheckout) {
+          window.pendingCheckout = false;
+          openCheckoutPage();
+        } else {
+          closeLoginPage();
+        }
+      }, 1000);
+    } else {
+      setTimeout(() => switchLoginTab('login'), 1000);
+    }
+  } catch (e) {
+    showToast('Có lỗi xảy ra khi kết nối server');
+  }
 }
 
 // ===== CHECKOUT PAGE FUNCTIONS =====
@@ -1746,4 +1844,98 @@ function renderAdminUserList() {
       </tr>
     `;
   }).join('');
+}
+
+// ===== CHANGE PASSWORD =====
+function openChangePasswordModal() {
+  const modal = document.getElementById('userModal');
+  if (!modal) return;
+  document.getElementById('modalTitle').textContent = 'Đổi mật khẩu';
+  
+  const tabs = document.querySelector('.modal-tab[onclick*="login"]');
+  if (tabs && tabs.parentElement) {
+    tabs.parentElement.style.display = 'none'; // Hide tabs
+  }
+  
+  document.getElementById('modalBody').innerHTML = `
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-bold text-on-surface mb-2">Mật khẩu cũ</label>
+        <input type="password" id="oldPassword" placeholder="Nhập mật khẩu cũ" 
+          class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
+      </div>
+      <div>
+        <label class="block text-sm font-bold text-on-surface mb-2">Mật khẩu mới</label>
+        <input type="password" id="newPassword" placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)" 
+          class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
+      </div>
+      <div>
+        <label class="block text-sm font-bold text-on-surface mb-2">Xác nhận mật khẩu mới</label>
+        <input type="password" id="confirmNewPassword" placeholder="Nhập lại mật khẩu mới" 
+          class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
+      </div>
+      <button class="w-full py-3 bg-primary text-on-primary rounded-lg font-bold text-base hover:bg-surface-tint transition-colors flex items-center justify-center gap-2 mt-4" onclick="handleChangePassword()">
+        <span class="material-symbols-outlined text-lg">lock_reset</span> Xác nhận
+      </button>
+    </div>
+  `;
+  
+  modal.classList.add('show');
+}
+
+async function handleChangePassword() {
+  const oldPassword = document.getElementById('oldPassword').value;
+  const newPassword = document.getElementById('newPassword').value;
+  const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+  
+  if (!oldPassword || !newPassword || !confirmNewPassword) {
+    showToast('Vui lòng điền đầy đủ thông tin!');
+    return;
+  }
+  
+  if (newPassword.length < 6) {
+    showToast('Mật khẩu mới phải có ít nhất 6 ký tự!');
+    return;
+  }
+  
+  if (newPassword !== confirmNewPassword) {
+    showToast('Mật khẩu xác nhận không khớp!');
+    return;
+  }
+  
+  const userStr = localStorage.getItem('currentUser');
+  if (!userStr) {
+    showToast('Vui lòng đăng nhập lại!');
+    return;
+  }
+  
+  const user = JSON.parse(userStr);
+  
+  try {
+    const res = await fetch('http://localhost:8080/api/v1/auth/change-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: user.username,
+        oldPassword: oldPassword,
+        newPassword: newPassword
+      })
+    });
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      showToast(errorText || 'Mật khẩu cũ không chính xác!');
+      return;
+    }
+    
+    showToast('Đổi mật khẩu thành công!');
+    closeUserModal();
+    // Khôi phục lại hiển thị tab khi modal đóng
+    const tabs = document.querySelector('.modal-tab[onclick*="login"]');
+    if (tabs && tabs.parentElement) {
+      tabs.parentElement.style.display = 'flex';
+    }
+  } catch (e) {
+    showToast('Có lỗi xảy ra khi kết nối server');
+  }
 }

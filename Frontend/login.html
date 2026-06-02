@@ -120,6 +120,12 @@ tailwind.config = {
       <div id="formLogin" class="block animate-[fadeIn_0.3s_ease]">
         <h2 class="text-2xl font-bold text-on-surface mb-6">Chào mừng trở lại!</h2>
         
+        <!-- Alert Box -->
+        <div id="loginAlert" class="hidden p-3 mb-4 text-xs font-semibold text-[#b3261e] bg-[#f9dedc] border border-[#b3261e]/20 rounded-lg flex items-center gap-2">
+          <span class="material-symbols-outlined text-base">error</span>
+          <span id="loginAlertText"></span>
+        </div>
+
         <div class="space-y-4">
           <div>
             <label class="text-sm font-medium text-on-surface block mb-1">Tên đăng nhập</label>
@@ -150,6 +156,12 @@ tailwind.config = {
       <div id="formRegister" class="hidden animate-[fadeIn_0.3s_ease]">
         <h2 class="text-2xl font-bold text-on-surface mb-6">Tạo tài khoản mới</h2>
         
+        <!-- Alert Box -->
+        <div id="registerAlert" class="hidden p-3 mb-4 text-xs font-semibold text-[#b3261e] bg-[#f9dedc] border border-[#b3261e]/20 rounded-lg flex items-center gap-2">
+          <span class="material-symbols-outlined text-base">error</span>
+          <span id="registerAlertText"></span>
+        </div>
+
         <div class="space-y-4">
           <div>
             <label class="text-sm font-medium text-on-surface block mb-1">Tên đăng nhập</label>
@@ -225,43 +237,73 @@ tailwind.config = {
     ['errLoginUsername', 'errLoginPassword', 'errRegUsername', 'errRegName', 'errRegPhone', 'errRegPassword', 'errRegConfirmPassword'].forEach(id => {
       document.getElementById(id).classList.add('hidden');
     });
+    document.getElementById('loginAlert').classList.add('hidden');
+    document.getElementById('registerAlert').classList.add('hidden');
   }
 
-  function handleLogin() {
+  function showToast(msg) {
+    const isLoginActive = document.getElementById('formLogin').style.display !== 'none';
+    if (isLoginActive) {
+      const alertDiv = document.getElementById('loginAlert');
+      const alertText = document.getElementById('loginAlertText');
+      alertText.textContent = msg;
+      alertDiv.classList.remove('hidden');
+    } else {
+      const alertDiv = document.getElementById('registerAlert');
+      const alertText = document.getElementById('registerAlertText');
+      alertText.textContent = msg;
+      alertDiv.classList.remove('hidden');
+    }
+  }
+
+  async function handleLogin() {
     clearErrors();
     const username = document.getElementById('loginUsername').value.trim();
     const pass = document.getElementById('loginPassword').value.trim();
     let hasError = false;
 
     if (!username) { showError('loginUsername', 'errLoginUsername', 'Vui lòng nhập tên đăng nhập.'); hasError = true; }
-    
     if (!pass) { showError('loginPassword', 'errLoginPassword', 'Vui lòng nhập mật khẩu.'); hasError = true; }
-
     if (hasError) return;
 
-    if (username === 'admin' && pass === 'admin') {
-      localStorage.setItem('isAdmin', 'true');
-      localStorage.setItem('isLoggedIn', 'true');
-      if (sessionStorage.getItem('pendingCheckout')) {
-        sessionStorage.removeItem('pendingCheckout');
-        window.location.href = 'checkout.html';
-      } else {
-        window.location.href = 'admin.html';
+    try {
+      const res = await fetch('http://localhost:8080/api/v1/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, password: pass })
+      });
+      
+      if (!res.ok) {
+        const errorText = await res.text();
+        showToast(errorText || 'Sai tài khoản hoặc mật khẩu');
+        return;
       }
-    } else if (username && pass) {
-      // Giả lập login thành công cho user thường
-      localStorage.setItem('isAdmin', 'false');
+      
+      const data = await res.json();
+      
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('isAdmin', data.role === 'ADMIN' ? 'true' : 'false');
       localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('currentUser', JSON.stringify({
+        username: username,
+        name: data.fullName,
+        role: data.role
+      }));
+      
       if (sessionStorage.getItem('pendingCheckout')) {
         sessionStorage.removeItem('pendingCheckout');
         window.location.href = 'checkout.html';
+      } else if (data.role === 'ADMIN') {
+        window.location.href = 'admin.html';
       } else {
         window.location.href = 'index.html?toast=login';
       }
+    } catch (e) {
+      showToast('Có lỗi xảy ra khi kết nối đến server');
     }
   }
 
-  function handleRegister() {
+  async function handleRegister() {
     clearErrors();
     const username = document.getElementById('regUsername').value.trim();
     const name = document.getElementById('regName').value.trim();
@@ -272,22 +314,59 @@ tailwind.config = {
 
     if (!username) { showError('regUsername', 'errRegUsername', 'Vui lòng nhập tên đăng nhập.'); hasError = true; }
     if (!name) { showError('regName', 'errRegName', 'Vui lòng nhập họ và tên.'); hasError = true; }
-    
     if (!phone) { showError('regPhone', 'errRegPhone', 'Vui lòng nhập số điện thoại.'); hasError = true; }
     else if (!/^[0-9]{9,11}$/.test(phone)) { showError('regPhone', 'errRegPhone', 'Số điện thoại không hợp lệ.'); hasError = true; }
-    
     if (!pass) { showError('regPassword', 'errRegPassword', 'Vui lòng nhập mật khẩu.'); hasError = true; }
     else if (pass.length < 6) { showError('regPassword', 'errRegPassword', 'Mật khẩu phải có ít nhất 6 ký tự.'); hasError = true; }
-    
     if (!confirmPass) { showError('regConfirmPassword', 'errRegConfirmPassword', 'Vui lòng xác nhận mật khẩu.'); hasError = true; }
     else if (pass !== confirmPass) { showError('regConfirmPassword', 'errRegConfirmPassword', 'Mật khẩu xác nhận không khớp.'); hasError = true; }
 
     if (hasError) return;
 
-    // Giả lập đăng ký thành công
-    localStorage.setItem('isAdmin', 'false');
-    localStorage.setItem('isLoggedIn', 'true');
-    window.location.href = 'index.html?toast=register';
+    try {
+      const res = await fetch('http://localhost:8080/api/v1/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullname: name,
+          username: username,
+          password: pass,
+          phonenumber: phone
+        })
+      });
+      
+      if (!res.ok) {
+        const errorText = await res.text();
+        showToast(errorText || 'Tên đăng nhập đã tồn tại');
+        return;
+      }
+      
+      // Sau khi đăng ký thành công, gọi API login luôn để tự động đăng nhập
+      const loginRes = await fetch('http://localhost:8080/api/v1/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, password: pass })
+      });
+      
+      if (loginRes.ok) {
+        const data = await loginRes.json();
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('isAdmin', data.role === 'ADMIN' ? 'true' : 'false');
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('currentUser', JSON.stringify({
+          username: username,
+          name: data.fullName,
+          role: data.role
+        }));
+      } else {
+        localStorage.setItem('isAdmin', 'false');
+        localStorage.setItem('isLoggedIn', 'true');
+      }
+      
+      window.location.href = 'index.html?toast=register';
+    } catch (e) {
+      showToast('Có lỗi xảy ra khi kết nối đến server');
+    }
   }
 
   function goBack() {
