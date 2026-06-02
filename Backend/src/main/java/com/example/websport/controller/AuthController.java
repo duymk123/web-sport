@@ -1,8 +1,6 @@
 package com.example.websport.controller;
 
-import com.example.websport.dto.request.ChangePasswordReq;
-import com.example.websport.dto.request.LoginReq;
-import com.example.websport.dto.request.RegisterReq;
+import com.example.websport.dto.request.*;
 import com.example.websport.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,6 +42,26 @@ public class AuthController {
             return ResponseEntity.ok(message);
         } catch (RuntimeException e) {
             // Trả về lỗi 400 (Bad Request) nếu sai mật khẩu cũ
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    // QUÊN MẬT KHẨU
+    @PostMapping("forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordReq req) {
+        try {
+            return ResponseEntity.ok(authService.forgotPassword(req));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    // ĐẶT LẠI MẬT KHẨU
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordReq req) {
+        try {
+            return ResponseEntity.ok(authService.resetPassword(req));
+        } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

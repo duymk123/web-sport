@@ -2,14 +2,15 @@ package com.example.websport.service.impl;
 
 import com.example.websport.common.EnumRole;
 import com.example.websport.common.EnumStatus;
-import com.example.websport.dto.request.ChangePasswordReq;
-import com.example.websport.dto.request.LoginReq;
-import com.example.websport.dto.request.RegisterReq;
+import com.example.websport.dto.request.*;
 import com.example.websport.dto.response.AuthResponse;
+import com.example.websport.entity.PasswordReset;
 import com.example.websport.entity.User;
+import com.example.websport.repository.PasswordResetRepo;
 import com.example.websport.repository.UserRepo;
 import com.example.websport.security.JwtUtils;
 import com.example.websport.service.AuthService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,9 +19,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
+
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
+    private final PasswordResetRepo passwordResetRepo;
 
     @Override
     public String register(RegisterReq req) {
@@ -82,5 +85,50 @@ public class AuthServiceImpl implements AuthService {
         userRepo.save(user);
 
         return "Đổi mật khẩu thành công!";
+    }
+
+    @Override
+    @Transactional
+    public String forgotPassword(ForgotPasswordReq req) {
+        User user = userRepo.findByUsername(req.getUsername())
+                .orElseThrow(() -> new RuntimeException("Tài khoản không tồn tại!"));
+
+        // Cập nhật: Truyền object user vào hàm xóa
+        passwordResetRepo.deleteByUser(user);
+
+        String token = java.util.UUID.randomUUID().toString();
+
+        PasswordReset resetToken = PasswordReset.builder()
+                .user(user) // Cập nhật: Gán nguyên object User vào thay vì user.getId()
+                .resetToken(token)
+                .expiresAt(java.time.LocalDateTime.now().plusMinutes(15))
+                .build();
+
+        passwordResetRepo.save(resetToken);
+
+        return "Mã khôi phục của bạn là: " + token;
+    }
+
+    @Override
+    public String resetPassword(ResetPasswordReq req) {
+        PasswordReset resetToken = passwordResetRepo.findByResetToken(req.getToken())
+                .orElseThrow(() -> new RuntimeException("Mã khôi phục không hợp lệ!"));
+
+        if (resetToken.getExpiresAt().isBefore(java.time.LocalDateTime.now())) {
+            passwordResetRepo.delete(resetToken);
+            throw new RuntimeException("Mã khôi phục đã hết hạn!");
+        }
+
+
+        // Không cần chọc xuống UserRepository để tìm lại User
+        // JPA tự động lấy User thông qua khóa ngoại
+        User user = resetToken.getUser();
+
+        user.setPassword(passwordEncoder.encode(req.getNewPassword()));
+        userRepo.save(user);
+
+        passwordResetRepo.delete(resetToken);
+
+        return "Đặt lại mật khẩu thành công! Bạn có thể đăng nhập bằng mật khẩu mới.";
     }
 }

@@ -14,7 +14,6 @@ import java.util.List;
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
 public class CatergoryController {
-
     private final CategoryService categoryService;
 
     @GetMapping //Lấy ra danh mục
