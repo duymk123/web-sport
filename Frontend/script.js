@@ -978,7 +978,7 @@ function navigateToAdmin() {
 
 // ===== ADMIN TABS =====
 function switchAdminTab(tab) {
-  ['featured','sale','add'].forEach(t => {
+  ['featured','sale','add','users'].forEach(t => {
     document.getElementById(`adminPanel-${t}`).style.display = t === tab ? 'block' : 'none';
     const btn = document.getElementById(`adminTab-${t}`);
     if (t === tab) { btn.classList.add('bg-primary','text-white'); btn.classList.remove('text-secondary'); }
@@ -986,6 +986,7 @@ function switchAdminTab(tab) {
   });
   if (tab === 'featured') renderAdminFeaturedPanel();
   if (tab === 'sale') renderAdminSalePanel();
+  if (tab === 'users') renderAdminUserList();
 }
 
 // ===== ADMIN: FEATURED =====
@@ -1689,4 +1690,60 @@ async function filterViaAPI(name, brand, size, minPrice, maxPrice) {
   const res = await fetch(url);
   if (!res.ok) throw new Error('HTTP ' + res.status);
   return await res.json();
+}
+
+// ===== ADMIN: USERS MANAGEMENT (MOCK) =====
+const mockUsers = [
+  { id: 1, username: 'admin', fullname: 'Quản trị viên', role: 'Admin', status: 'Hoạt động' },
+  { id: 2, username: 'nguyenvana', fullname: 'Nguyễn Văn A', role: 'User', status: 'Hoạt động' },
+  { id: 3, username: 'tranvib', fullname: 'Trần Thị B', role: 'User', status: 'Hoạt động' },
+  { id: 4, username: 'levanc', fullname: 'Lê Văn C', role: 'User', status: 'Bị khóa' },
+  { id: 5, username: 'phamthid', fullname: 'Phạm Thị D', role: 'User', status: 'Hoạt động' },
+];
+
+function renderAdminUserList() {
+  const tbody = document.getElementById('adminUserTableBody');
+  if (!tbody) return;
+  
+  const search = document.getElementById('adminUserSearch')?.value.toLowerCase() || '';
+  
+  const filteredUsers = mockUsers.filter(u => 
+    u.username.toLowerCase().includes(search) || 
+    u.fullname.toLowerCase().includes(search)
+  );
+  
+  if (filteredUsers.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-secondary">Không tìm thấy người dùng nào</td></tr>`;
+    return;
+  }
+  
+  tbody.innerHTML = filteredUsers.map(u => {
+    const statusBadge = u.status === 'Hoạt động' 
+      ? '<span class="px-2.5 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Hoạt động</span>'
+      : '<span class="px-2.5 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold">Bị khóa</span>';
+      
+    const roleBadge = u.role === 'Admin'
+      ? '<span class="px-2.5 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">Admin</span>'
+      : '<span class="text-sm">User</span>';
+
+    return `
+      <tr class="hover:bg-surface-container-low transition-colors">
+        <td class="py-3 px-4 text-secondary">${u.id}</td>
+        <td class="py-3 px-4 font-semibold text-on-surface">${u.username}</td>
+        <td class="py-3 px-4">${u.fullname}</td>
+        <td class="py-3 px-4">${roleBadge}</td>
+        <td class="py-3 px-4">${statusBadge}</td>
+        <td class="py-3 px-4">
+          <div class="flex gap-2">
+            <button class="w-8 h-8 rounded bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors" title="Chỉnh sửa">
+              <span class="material-symbols-outlined text-sm">edit</span>
+            </button>
+            <button class="w-8 h-8 rounded bg-error/10 text-error flex items-center justify-center hover:bg-error hover:text-white transition-colors" title="Xóa/Khóa">
+              <span class="material-symbols-outlined text-sm">delete</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
 }
