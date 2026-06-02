@@ -65,7 +65,6 @@ public class AuthServiceImpl implements AuthService {
                 .fullName(user.getFullname())
                 .username(user.getUsername())
                 .phoneNumber(user.getPhoneNumber())
-                .address(user.getAddress())
                 .build();
 
     }
@@ -146,9 +145,6 @@ public class AuthServiceImpl implements AuthService {
         if (req.getPhoneNumber() != null) {
             user.setPhoneNumber(req.getPhoneNumber());
         }
-        if (req.getAddress() != null) {
-            user.setAddress(req.getAddress());
-        }
         user.setUpdatedAt(java.time.LocalDateTime.now());
         userRepo.save(user);
 
@@ -156,7 +152,6 @@ public class AuthServiceImpl implements AuthService {
                 .fullName(user.getFullname())
                 .username(user.getUsername())
                 .phoneNumber(user.getPhoneNumber())
-                .address(user.getAddress())
                 .role(user.getRole().name())
                 .build();
     }
@@ -170,7 +165,6 @@ public class AuthServiceImpl implements AuthService {
                 .fullName(user.getFullname())
                 .username(user.getUsername())
                 .phoneNumber(user.getPhoneNumber())
-                .address(user.getAddress())
                 .role(user.getRole().name())
                 .build();
     }

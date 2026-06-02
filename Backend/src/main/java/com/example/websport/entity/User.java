@@ -35,9 +35,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private EnumStatus status;
 
-    @Column(name = "address")
-    private String address;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

@@ -7,5 +7,4 @@ public class UpdateProfileReq {
     String username;
     String fullname;
     String phoneNumber;
-    String address;
 }

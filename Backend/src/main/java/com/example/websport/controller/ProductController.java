@@ -28,13 +28,7 @@ public class ProductController {
     }
 
 
-//        // API gọi danh mục bằng parent_id
-//        @GetMapping("/categories/{parentId}")
-//        public ResponseEntity<List<ProductListResponse>> getProductsByParentCategory(@PathVariable Long parentId) {
-//            return ResponseEntity.ok(productService.getProductsByParentCategory(parentId));
-//        }
-
-        @GetMapping("/categories/{slug}")
+    @GetMapping("/categories/{slug}")
     public ResponseEntity<List<ProductListResponse>> getCategoryProductsBySlug(@PathVariable String slug) {
         return ResponseEntity.ok(productService.getProductByCategorySlug(slug));
     }
