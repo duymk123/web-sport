@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Incorrect username or password");
         }
 
-        if (user.getStatus() == EnumStatus.ACTIVE) {
+        if (user.getStatus() != EnumStatus.ACTIVE) {
             throw new RuntimeException("User is locked");
         }
 
