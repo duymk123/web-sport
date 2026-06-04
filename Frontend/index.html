@@ -1,1054 +1,128 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="light" lang="vi">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>VELOCITY PRIME | High Performance Sports</title>
-<meta name="description" content="Cửa hàng thể thao cao cấp - Cầu lông, Bóng đá, Pickleball. Hàng chính hãng, giao nhanh toàn quốc."/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" rel="stylesheet"/>
-<script id="tailwind-config">
-tailwind.config = {
-  darkMode: "class",
-  theme: {
-    extend: {
-      colors: {
-        "on-primary": "#ffffff",
-        "surface-container-highest": "#e2e2e2",
-        "on-tertiary-fixed-variant": "#454747",
-        "surface-bright": "#ffffff",
-        "on-tertiary-fixed": "#1a1c1c",
-        "secondary-fixed-dim": "#c6c6c6",
-        "surface-container": "#f5f5f5",
-        "surface-container-lowest": "#ffffff",
-        "primary-fixed-dim": "#ffb3af",
-        "surface-dim": "#f5f5f5",
-        "tertiary": "#474747",
-        "on-primary-fixed-variant": "#930017",
-        "surface-container-low": "#fafafa",
-        "on-error": "#ffffff",
-        "on-secondary-container": "#1b1b1b",
-        "outline-variant": "#d8c2c0",
-        "error-container": "#f9dedc",
-        "surface-variant": "#f1dedd",
-        "error": "#b3261e",
-        "on-secondary-fixed": "#1b1b1b",
-        "inverse-primary": "#ffb3af",
-        "on-primary-container": "#410005",
-        "tertiary-fixed-dim": "#c6c6c7",
-        "inverse-surface": "#313030",
-        "secondary": "#5e5e5e",
-        "outline": "#857372",
-        "primary-container": "#ffdad7",
-        "on-tertiary-container": "#282a2a",
-        "surface-tint": "#c00021",
-        "primary-fixed": "#ffdad7",
-        "inverse-on-surface": "#f5f0ef",
-        "on-primary-fixed": "#410005",
-        "on-secondary-fixed-variant": "#474747",
-        "on-error-container": "#410002",
-        "primary": "#c00021",
-        "tertiary-container": "#909191",
-        "on-background": "#1c1b1b",
-        "background": "#ffffff",
-        "secondary-fixed": "#e2e2e2",
-        "surface": "#ffffff",
-        "on-tertiary": "#ffffff",
-        "on-surface": "#1c1b1b",
-        "tertiary-fixed": "#e2e2e2",
-        "secondary-container": "#e2e2e2",
-        "on-surface-variant": "#534342",
-        "on-secondary": "#ffffff",
-        "surface-container-high": "#ebebeb"
-      },
-      borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
-      spacing: { "section-gap": "120px", "margin-mobile": "20px", unit: "4px", "margin-desktop": "64px", gutter: "24px" },
-      fontFamily: {
-        "headline-lg": ["Oswald"], "label-bold": ["Inter"], "headline-lg-mobile": ["Oswald"],
-        "body-md": ["Inter"], "stats-display": ["Oswald"], "headline-md": ["Oswald"],
-        "display-lg": ["Oswald"], "body-lg": ["Inter"]
-      },
-      fontSize: {
-        "headline-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
-        "label-bold": ["14px", { lineHeight: "1.0", letterSpacing: "0.1em", fontWeight: "700" }],
-        "headline-lg-mobile": ["36px", { lineHeight: "1.1", fontWeight: "700" }],
-        "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
-        "stats-display": ["24px", { lineHeight: "1.0", fontWeight: "700" }],
-        "headline-md": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
-        "display-lg": ["84px", { lineHeight: "1.0", letterSpacing: "-0.04em", fontWeight: "700" }],
-        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
-      }
-    }
-  }
-}
-</script>
-<link rel="stylesheet" href="style.css"/>
-</head>
-<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
-
-<!-- ==================== HEADER ==================== -->
-<header class="flex flex-col w-full z-50 fixed top-0 transition-transform duration-300" id="main-nav">
-  <!-- Marquee Ticker -->
-  <div class="bg-primary text-on-primary py-2 marquee overflow-hidden">
-    <div class="marquee-content font-label-bold text-label-bold flex gap-12 items-center uppercase italic">
-      <span>MIỄN PHÍ VẬN CHUYỂN ĐƠN HÀNG TỪ 500K</span>
-      <span>•</span>
-      <span>GIẢM 20% CHO THÀNH VIÊN MỚI</span>
-      <span>•</span>
-      <span>KHÁM PHÁ BỘ SƯU TẬP PICKLEBALL MỚI NHẤT</span>
-      <span>•</span>
-      <span>ĐỔI TRẢ TRONG 30 NGÀY</span>
-      <span>•</span>
-      <span>HOTLINE: 1900 9999</span>
-      <span>•</span>
-      <span>MIỄN PHÍ VẬN CHUYỂN ĐƠN HÀNG TỪ 500K</span>
-      <span>•</span>
-      <span>GIẢM 20% CHO THÀNH VIÊN MỚI</span>
-    </div>
-  </div>
-  <!-- Main Nav -->
-  <nav class="bg-[#111] backdrop-blur-md border-b-4 border-primary flex items-center justify-between px-margin-mobile md:px-margin-desktop py-3 h-20 shadow-2xl">
-    <div class="flex-shrink-0 flex items-center gap-4 cursor-pointer group" onclick="navigateToHome()">
-      <div class="w-10 h-10 md:w-14 md:h-12 bg-primary flex items-center justify-center skew-x-[-15deg] group-hover:scale-105 transition-transform duration-300">
-        <span class="text-white font-display-lg text-2xl font-black italic skew-x-[15deg] tracking-tighter">VP</span>
-      </div>
-      <div class="hidden sm:block">
-        <div class="font-headline-lg text-sm font-black text-white tracking-[0.2em] uppercase italic">Velocity <span class="text-primary">Prime</span></div>
-        <div class="text-[9px] text-gray-400 tracking-[0.3em] uppercase mt-0.5">High Performance Sports</div>
-      </div>
-    </div>
-    <ul class="hidden lg:flex items-center gap-2" id="mainNavLinks">
-      <li><a class="px-5 py-2 text-white bg-primary/20 border-b-2 border-primary font-label-bold text-label-bold italic skew-x-[-10deg] inline-block cursor-pointer nav-link transition-colors" id="nav-home" onclick="navigateToHome()"><span class="inline-block skew-x-[10deg]">Trang chủ</span></a></li>
-      <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-football" onclick="navigateToSport('football')"><span class="inline-block skew-x-[10deg]">Bóng đá</span></a></li>
-      <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-badminton" onclick="navigateToSport('badminton')"><span class="inline-block skew-x-[10deg]">Cầu lông</span></a></li>
-      <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-pickleball" onclick="navigateToSport('pickleball')"><span class="inline-block skew-x-[10deg]">Pickleball</span></a></li>
-      <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-blog" onclick="navigateToBlog()"><span class="inline-block skew-x-[10deg]">Blog</span></a></li>
-      <li><a class="px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="nav-orders" onclick="openUserModal()"><span class="inline-block skew-x-[10deg]">Đơn hàng</span></a></li>
-      <li><a class="hidden px-5 py-2 text-gray-300 uppercase font-label-bold text-label-bold hover:text-white hover:bg-[#222] italic skew-x-[-10deg] inline-block transition-colors cursor-pointer nav-link" id="adminNavBtn" onclick="navigateToAdmin()"><span class="inline-block skew-x-[10deg] flex items-center"><span class="material-symbols-outlined text-base mr-1">admin_panel_settings</span> Admin</span></a></li>
-    </ul>
-    <div class="flex items-center gap-3 md:gap-5">
-      <div class="hidden md:flex items-center border border-[#333] skew-x-[-10deg] overflow-hidden bg-[#1a1a1a] max-w-[240px] focus-within:border-primary transition-colors">
-        <input type="text" id="navSearchInput" placeholder="Tìm sản phẩm..." class="px-4 py-2 text-sm border-none outline-none bg-transparent w-full text-white placeholder-gray-500 skew-x-[10deg]" onkeyup="if(event.key==='Enter'){scrollToSection('catalog');setTimeout(()=>filterProducts(),300);}"/>
-        <button class="px-4 py-2 bg-primary text-white hover:bg-red-700 transition-colors" onclick="scrollToSection('catalog');setTimeout(()=>filterProducts(),300);"><span class="material-symbols-outlined text-lg skew-x-[10deg] block">search</span></button>
-      </div>
-      <button class="material-symbols-outlined text-gray-300 hover:text-primary transition-all duration-200 active:scale-95 text-[28px]" onclick="toggleWishlistView()" title="Yêu thích">favorite</button>
-      <button class="material-symbols-outlined text-gray-300 hover:text-primary transition-all duration-200 active:scale-95 relative text-[28px]" onclick="openCart()" title="Giỏ hàng">
-        shopping_cart
-        <span class="absolute -top-1 -right-2 bg-primary text-white text-[11px] w-5 h-5 flex items-center justify-center rounded-sm skew-x-[-10deg] font-black" id="cartBadge"><span class="skew-x-[10deg]">0</span></span>
-      </button>
-      <button class="material-symbols-outlined text-gray-300 hover:text-primary transition-all duration-200 active:scale-95 text-[28px]" onclick="openUserModal()" title="Tài khoản">person</button>
-      <button class="lg:hidden material-symbols-outlined text-gray-300 text-[28px]" id="mobileMenuBtn">menu</button>
-    </div>
-  </nav>
-</header>
-
-<!-- ==================== MAIN CONTENT ==================== -->
-<div class="pt-[120px]" id="mainContent">
-
-<!-- ===== HERO SECTION ===== -->
-<section class="relative min-h-[90vh] flex items-center justify-start px-margin-mobile md:px-margin-desktop overflow-hidden" id="hero">
-  <div class="absolute inset-0 z-0">
-    <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/50 to-transparent z-10"></div>
-    <div class="w-full h-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBOpCWVki_UYCLy3h5jJ27EtCQuoE2WjA5271igevZ-YM_icTuYOqPZwhXmU58fL-fjdLJTENzjU_7K_gQ0GTJL6HonOWWfccRl6M7Iti71JrjPAzmsZIbOUsvNr8QN3Kc-ohw9MZjAPbUDz5RvaMZ_gvUjiqE--ocjs2jwwgC4XcYuYsRhfmB6RHbQXW5eIyNz2EGzalkDDYwNrv0vy2AQ_aUmcumuZuYoeRYSy3N5G7HAJvh0itfcm3KHL3t7dHqJijGjkmGtZ5VI')"></div>
-  </div>
-  <div class="relative z-20 max-w-2xl flex flex-col items-start">
-    <span class="bg-primary text-on-primary font-label-bold text-label-bold px-5 py-1.5 skew-x-hard italic mb-5 shadow-lg">
-      <span class="inline-block skew-x-reverse">MÙA GIẢI MỚI 2026</span>
-    </span>
-    <h1 class="font-display-lg text-[56px] md:text-[84px] leading-none italic uppercase mb-6 text-on-surface hero-title">
-      ĐỈNH CAO <br/> <span class="text-primary">HIỆU SUẤT</span>
-    </h1>
-    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-8">
-      Cầu lông · Bóng đá · Pickleball — Trang bị chính hãng từ các thương hiệu hàng đầu. Giao nhanh toàn quốc.
-    </p>
-    <div class="flex flex-wrap gap-4">
-      <button class="group flex items-center gap-3 bg-primary text-on-primary font-headline-md text-xl italic px-10 py-4 hover:bg-surface-tint transition-all transform active:scale-95 shadow-lg" onclick="scrollToSection('equipment')">
-        SHOP NOW
-        <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
-      </button>
-    </div>
-    <!-- Stats -->
-    <div class="flex flex-wrap gap-8 mt-12 pt-8 border-t border-outline-variant/50">
-      <div class="text-center"><div class="font-stats-display text-stats-display text-primary" id="statProducts">500+</div><div class="text-xs text-secondary mt-1 uppercase tracking-wider">Sản phẩm</div></div>
-      <div class="text-center"><div class="font-stats-display text-stats-display text-primary">15+</div><div class="text-xs text-secondary mt-1 uppercase tracking-wider">Thương hiệu</div></div>
-      <div class="text-center"><div class="font-stats-display text-stats-display text-primary">50K+</div><div class="text-xs text-secondary mt-1 uppercase tracking-wider">Khách hàng</div></div>
-      <div class="text-center"><div class="font-stats-display text-stats-display text-primary">4.9★</div><div class="text-xs text-secondary mt-1 uppercase tracking-wider">Đánh giá</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== NEW COLLECTION BENTO ===== -->
-<section class="bg-white px-margin-mobile md:px-margin-desktop py-16" id="collection">
-  <div class="max-w-7xl mx-auto">
-    <div class="flex items-end justify-between mb-8 border-l-8 border-primary pl-6">
-      <div>
-        <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-on-background">BỘ SƯU TẬP MỚI</h2>
-        <p class="text-on-surface-variant font-label-bold uppercase tracking-widest mt-2">Engineered for the elite</p>
-      </div>
-      <a class="font-label-bold text-label-bold text-primary hover:underline italic flex items-center gap-2 cursor-pointer" onclick="scrollToSection('equipment')">
-        XEM TẤT CẢ <span class="material-symbols-outlined text-sm">open_in_new</span>
-      </a>
-    </div>
-    <div id="bentoGrid" class="w-full">
-      <!-- Populated dynamically from API -->
-      <div class="flex items-center justify-center py-20 text-secondary w-full">
-        <span class="material-symbols-outlined text-5xl text-outline-variant block mr-3">hourglass_top</span>
-        <span>Đang tải sản phẩm...</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== SALE SECTION ===== -->
-<section class="bg-primary-container relative px-margin-mobile md:px-margin-desktop py-20 overflow-hidden" id="sale">
-  <div class="absolute -right-20 -top-20 opacity-10 pointer-events-none select-none">
-    <span class="font-display-lg text-[200px] md:text-[300px] italic leading-none text-primary">SALE</span>
-  </div>
-  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
-    <div class="max-w-xl">
-      <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic text-on-primary-container leading-tight mb-4">HÀNG GIẢM GIÁ</h2>
-      <p class="text-on-primary-container font-body-lg text-body-lg mb-8 opacity-90">Giảm đến 40% các sản phẩm hot nhất. Nhanh tay — số lượng có hạn!</p>
-      <button class="bg-primary text-on-primary px-12 py-4 font-label-bold text-label-bold skew-x-hard italic hover:bg-surface-tint transition-colors shadow-lg" onclick="scrollToSection('equipment')">
-        <span class="inline-block skew-x-reverse">SHOP SALE</span>
-      </button>
-    </div>
-    <!-- Sale Carousel -->
-    <div id="saleCarousel" class="w-full">
-      <div class="min-w-[340px] flex items-center justify-center py-12 text-secondary">
-        <span class="material-symbols-outlined mr-2">hourglass_top</span> Đang tải...
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ===== EQUIPMENT CATEGORIES ===== -->
-
-<section class="bg-white px-margin-mobile md:px-margin-desktop py-20" id="equipment">
-  <div class="max-w-7xl mx-auto">
-    <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-center mb-12 underline decoration-primary decoration-4 underline-offset-8 text-on-background">THIẾT BỊ THI ĐẤU</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="group cursor-pointer flex flex-col" onclick="navigateToSport('football')">
-        <div class="flex-grow overflow-hidden bg-surface-container mb-4 border-b-4 border-transparent group-hover:border-primary transition-all rounded-xl" style="min-height:280px">
-          <img alt="Bóng đá" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDvnVWGe9174Uck9FwRTgeoyJ5m-kS1FFq3IdBZ2XqYZJmUuDIxrwKBaynlA5jJup9J86Evu1bQ-u1MvhdqVqZ7V_4ZhUwSqQOqldmpBRZZI4tD8w9oycTmXj4KSgKvUHu3SOVlMEB-TZXi8cfA87NOHmvAa55ojxapeeLurdeGe5deGIwHdzUf-vlpyx8zts_7xnw1IHU9mYMuSnvz0osu_J6s16jfye5D3YNT9wkG1hrmkxJw_ip-CIPqmBa6L0-0mkD8N9sDXee"/>
-        </div>
-        <h3 class="font-headline-md text-headline-md italic uppercase flex items-center justify-between text-on-background">
-          BÓNG ĐÁ <span class="material-symbols-outlined text-primary">sports_soccer</span>
-        </h3>
-        <p class="text-on-surface-variant mt-1">Giày, bóng & trang phục thi đấu chuyên nghiệp.</p>
-      </div>
-      <div class="group cursor-pointer flex flex-col" onclick="navigateToSport('badminton')">
-        <div class="flex-grow overflow-hidden bg-surface-container mb-4 border-b-4 border-transparent group-hover:border-primary transition-all rounded-xl" style="min-height:280px">
-          <img alt="Cầu lông" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbqAmI-A4Et4u04N82zDCfOts67WJ-XxgeHxrQh7qGwZk7WhT9iQQ9WpAYtvVWMsXRLIAQ_ElZkl_3JuLmPWoA0KLuoskOrKqvbVLCHJ_cwPNrnvXsZnrDZxRyXbRooV7vHYszJzA4NhMR86Y3dIDTglaqZk35XNohkmlC0vAV5ZcnOK8X9VEL6t3gclqbnnGvo7SBzkeZnonYH6sO9f6PWlYnwNza7cyhtgjc5deNc9FKBsFSDtgGAiC_ZIq9ofcJRri05thnY28f"/>
-        </div>
-        <h3 class="font-headline-md text-headline-md italic uppercase flex items-center justify-between text-on-background">
-          CẦU LÔNG <span class="material-symbols-outlined text-primary">sports_tennis</span>
-        </h3>
-        <p class="text-on-surface-variant mt-1">Vợt cao cấp, giày chuyên dụng & phụ kiện.</p>
-      </div>
-      <div class="group cursor-pointer flex flex-col" onclick="navigateToSport('pickleball')">
-        <div class="flex-grow overflow-hidden bg-surface-container mb-4 border-b-4 border-transparent group-hover:border-primary transition-all rounded-xl" style="min-height:280px">
-          <img alt="Pickleball" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU5aYizwXy-EByEbDoais7cWGHQrAIDyGJ__0hBk9vwO3RvExjHJw_UyoeEqiPZfy5kz4plzAWizNCd_XRQiN64iEzYvj_KllbRO0NNAH-EAGtvd_IzgJG-gck5nbLUtgRnAX8bJwvi1l3GVPfsD3cByOIkubFotzJ0Mdn9-8uhWkohqVtU6iAso0kBKcsQYOoRMOF2C8FCRdYFug_h70vhtX68msFdotLozfIYMBfJ_IMw-f3FzwqfFEWLF5f0ZSgBZW2_7P0U_bk"/>
-        </div>
-        <h3 class="font-headline-md text-headline-md italic uppercase flex items-center justify-between text-on-background">
-          PICKLEBALL <span class="material-symbols-outlined text-primary">sports_handball</span>
-        </h3>
-        <p class="text-on-surface-variant mt-1">Vợt composite thế hệ mới & gear chuyên dụng.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== SERVICES ===== -->
-<section class="bg-surface-container-low px-margin-mobile md:px-margin-desktop py-16">
-  <div class="max-w-7xl mx-auto">
-    <div class="flex items-center gap-3 mb-8 border-l-8 border-primary pl-6">
-      <h2 class="font-headline-lg text-xl md:text-2xl italic uppercase text-on-background">Dịch vụ chuyên nghiệp</h2>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="bg-white p-6 rounded-xl border border-outline-variant hover:border-primary transition-all text-center group cursor-pointer">
-        <i class="ti ti-tools text-3xl text-primary mb-4 block group-hover:scale-110 transition-transform"></i>
-        <h4 class="font-label-bold text-sm text-on-surface mb-2">Đan vợt</h4>
-        <p class="text-xs text-secondary leading-relaxed">Đan lại vợt đúng lực căng, nhiều loại cước chọn lựa</p>
-      </div>
-      <div class="bg-white p-6 rounded-xl border border-outline-variant hover:border-primary transition-all text-center group cursor-pointer">
-        <i class="ti ti-ruler text-3xl text-primary mb-4 block group-hover:scale-110 transition-transform"></i>
-        <h4 class="font-label-bold text-sm text-on-surface mb-2">Tư vấn chọn size</h4>
-        <p class="text-xs text-secondary leading-relaxed">Chọn size áo, giày chuẩn xác theo số đo</p>
-      </div>
-      <div class="bg-white p-6 rounded-xl border border-outline-variant hover:border-primary transition-all text-center group cursor-pointer">
-        <i class="ti ti-shield-check text-3xl text-primary mb-4 block group-hover:scale-110 transition-transform"></i>
-        <h4 class="font-label-bold text-sm text-on-surface mb-2">Bảo hành chính hãng</h4>
-        <p class="text-xs text-secondary leading-relaxed">Hỗ trợ bảo hành theo chính sách hãng</p>
-      </div>
-      <div class="bg-white p-6 rounded-xl border border-outline-variant hover:border-primary transition-all text-center group cursor-pointer">
-        <i class="ti ti-truck text-3xl text-primary mb-4 block group-hover:scale-110 transition-transform"></i>
-        <h4 class="font-label-bold text-sm text-on-surface mb-2">Giao hàng nhanh</h4>
-        <p class="text-xs text-secondary leading-relaxed">Nội thành trong ngày, toàn quốc 2-3 ngày</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== FOOTER ===== -->
-<footer class="bg-on-surface text-[#9ca3af] pt-16 pb-8 px-margin-mobile md:px-margin-desktop">
-  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-    <div>
-      <div class="flex items-center gap-3 mb-5">
-        <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center"><span class="text-on-primary font-bold text-xl italic">VP</span></div>
-        <div><div class="text-sm font-bold text-white tracking-widest uppercase italic">Velocity Prime</div><div class="text-[10px] tracking-wider">High Performance Sports</div></div>
-      </div>
-      <p class="text-sm leading-relaxed max-w-[240px]">Cửa hàng thể thao chính hãng — chuyên cung cấp đồ cầu lông, bóng đá, pickleball với đầy đủ thương hiệu uy tín.</p>
-    </div>
-    <div>
-      <h4 class="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Mua sắm</h4>
-      <ul class="space-y-2 text-sm"><li class="cursor-pointer hover:text-white transition-colors" onclick="navigateToSport('badminton')">Cầu lông</li><li class="cursor-pointer hover:text-white transition-colors" onclick="navigateToSport('football')">Bóng đá</li><li class="cursor-pointer hover:text-white transition-colors" onclick="navigateToSport('pickleball')">Pickleball</li><li class="cursor-pointer hover:text-white transition-colors">Khuyến mãi</li></ul>
-    </div>
-    <div>
-      <h4 class="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Hỗ trợ</h4>
-      <ul class="space-y-2 text-sm"><li class="cursor-pointer hover:text-white transition-colors">Chính sách đổi trả</li><li class="cursor-pointer hover:text-white transition-colors">Chính sách giao hàng</li><li class="cursor-pointer hover:text-white transition-colors">Hướng dẫn chọn size</li><li class="cursor-pointer hover:text-white transition-colors">Liên hệ</li></ul>
-    </div>
-    <div>
-      <h4 class="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Tài khoản</h4>
-      <ul class="space-y-2 text-sm"><li class="cursor-pointer hover:text-white transition-colors" onclick="openUserModal()">Đăng nhập</li><li class="cursor-pointer hover:text-white transition-colors" onclick="openUserModal('register')">Đăng ký</li><li class="cursor-pointer hover:text-white transition-colors">Lịch sử đơn hàng</li><li class="cursor-pointer hover:text-white transition-colors">Wishlist</li></ul>
-    </div>
-  </div>
-  <div class="border-t border-white/10 pt-6 text-center text-xs">© 2026 VELOCITY PRIME. ENGINEERED FOR PERFORMANCE.</div>
-</footer>
-
-</div><!-- /mainContent -->
-
-<!-- ==================== BLOG PAGE ==================== -->
-<div id="blogPage" style="display:none;" class="pt-[120px] min-h-screen bg-surface-container-low">
-  <!-- Blog Page Header Banner -->
-  <div class="relative h-56 md:h-72 flex items-end overflow-hidden mb-12">
-    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=1200&auto=format&fit=crop')"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent"></div>
-    <div class="relative z-10 px-margin-mobile md:px-margin-desktop pb-8 w-full">
-      <button onclick="navigateToHome()" class="flex items-center gap-2 text-white/70 text-sm mb-3 hover:text-white transition-colors">
-        <span class="material-symbols-outlined text-base">arrow_back</span> Trang chủ
-      </button>
-      <h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-white">Tin Tức & Blog</h1>
-      <p class="text-white/70 font-label-bold text-sm mt-1 uppercase tracking-widest">Cập nhật xu hướng, đánh giá thiết bị & kinh nghiệm tập luyện</p>
-    </div>
-  </div>
-
-  <!-- Blog Content Grid -->
-  <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pb-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      
-      <!-- Article 1 -->
-      <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer border border-outline-variant/30">
-        <div class="h-[240px] w-full overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 1">
-          <div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md"><span class="block skew-x-[10deg]">SỰ KIỆN</span></div>
-        </div>
-        <div class="p-6 flex-1 flex flex-col justify-between">
-          <div>
-            <span class="text-xs text-secondary font-medium">22 Tháng 5, 2026</span>
-            <h3 class="font-bold text-lg leading-snug mt-2 mb-3 group-hover:text-primary transition-colors">Giải vô địch Cầu lông Thế giới 2026: Những công nghệ vợt đột phá</h3>
-            <p class="text-sm text-secondary line-clamp-3">Khám phá các thiết kế vật liệu nano và công nghệ khí động học mới nhất được các tay vợt hàng đầu thế giới sử dụng tại giải đấu năm nay.</p>
-          </div>
-          <div class="mt-6 flex items-center justify-between text-primary font-bold text-sm">
-            <span>Đọc chi tiết</span>
-            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Article 2 -->
-      <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer border border-outline-variant/30">
-        <div class="h-[240px] w-full overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 2">
-          <div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md"><span class="block skew-x-[10deg]">ĐÁNH GIÁ</span></div>
-        </div>
-        <div class="p-6 flex-1 flex flex-col justify-between">
-          <div>
-            <span class="text-xs text-secondary font-medium">18 Tháng 5, 2026</span>
-            <h3 class="font-bold text-lg leading-snug mt-2 mb-3 group-hover:text-primary transition-colors">Siêu phẩm giày đá bóng siêu nhẹ mới từ Nike</h3>
-            <p class="text-sm text-secondary line-clamp-3">Đánh giá chi tiết về mẫu giày đá bóng mới nhất của Nike với trọng lượng siêu nhẹ, tối ưu hóa tốc độ và độ bám trên mặt sân cỏ nhân tạo.</p>
-          </div>
-          <div class="mt-6 flex items-center justify-between text-primary font-bold text-sm">
-            <span>Đọc chi tiết</span>
-            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Article 3 -->
-      <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer border border-outline-variant/30">
-        <div class="h-[240px] w-full overflow-hidden relative">
-          <img src="images/blog_pickleball.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 3">
-          <div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md"><span class="block skew-x-[10deg]">XU HƯỚNG</span></div>
-        </div>
-        <div class="p-6 flex-1 flex flex-col justify-between">
-          <div>
-            <span class="text-xs text-secondary font-medium">15 Tháng 5, 2026</span>
-            <h3 class="font-bold text-lg leading-snug mt-2 mb-3 group-hover:text-primary transition-colors">Cơn sốt Pickleball đang bùng nổ toàn cầu như thế nào?</h3>
-            <p class="text-sm text-secondary line-clamp-3">Vì sao môn thể thao kết hợp giữa tennis, cầu lông và bóng bàn lại thu hút hàng triệu người chơi ở mọi lứa tuổi trên khắp thế giới?</p>
-          </div>
-          <div class="mt-6 flex items-center justify-between text-primary font-bold text-sm">
-            <span>Đọc chi tiết</span>
-            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Article 4 -->
-      <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer border border-outline-variant/30">
-        <div class="h-[240px] w-full overflow-hidden relative">
-          <img src="images/blog_apparel.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 4">
-          <div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md"><span class="block skew-x-[10deg]">HOT TREND</span></div>
-        </div>
-        <div class="p-6 flex-1 flex flex-col justify-between">
-          <div>
-            <span class="text-xs text-secondary font-medium">10 Tháng 5, 2026</span>
-            <h3 class="font-bold text-lg leading-snug mt-2 mb-3 group-hover:text-primary transition-colors">Top 5 trang phục thi đấu giải nhiệt mùa hè</h3>
-            <p class="text-sm text-secondary line-clamp-3">Tổng hợp những mẫu áo quần thi đấu sở hữu công nghệ vải thoáng khí, thấm hút mồ hôi cực tốt giúp bạn luôn thoải mái trong thời tiết nắng nóng.</p>
-          </div>
-          <div class="mt-6 flex items-center justify-between text-primary font-bold text-sm">
-            <span>Đọc chi tiết</span>
-            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Article 5 -->
-      <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer border border-outline-variant/30">
-        <div class="h-[240px] w-full overflow-hidden relative">
-          <img src="images/blog_badminton.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Blog 5">
-          <div class="absolute top-4 left-4 bg-[#111]/80 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1 border border-white/20"><span class="material-symbols-outlined text-[14px]">play_circle</span> VIDEO</div>
-        </div>
-        <div class="p-6 flex-1 flex flex-col justify-between">
-          <div>
-            <span class="text-xs text-secondary font-medium">05 Tháng 5, 2026</span>
-            <h3 class="font-bold text-lg leading-snug mt-2 mb-3 group-hover:text-primary transition-colors">Hướng dẫn chọn vợt cầu lông cho người mới bắt đầu</h3>
-            <p class="text-sm text-secondary line-clamp-3">Video hướng dẫn chi tiết cách lựa chọn cây vợt đầu tiên dựa trên trọng lượng, điểm cân bằng, độ dẻo của đũa vợt phù hợp với lối chơi.</p>
-          </div>
-          <div class="mt-6 flex items-center justify-between text-primary font-bold text-sm">
-            <span>Xem Video</span>
-            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<div id="sportPage" style="display:none;" class="pt-[120px] min-h-screen bg-surface-container-low">
-  <!-- Sport Page Header Banner -->
-  <div id="sportPageBanner" class="relative h-56 md:h-72 flex items-end overflow-hidden">
-    <div class="absolute inset-0 bg-cover bg-center" id="sportPageBg"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-    <div class="relative z-10 px-margin-mobile md:px-margin-desktop pb-8 w-full">
-      <button onclick="navigateToHome()" class="flex items-center gap-2 text-white/70 text-sm mb-3 hover:text-white transition-colors">
-        <span class="material-symbols-outlined text-base">arrow_back</span> Trang chủ
-      </button>
-      <h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-white" id="sportPageTitle">Cầu lông</h1>
-      <p class="text-white/70 font-label-bold text-sm mt-1 uppercase tracking-widest" id="sportPageSub"></p>
-    </div>
-  </div>
-
-  <!-- Content: Sidebar + Grid -->
-  <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-8">
-    <div class="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6 layout-grid">
-      <!-- Sidebar -->
-      <aside class="w-full h-fit max-h-[calc(100vh-100px)] overflow-y-auto flex flex-col gap-5 sidebar-filter sticky top-24 z-10 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
-        <!-- Danh mục -->
-        <div class="bg-white border border-[#68000d] rounded overflow-hidden shadow-sm">
-          <div class="bg-[#68000d] text-white px-4 py-2 font-bold text-sm uppercase">Danh mục sản phẩm</div>
-          <ul class="p-2 space-y-1 text-sm text-on-surface" id="spSidebarCategories">
-            <!-- Rendered by JS -->
-          </ul>
-        </div>
-        
-        <!-- Theo kích cỡ -->
-        <div class="bg-white border border-[#68000d] rounded overflow-hidden shadow-sm">
-          <div class="bg-[#68000d] text-white px-4 py-2 font-bold text-sm uppercase">Theo kích cỡ</div>
-          <div class="p-3 grid grid-cols-5 gap-2 text-sm" id="spSizeFilters">
-            <!-- Rendered by JS -->
-          </div>
-        </div>
-
-        <!-- Mức giá -->
-        <div class="bg-white border border-[#68000d] rounded overflow-hidden shadow-sm">
-          <div class="bg-[#68000d] text-white px-4 py-2 font-bold text-sm uppercase">Mức giá</div>
-          <div class="p-3 flex flex-col gap-1 text-sm" id="spPriceFilters">
-            <label class="price-range-item flex items-center gap-2 px-2 py-2 rounded cursor-pointer hover:bg-surface-container transition-colors">
-              <input type="radio" name="spPriceRange" value="" class="accent-primary" onchange="applyPriceRange(this)" checked/>
-              <span class="text-on-surface">Tất cả mức giá</span>
-            </label>
-            <label class="price-range-item flex items-center gap-2 px-2 py-2 rounded cursor-pointer hover:bg-surface-container transition-colors">
-              <input type="radio" name="spPriceRange" value="0-500000" class="accent-primary" onchange="applyPriceRange(this)"/>
-              <span class="text-on-surface">Dưới 500.000₫</span>
-            </label>
-            <label class="price-range-item flex items-center gap-2 px-2 py-2 rounded cursor-pointer hover:bg-surface-container transition-colors">
-              <input type="radio" name="spPriceRange" value="500000-700000" class="accent-primary" onchange="applyPriceRange(this)"/>
-              <span class="text-on-surface">500.000 – 700.000₫</span>
-            </label>
-            <label class="price-range-item flex items-center gap-2 px-2 py-2 rounded cursor-pointer hover:bg-surface-container transition-colors">
-              <input type="radio" name="spPriceRange" value="700000-1000000" class="accent-primary" onchange="applyPriceRange(this)"/>
-              <span class="text-on-surface">700.000 – 1.000.000₫</span>
-            </label>
-            <label class="price-range-item flex items-center gap-2 px-2 py-2 rounded cursor-pointer hover:bg-surface-container transition-colors">
-              <input type="radio" name="spPriceRange" value="1000000-2000000" class="accent-primary" onchange="applyPriceRange(this)"/>
-              <span class="text-on-surface">1.000.000 – 2.000.000₫</span>
-            </label>
-            <label class="price-range-item flex items-center gap-2 px-2 py-2 rounded cursor-pointer hover:bg-surface-container transition-colors">
-              <input type="radio" name="spPriceRange" value="2000000-999999999" class="accent-primary" onchange="applyPriceRange(this)"/>
-              <span class="text-on-surface">Trên 2.000.000₫</span>
-            </label>
-          </div>
-        </div>
-
-
-        <!-- Thương hiệu (Accordion) -->
-        <details class="bg-white border border-[#68000d] rounded shadow-sm group">
-          <summary class="bg-[#68000d] text-white px-4 py-2 font-bold text-sm uppercase cursor-pointer list-none flex justify-between items-center outline-none">
-            Thương hiệu
-            <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180">expand_more</span>
-          </summary>
-          <div class="p-3 text-sm flex flex-col gap-2" id="spBrandFilters"></div>
-        </details>
-      </aside>
-
-      <!-- Product Grid -->
-      <div>
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-4">
-          <div class="flex-1">
-            <span class="font-headline-md text-xl font-semibold italic text-on-background" id="spCatalogTitle"></span>
-            <span class="text-sm text-secondary ml-2" id="spCatalogCount"></span>
-          </div>
-          <!-- Search bar -->
-          <div class="flex items-center gap-2 w-full sm:w-auto">
-            <div class="flex items-center border border-outline-variant rounded-lg overflow-hidden bg-white flex-1 sm:w-64 focus-within:border-primary transition-colors">
-              <span class="material-symbols-outlined text-secondary text-lg px-3">search</span>
-              <input type="text" id="spSearchInput" placeholder="Tìm sản phẩm..." class="py-2 pr-3 text-sm border-none outline-none bg-transparent w-full text-on-surface placeholder-secondary" oninput="filterSportPage()" onkeyup="if(event.key==='Enter') filterSportPage()"/>
-              <button class="px-3 py-2 bg-primary text-white hover:bg-surface-tint transition-colors text-sm font-semibold" onclick="filterSportPage()">Tìm</button>
-            </div>
-            <select class="px-3 py-2 border border-outline-variant rounded-lg text-sm text-on-surface bg-white outline-none cursor-pointer whitespace-nowrap" onchange="sortSportPage(this.value)">
-              <option value="">Sắp xếp</option>
-              <option value="price-asc">Giá tăng dần</option>
-              <option value="price-desc">Giá giảm dần</option>
-              <option value="rating">Đánh giá cao</option>
-              <option value="new">Mới nhất</option>
-            </select>
-          </div>
-        </div>
-        <div class="product-grid" id="spProductGrid">
-          <div style="grid-column:1/-1;text-align:center;padding:60px;color:#857372">
-            <span class="material-symbols-outlined text-5xl text-outline-variant block mb-4">hourglass_top</span>
-            <p class="text-lg font-semibold">Đang tải sản phẩm...</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ==================== CART PANEL ==================== -->
-<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
-<div class="cart-panel" id="cartPanel">
-  <div class="px-5 py-4 border-b border-outline-variant flex items-center justify-between">
-    <h3 class="text-lg font-bold text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-primary">shopping_cart</span> Giá»  hàng</h3>
-    <button class="material-symbols-outlined text-secondary hover:text-on-surface" onclick="closeCart()">close</button>
-  </div>
-  <div class="flex-1 overflow-y-auto p-4" id="cartItems"></div>
-  <div class="p-5 border-t border-outline-variant" id="cartFooter"></div>
-</div>
-
-<!-- ==================== PRODUCT DETAIL MODAL ==================== -->
-<div class="detail-modal-bg" id="detailModal">
-  <div class="bg-white rounded-2xl w-[850px] max-w-full max-h-[90vh] overflow-y-auto relative shadow-2xl" id="detailModalContent"></div>
-</div>
-
-<!-- ==================== CHECKOUT MODAL ==================== -->
-<div class="modal-bg" id="checkoutModal">
-  <div class="bg-white rounded-2xl w-[420px] max-w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-    <div class="px-6 pt-6 flex items-center justify-between">
-      <h3 class="text-lg font-bold text-on-surface">Thông tin giao hàng</h3>
-      <button class="material-symbols-outlined text-secondary hover:text-on-surface" onclick="closeCheckoutModal()">close</button>
-    </div>
-    <div class="p-6 space-y-4">
-      <div class="mb-2">
-        <label class="text-sm font-bold text-on-surface block mb-2">Thông tin người nhận</label>
-        <div class="flex gap-4 mb-4">
-          <label class="flex items-center gap-2 cursor-pointer text-sm border border-outline-variant p-2 rounded-lg flex-1 hover:border-primary transition-colors">
-            <input type="radio" name="addrType" value="default" checked onchange="toggleAddressType('default')" class="accent-primary w-4 h-4">
-            <span class="font-medium text-on-surface">Mặc định</span>
-          </label>
-          <label class="flex items-center gap-2 cursor-pointer text-sm border border-outline-variant p-2 rounded-lg flex-1 hover:border-primary transition-colors">
-            <input type="radio" name="addrType" value="other" onchange="toggleAddressType('other')" class="accent-primary w-4 h-4">
-            <span class="font-medium text-on-surface">Địa chỉ khác</span>
-          </label>
-        </div>
-      </div>
-      <div id="checkoutAddressFields" class="space-y-4 bg-surface-container-low p-4 rounded-xl relative overflow-hidden transition-all duration-300">
-        <div id="defaultAddressOverlay" class="absolute inset-0 z-10 cursor-not-allowed"></div>
-        <div><label class="text-sm font-medium text-on-surface block mb-1">Họ và tên</label><input id="checkoutName" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white disabled:bg-gray-100 disabled:text-gray-500" type="text" placeholder="Nguyễn Văn A" value="Nguyễn Văn Khách" disabled/></div>
-        <div><label class="text-sm font-medium text-on-surface block mb-1">Số điện thoại</label><input id="checkoutPhone" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white disabled:bg-gray-100 disabled:text-gray-500" type="tel" placeholder="0912 345 678" value="0988123456" disabled/></div>
-        <div><label class="text-sm font-medium text-on-surface block mb-1">Địa chỉ chi tiết</label><input id="checkoutAddress" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white disabled:bg-gray-100 disabled:text-gray-500" type="text" placeholder="Số nhà, tên đường, phường/xã..." value="123 Cầu Giấy, Quận Cầu Giấy, Hà Nội" disabled/></div>
-      </div>
-
-      <div><label class="text-sm font-medium text-on-surface block mb-1">Phương thức thanh toán</label>
-        <select class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none cursor-pointer focus:border-primary transition-colors">
-          <option>Thanh toán khi nhận hàng (COD)</option>
-          <option>Chuyển khoản ngân hàng (QR Code)</option>
-          <option>Ví điện tử MoMo / ZaloPay</option>
-        </select>
-      </div>
-      <button class="w-full py-3 bg-primary text-on-primary rounded-lg font-bold text-sm hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="showToast('Đặt hàng thành công! Cảm ơn bạn.'); closeCheckoutModal(); cart=[]; updateCartBadge(); closeCart();">
-        <span class="material-symbols-outlined text-lg">check_circle</span> Xác nhận đặt hàng
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ==================== WISHLIST MODAL ==================== -->
-<div class="modal-bg" id="wishlistModal">
-  <div class="bg-white rounded-2xl w-[600px] max-w-full max-h-[90vh] flex flex-col shadow-2xl">
-    <div class="px-6 py-4 border-b border-outline-variant flex items-center justify-between">
-      <h3 class="text-lg font-bold text-on-surface flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary">favorite</span> Sản phẩm yêu thích
-      </h3>
-      <button class="material-symbols-outlined text-secondary hover:text-on-surface" onclick="closeWishlistModal()">close</button>
-    </div>
-    <div class="flex-1 overflow-y-auto p-6" id="wishlistItems"></div>
-  </div>
-</div>
-
-<!-- ==================== USER MODAL ==================== -->
-<div class="modal-bg" id="userModal">
-  <div class="bg-white rounded-2xl w-[400px] max-w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-    <div class="px-6 pt-6 flex items-center justify-between">
-      <h3 class="text-lg font-bold text-on-surface" id="modalTitle">Đăng nhập</h3>
-      <button class="material-symbols-outlined text-secondary hover:text-on-surface" onclick="closeUserModal()">close</button>
-    </div>
-    <div class="flex border-b border-outline-variant mx-6 mt-4">
-      <div class="modal-tab px-5 py-2.5 text-sm font-medium cursor-pointer border-b-2 border-primary text-on-surface" onclick="switchModalTab('login',this)">Đăng nhập</div>
-      <div class="modal-tab px-5 py-2.5 text-sm font-medium cursor-pointer border-b-2 border-transparent text-secondary hover:text-on-surface" onclick="switchModalTab('register',this)">Đăng ký</div>
-    </div>
-    <div class="p-6" id="modalBody"></div>
-  </div>
-</div>
-
-<!-- ==================== AI CHAT ==================== -->
-<button class="fixed bottom-7 right-7 z-[200] bg-primary text-on-primary w-14 h-14 rounded-full border-none cursor-pointer flex items-center justify-center shadow-2xl hover:bg-surface-tint hover:scale-105 transition-all active:scale-95" onclick="toggleChat()" title="Chat với AI">
-  <span class="material-symbols-outlined text-[28px]">smart_toy</span>
-</button>
-<div class="ai-bubble" id="aiChat">
-  <div class="p-4 bg-primary flex items-center gap-3">
-    <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center"><span class="material-symbols-outlined text-white">smart_toy</span></div>
-    <div><h4 class="text-sm font-bold text-white">VP Sport AI</h4><span class="text-[11px] text-white/70">Tư vấn 24/7</span></div>
-  </div>
-  <div class="h-[220px] overflow-y-auto p-4 flex flex-col gap-3" id="aiMsgs">
-    <div class="max-w-[85%] p-3 rounded-xl text-sm leading-relaxed bg-surface-container text-on-surface self-start rounded-tl-sm">Xin chào! Tôi có thể giúp bạn tìm sản phẩm phù hợp, tra cứu đơn hàng, hoặc tư vấn chọn size. Bạn cần gì?</div>
-  </div>
-  <div class="flex border-t border-outline-variant">
-    <input type="text" id="aiInput" placeholder="Nhập câu hỏi..." class="flex-1 px-4 py-3 text-sm border-none outline-none bg-transparent" onkeydown="if(event.key==='Enter')sendAI()"/>
-    <button class="px-4 py-3 bg-primary text-on-primary" onclick="sendAI()"><span class="material-symbols-outlined text-lg">send</span></button>
-  </div>
-</div>
-
-<!-- ==================== LOGIN PAGE ==================== -->
-<div id="loginPage" style="display:none;" class="min-h-screen bg-white flex flex-col">
-  <!-- Header -->
-  <header class="bg-on-surface text-white py-4 px-margin-mobile md:px-margin-desktop flex items-center justify-between">
-    <div class="flex items-center gap-2 cursor-pointer" onclick="closeLoginPage()">
-      <span class="material-symbols-outlined">arrow_back</span>
-      <span class="font-headline-md text-headline-md">VP PRIME</span>
-    </div>
-    <button class="material-symbols-outlined text-2xl hover:opacity-80" onclick="closeLoginPage()">close</button>
-  </header>
-
-  <!-- Main Content -->
-  <div class="flex-1 flex items-center justify-center px-margin-mobile md:px-margin-desktop py-12">
-    <div class="max-w-md w-full">
-      <!-- Tab Navigation -->
-      <div class="flex gap-4 mb-8 border-b-2 border-outline-variant">
-        <button class="pb-3 px-4 text-lg font-bold border-b-2 border-primary text-primary transition-colors" id="loginTab" onclick="switchLoginTab('login')">
-          Đăng nhập
-        </button>
-        <button class="pb-3 px-4 text-lg font-bold border-b-2 border-transparent text-secondary hover:text-on-surface transition-colors" id="registerTab" onclick="switchLoginTab('register')">
-          Đăng ký
-        </button>
-      </div>
-
-      <!-- Login Form -->
-      <div id="loginForm" class="space-y-4">
-        <div>
-          <label class="block text-sm font-bold text-on-surface mb-2">Tên đăng nhập</label>
-          <input type="text" id="loginUsername" placeholder="Nhập tên đăng nhập" 
-            class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-        </div>
-        <div>
-          <label class="block text-sm font-bold text-on-surface mb-2">Mật khẩu</label>
-          <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" 
-            class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-        </div>
-        <div class="flex items-center justify-between text-sm">
-          <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" class="w-4 h-4 accent-primary" id="rememberMe"/>
-            <span class="text-secondary">Ghi nhớ đăng nhập</span>
-          </label>
-          <a href="#" class="text-primary hover:underline">Quên mật khẩu?</a>
-        </div>
-        <button class="w-full py-3 bg-primary text-on-primary rounded-lg font-bold text-base hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="handleLogin()">
-          <span class="material-symbols-outlined text-lg">login</span> Đăng nhập
-        </button>
-        <p class="text-center text-sm text-secondary mt-4">Chưa có tài khoản? <span class="text-primary font-bold cursor-pointer" onclick="switchLoginTab('register')">Đăng ký ngay</span></p>
-      </div>
-
-      <!-- Register Form -->
-      <div id="registerForm" style="display:none;" class="space-y-4">
-        <div>
-          <label class="block text-sm font-bold text-on-surface mb-2">Tên đăng nhập</label>
-          <input type="text" id="registerUsername" placeholder="Nhập tên đăng nhập" 
-            class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-        </div>
-        <div>
-          <label class="block text-sm font-bold text-on-surface mb-2">Mật khẩu</label>
-          <input type="password" id="registerPassword" placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)" 
-            class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-        </div>
-        <div>
-          <label class="block text-sm font-bold text-on-surface mb-2">Họ và tên</label>
-          <input type="text" id="registerName" placeholder="Nhập họ và tên" 
-            class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-        </div>
-        <div>
-          <label class="block text-sm font-bold text-on-surface mb-2">Số điện thoại</label>
-          <input type="tel" id="registerPhone" placeholder="Nhập số điện thoại" 
-            class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-        </div>
-        <label class="flex items-center gap-2 cursor-pointer">
-          <input type="checkbox" class="w-4 h-4 accent-primary" id="agreeTerms" required/>
-          <span class="text-sm text-secondary">Tôi đồng ý với <span class="text-primary font-bold">Điều khoản sử dụng</span> và <span class="text-primary font-bold">Chính sách bảo mật</span></span>
-        </label>
-        <button class="w-full py-3 bg-primary text-on-primary rounded-lg font-bold text-base hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="handleRegister()">
-          <span class="material-symbols-outlined text-lg">person_add</span> Đăng ký
-        </button>
-        <p class="text-center text-sm text-secondary mt-4">Đã có tài khoản? <span class="text-primary font-bold cursor-pointer" onclick="switchLoginTab('login')">Đăng nhập ngay</span></p>
-      </div>
-
-      <!-- Social Login -->
-      <div class="mt-8 pt-6 border-t border-outline-variant">
-        <p class="text-center text-sm text-secondary mb-4">Hoặc đăng nhập bằng</p>
-        <div class="grid grid-cols-2 gap-3">
-          <button class="py-2.5 border border-outline-variant rounded-lg hover:border-primary transition-colors flex items-center justify-center gap-2 text-sm font-medium">
-            <i class="ti ti-brand-google text-lg"></i> Google
-          </button>
-          <button class="py-2.5 border border-outline-variant rounded-lg hover:border-primary transition-colors flex items-center justify-center gap-2 text-sm font-medium">
-            <i class="ti ti-brand-facebook text-lg"></i> Facebook
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ==================== CHECKOUT/PAYMENT PAGE ==================== -->
-<div id="checkoutPage" style="display:none;" class="min-h-screen bg-surface-container-low">
-  <!-- Header -->
-  <header class="bg-on-surface text-white py-4 px-margin-mobile md:px-margin-desktop flex items-center justify-between">
-    <div class="flex items-center gap-2 cursor-pointer" onclick="closeCheckoutPage()">
-      <span class="material-symbols-outlined">arrow_back</span>
-      <span class="font-headline-md text-headline-md">Thanh toán</span>
-    </div>
-    <div class="text-sm">Bước 1/3</div>
-  </header>
-
-  <!-- Main Content -->
-  <div class="max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop py-8">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Left: Form -->
-      <div class="lg:col-span-2 space-y-6">
-        <!-- Thông tin giao hàng -->
-        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
-          <h2 class="text-lg font-bold text-on-surface mb-6 flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary">local_shipping</span> Thông tin giao hàng
-          </h2>
-          <div class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-bold text-on-surface mb-2">Họ và tên</label>
-                <input type="text" id="checkoutName" placeholder="Nguyễn Văn A" 
-                  class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-              </div>
-              <div>
-                <label class="block text-sm font-bold text-on-surface mb-2">Số điện thoại</label>
-                <input type="tel" id="checkoutPhone" placeholder="0912 345 678" 
-                  class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-              </div>
-            </div>
-            <div>
-              <label class="block text-sm font-bold text-on-surface mb-2">Tỉnh/Thành phố</label>
-              <select class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white">
-                <option>-- Chọn Tỉnh/Thành phố --</option>
-                <option>Hà Nội</option>
-                <option>Hồ Chí Minh</option>
-                <option>Đà Nẵng</option>
-              </select>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-bold text-on-surface mb-2">Quận/Huyện</label>
-                <select class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white">
-                  <option>-- Chọn Quận/Huyện --</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-sm font-bold text-on-surface mb-2">Phường/Xã</label>
-                <select class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white">
-                  <option>-- Chọn Phường/Xã --</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <label class="block text-sm font-bold text-on-surface mb-2">Địa chỉ chi tiết</label>
-              <input type="text" id="checkoutAddress" placeholder="Số nhà, tên đường..." 
-                class="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"/>
-            </div>
-          </div>
-        </div>
-
-        <!-- Phương thức giao hàng -->
-        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
-          <h2 class="text-lg font-bold text-on-surface mb-6 flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary">local_shipping</span> Phương thức giao hàng
-          </h2>
-          <div class="space-y-3">
-            <label class="flex items-center gap-3 p-3 border-2 border-primary rounded-xl cursor-pointer bg-primary/5">
-              <input type="radio" name="shipping" value="standard" checked class="w-5 h-5 accent-primary"/>
-              <div class="flex-1">
-                <div class="font-semibold text-on-surface">Giao hàng tiêu chuẩn</div>
-                <div class="text-sm text-secondary">Giao trong 3-5 ngày (Miễn phí)</div>
-              </div>
-            </label>
-            <label class="flex items-center gap-3 p-3 border-2 border-outline-variant rounded-xl cursor-pointer hover:border-primary transition-colors">
-              <input type="radio" name="shipping" value="express" class="w-5 h-5 accent-primary"/>
-              <div class="flex-1">
-                <div class="font-semibold text-on-surface">Giao hàng nhanh (Express)</div>
-                <div class="text-sm text-secondary">Giao trong 1-2 ngày (+30.000₫)</div>
-              </div>
-            </label>
-          </div>
-        </div>
-
-        <!-- Phương thức thanh toán -->
-        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
-          <h2 class="text-lg font-bold text-on-surface mb-6 flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary">payment</span> Phương thức thanh toán
-          </h2>
-          <div class="space-y-3">
-            <label class="flex items-center gap-3 p-3 border-2 border-outline-variant rounded-xl cursor-pointer hover:border-primary transition-colors">
-              <input type="radio" name="payment" value="cod" checked class="w-5 h-5 accent-primary"/>
-              <div class="flex-1">
-                <div class="font-semibold text-on-surface">Thanh toán khi nhận hàng</div>
-                <div class="text-sm text-secondary">COD - Không phí thêm</div>
-              </div>
-            </label>
-            <label class="flex items-center gap-3 p-3 border-2 border-outline-variant rounded-xl cursor-pointer hover:border-primary transition-colors">
-              <input type="radio" name="payment" value="bank" class="w-5 h-5 accent-primary"/>
-              <div class="flex-1">
-                <div class="font-semibold text-on-surface">Chuyển khoản ngân hàng</div>
-                <div class="text-sm text-secondary">QR Code - Hoàn tiền nếu lỗi</div>
-              </div>
-            </label>
-            <label class="flex items-center gap-3 p-3 border-2 border-outline-variant rounded-xl cursor-pointer hover:border-primary transition-colors">
-              <input type="radio" name="payment" value="ewallets" class="w-5 h-5 accent-primary"/>
-              <div class="flex-1">
-                <div class="font-semibold text-on-surface">Ví điện tử</div>
-                <div class="text-sm text-secondary">Momo, ZaloPay, ViettelPay</div>
-              </div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right: Order Summary -->
-      <div class="lg:col-span-1">
-        <div class="bg-white rounded-2xl p-6 shadow-sm sticky top-24">
-          <h2 class="text-lg font-bold text-on-surface mb-4">Đơn hàng của bạn</h2>
-          
-          <!-- Cart Items -->
-          <div id="checkoutCartItems" class="space-y-3 mb-4 max-h-64 overflow-y-auto pb-4 border-b border-outline-variant">
-            <!-- Populated dynamically -->
-          </div>
-
-          <!-- Promo Code -->
-          <div class="mb-4">
-            <div class="flex gap-2">
-              <input type="text" id="promoCode" placeholder="Mã khuyến mãi" 
-                class="flex-1 px-3 py-2 border border-outline-variant rounded-lg text-xs outline-none focus:border-primary transition-colors bg-white"/>
-              <button class="px-3 py-2 bg-primary/10 text-primary rounded-lg text-xs font-bold hover:bg-primary hover:text-white transition-colors">
-                Áp dụng
-              </button>
-            </div>
-          </div>
-
-          <!-- Price Summary -->
-          <div class="space-y-2 mb-4 pb-4 border-b border-outline-variant text-sm">
-            <div class="flex justify-between">
-              <span class="text-secondary">Tạm tính</span>
-              <span class="font-semibold text-on-surface" id="subtotal">0₫</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-secondary">Vận chuyển</span>
-              <span class="font-semibold text-on-surface" id="shippingCost">Miễn phí</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-secondary">Giảm giá</span>
-              <span class="font-semibold text-error" id="discountAmount">0₫</span>
-            </div>
-            <div class="flex justify-between pt-2 border-t border-outline-variant">
-              <span class="font-bold text-on-surface">Tổng cộng</span>
-              <span class="font-bold text-xl text-primary" id="totalPrice">0₫</span>
-            </div>
-          </div>
-
-          <button class="w-full py-3 bg-primary text-on-primary rounded-lg font-bold text-base hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="proceedToPayment()">
-            <span class="material-symbols-outlined text-lg">check_circle</span> Xác nhận đặt hàng
-          </button>
-
-          <p class="text-xs text-secondary text-center mt-3">Bằng cách đặt hàng, bạn đã đồng ý với <span class="text-primary font-bold cursor-pointer">Điều khoản</span> của chúng tôi</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ==================== USER PROFILE MODAL ==================== -->
-<div class="modal-bg" id="userProfileModal">
-  <div class="bg-white rounded-2xl w-[420px] max-w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
-    <button onclick="closeUserProfileModal()" class="absolute top-4 right-4 z-10 text-gray-400 hover:text-primary transition-colors">
-      <span class="material-symbols-outlined">close</span>
-    </button>
-
-    <!-- Header -->
-    <div class="bg-gradient-to-br from-primary to-surface-tint px-6 pt-8 pb-6 rounded-t-2xl text-center">
-      <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-3 border-2 border-white/40 shadow-lg">
-        <span class="material-symbols-outlined text-4xl text-white">person</span>
-      </div>
-      <h3 class="text-lg font-bold text-white" id="profileFullName">Người dùng</h3>
-      <span class="inline-block mt-1 px-3 py-0.5 bg-white/20 text-white text-[11px] font-bold rounded-full tracking-wider uppercase" id="profileRole">CUSTOMER</span>
-    </div>
-
-    <!-- Profile Info (View Mode) -->
-    <div class="px-6 py-5" id="profileViewMode">
-      <div class="space-y-3">
-        <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
-          <span class="material-symbols-outlined text-primary text-xl">person</span>
-          <div class="flex-1 min-w-0">
-            <div class="text-[11px] text-secondary font-medium uppercase tracking-wider">Họ tên</div>
-            <div class="text-sm font-bold text-on-surface truncate" id="profileFullNameInfo">-</div>
-          </div>
-        </div>
-        <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
-          <span class="material-symbols-outlined text-primary text-xl">account_circle</span>
-          <div class="flex-1 min-w-0">
-            <div class="text-[11px] text-secondary font-medium uppercase tracking-wider">Tên đăng nhập</div>
-            <div class="text-sm font-bold text-on-surface truncate" id="profileUsername">-</div>
-          </div>
-        </div>
-        <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
-          <span class="material-symbols-outlined text-primary text-xl">phone</span>
-          <div class="flex-1 min-w-0">
-            <div class="text-[11px] text-secondary font-medium uppercase tracking-wider">Số điện thoại</div>
-            <div class="text-sm font-bold text-on-surface truncate" id="profilePhone">Chưa cập nhật</div>
-          </div>
-        </div>
-        <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
-          <span class="material-symbols-outlined text-primary text-xl">location_on</span>
-          <div class="flex-1 min-w-0">
-            <div class="text-[11px] text-secondary font-medium uppercase tracking-wider">Địa chỉ</div>
-            <div class="text-sm font-bold text-on-surface" id="profileAddress">Chưa cập nhật</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Action Buttons (View Mode) -->
-      <div class="mt-5 space-y-2">
-        <button class="w-full py-2.5 bg-on-surface text-white font-bold text-sm rounded-lg hover:bg-primary transition-colors flex items-center justify-center gap-2" onclick="toggleEditProfile()">
-          <span class="material-symbols-outlined text-base">edit</span> Cập nhật thông tin
-        </button>
-        <button class="w-full py-2.5 border-2 border-outline-variant text-on-surface font-bold text-sm rounded-lg hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2" onclick="openChangePasswordForm()">
-          <span class="material-symbols-outlined text-base">lock</span> Đổi mật khẩu
-        </button>
-        <button class="w-full py-2.5 bg-primary text-on-primary font-bold text-sm rounded-lg hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="logoutUser()">
-          <span class="material-symbols-outlined text-base">logout</span> Đăng Xuất
-        </button>
-      </div>
-    </div>
-
-    <!-- Edit Profile Mode (Hidden by default) -->
-    <div class="px-6 py-5 hidden" id="profileEditMode">
-      <h4 class="font-bold text-on-surface text-sm mb-4 flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary text-lg">edit_note</span> Chỉnh sửa thông tin
-      </h4>
-      <div class="space-y-3">
-        <div>
-          <label class="text-[11px] text-secondary font-medium uppercase tracking-wider block mb-1">Họ tên</label>
-          <input type="text" id="editFullName" class="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Nhập họ tên"/>
-        </div>
-        <div>
-          <label class="text-[11px] text-secondary font-medium uppercase tracking-wider block mb-1">Số điện thoại</label>
-          <input type="tel" id="editPhone" class="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Nhập số điện thoại"/>
-        </div>
-        <div>
-          <label class="text-[11px] text-secondary font-medium uppercase tracking-wider block mb-1">Địa chỉ</label>
-          <textarea id="editAddress" rows="2" class="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors resize-none" placeholder="Nhập địa chỉ giao hàng"></textarea>
-        </div>
-      </div>
-      <div class="mt-5 flex gap-2">
-        <button class="flex-1 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-lg hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="saveProfile()">
-          <span class="material-symbols-outlined text-base">save</span> Lưu thay đổi
-        </button>
-        <button class="flex-1 py-2.5 border-2 border-outline-variant text-on-surface font-bold text-sm rounded-lg hover:border-primary transition-colors flex items-center justify-center gap-2" onclick="cancelEditProfile()">
-          <span class="material-symbols-outlined text-base">close</span> Hủy
-        </button>
-      </div>
-    </div>
-
-    <!-- Change Password Mode (Hidden by default) -->
-    <div class="px-6 py-5 hidden" id="profileChangePasswordMode">
-      <h4 class="font-bold text-on-surface text-sm mb-4 flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary text-lg">lock_reset</span> Đổi mật khẩu
-      </h4>
-      <div class="space-y-3">
-        <div>
-          <label class="text-[11px] text-secondary font-medium uppercase tracking-wider block mb-1">Mật khẩu cũ</label>
-          <input type="password" id="cpOldPassword" class="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Nhập mật khẩu cũ"/>
-        </div>
-        <div>
-          <label class="text-[11px] text-secondary font-medium uppercase tracking-wider block mb-1">Mật khẩu mới</label>
-          <input type="password" id="cpNewPassword" class="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Nhập mật khẩu mới (ít nhất 6 ký tự)"/>
-        </div>
-        <div>
-          <label class="text-[11px] text-secondary font-medium uppercase tracking-wider block mb-1">Xác nhận mật khẩu mới</label>
-          <input type="password" id="cpConfirmPassword" class="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Nhập lại mật khẩu mới"/>
-        </div>
-      </div>
-      <div class="mt-5 flex gap-2">
-        <button class="flex-1 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-lg hover:bg-surface-tint transition-colors flex items-center justify-center gap-2" onclick="submitChangePassword()">
-          <span class="material-symbols-outlined text-base">check</span> Xác nhận
-        </button>
-        <button class="flex-1 py-2.5 border-2 border-outline-variant text-on-surface font-bold text-sm rounded-lg hover:border-primary transition-colors flex items-center justify-center gap-2" onclick="cancelChangePassword()">
-          <span class="material-symbols-outlined text-base">close</span> Hủy
-        </button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- Toast -->
-<div class="toast" id="toast"><i class="ti ti-check"></i><span id="toastMsg"></span></div>
-
-<!-- ==================== JAVASCRIPT ==================== -->
-<script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VELOCITY PRIME | High Performance Sports</title>
+    <meta
+      name="description"
+      content="Cửa hàng thể thao cao cấp - Cầu lông, Bóng đá, Pickleball. Hàng chính hãng, giao nhanh toàn quốc."
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e2e2e2",
+              "on-tertiary-fixed-variant": "#454747",
+              "surface-bright": "#ffffff",
+              "on-tertiary-fixed": "#1a1c1c",
+              "secondary-fixed-dim": "#c6c6c6",
+              "surface-container": "#f5f5f5",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed-dim": "#ffb3af",
+              "surface-dim": "#f5f5f5",
+              tertiary: "#474747",
+              "on-primary-fixed-variant": "#930017",
+              "surface-container-low": "#fafafa",
+              "on-error": "#ffffff",
+              "on-secondary-container": "#1b1b1b",
+              "outline-variant": "#d8c2c0",
+              "error-container": "#f9dedc",
+              "surface-variant": "#f1dedd",
+              error: "#b3261e",
+              "on-secondary-fixed": "#1b1b1b",
+              "inverse-primary": "#ffb3af",
+              "on-primary-container": "#410005",
+              "tertiary-fixed-dim": "#c6c6c7",
+              "inverse-surface": "#313030",
+              secondary: "#5e5e5e",
+              outline: "#857372",
+              "primary-container": "#ffdad7",
+              "on-tertiary-container": "#282a2a",
+              "surface-tint": "#c00021",
+              "primary-fixed": "#ffdad7",
+              "inverse-on-surface": "#f5f0ef",
+              "on-primary-fixed": "#410005",
+              "on-secondary-fixed-variant": "#474747",
+              "on-error-container": "#410002",
+              primary: "#c00021",
+              "tertiary-container": "#909191",
+              "on-background": "#1c1b1b",
+              background: "#ffffff",
+              "secondary-fixed": "#e2e2e2",
+              surface: "#ffffff",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#1c1b1b",
+              "tertiary-fixed": "#e2e2e2",
+              "secondary-container": "#e2e2e2",
+              "on-surface-variant": "#534342",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#ebebeb"
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px"
+            },
+            spacing: {
+              "section-gap": "120px",
+              "margin-mobile": "20px",
+              unit: "4px",
+              "margin-desktop": "64px",
+              gutter: "24px"
+            },
+            fontFamily: {
+              "headline-lg": ["Oswald"],
+              "label-bold": ["Inter"],
+              "headline-lg-mobile": ["Oswald"],
+              "body-md": ["Inter"],
+              "stats-display": ["Oswald"],
+              "headline-md": ["Oswald"],
+              "display-lg": ["Oswald"],
+              "body-lg": ["Inter"]
+            },
+            fontSize: {
+              "headline-lg": [
+                "48px",
+                { lineHeight: "1.1", letterSpacing: "0", fontWeight: "700" }
+              ],
+              "label-bold": [
+                "14px",
+                { lineHeight: "1.0", letterSpacing: "0.1em", fontWeight: "700" }
+              ],
+              "headline-lg-mobile": [
+                "36px",
+                { lineHeight: "1.1", letterSpacing: "0", fontWeight: "700" }
+              ],
+              "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
+              "stats-display": ["24px", { lineHeight: "1.0", fontWeight: "700" }],
+              "headline-md": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+              "display-lg": [
+                "84px",
+                { lineHeight: "1.0", letterSpacing: "0", fontWeight: "700" }
+              ],
+              "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
+            }
+          }
+        }
+      };
+    </script>
+  </head>
+  <body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

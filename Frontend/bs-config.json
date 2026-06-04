@@ -1,9 +1,0 @@
-{
-  "port": 3000,
-  "server": {
-    "baseDir": "./",
-    "index": "index.html"
-  },
-  "open": true,
-  "notify": false
-}

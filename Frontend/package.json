@@ -3,10 +3,18 @@
   "version": "1.0.0",
   "description": "Velocity Prime - High Performance Sports Frontend",
   "scripts": {
-    "dev": "lite-server",
-    "start": "lite-server"
+    "dev": "vite --host 0.0.0.0 --port 5173",
+    "start": "vite --host 0.0.0.0 --port 5173",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4173"
   },
   "devDependencies": {
-    "lite-server": "^2.6.1"
+    "@vitejs/plugin-react": "^6.0.2",
+    "vite": "^8.0.16"
+  },
+  "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.16.0"
   }
 }

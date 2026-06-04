@@ -1,5 +1,7 @@
 package com.example.websport.config;
 
+import com.example.websport.security.JwtFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -8,10 +10,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtFilter jwtFilter;
 
     // 1. Cấu hình công cụ băm mật khẩu (BCrypt)
     @Bean
@@ -66,6 +72,8 @@ public class SecurityConfig {
                         // Bất kỳ ai (USER hay ADMIN) miễn là có đăng nhập (có Token) thì mới được qua
                         .anyRequest().authenticated()
                 );
+//        JwtFilter chặn ngay trước cổng kiểm tra Username/Password mặc định
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
