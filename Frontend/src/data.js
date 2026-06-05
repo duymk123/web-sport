@@ -1,7 +1,9 @@
 import blogApparel from "../images/blog_apparel.png";
 import blogBadminton from "../images/blog_badminton.png";
 import blogPickleball from "../images/blog_pickleball.png";
-import messiHero from "../images/anh-nen-messi-26-sharp.jpeg";
+import footballSportCard from "../images/football-sport-card-pinterest-landscape.jpg";
+import homePinterestHero from "../images/home-pinterest-hero-landscape.jpg";
+import pickleballSportCard from "../images/pickleball-sport-card-pinterest.jpg";
 
 export const SPORT_KEY_BY_SLUG = {
   "cau-long": "badminton",
@@ -20,10 +22,8 @@ export const SPORTS = {
     navId: "nav-football",
     sub: "Giày, bóng & trang phục thi đấu chuyên nghiệp",
     route: "/products/categories/bong-da",
-    hero:
-      "https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=1600&auto=format&fit=crop",
-    card:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBDvnVWGe9174Uck9FwRTgeoyJ5m-kS1FFq3IdBZ2XqYZJmUuDIxrwKBaynlA5jJup9J86Evu1bQ-u1MvhdqVqZ7V_4ZhUwSqQOqldmpBRZZI4tD8w9oycTmXj4KSgKvUHu3SOVlMEB-TZXi8cfA87NOHmvAa55ojxapeeLurdeGe5deGIwHdzUf-vlpyx8zts_7xnw1IHU9mYMuSnvz0osu_J6s16jfye5D3YNT9wkG1hrmkxJw_ip-CIPqmBa6L0-0mkD8N9sDXee"
+    hero: footballSportCard,
+    card: footballSportCard
   },
   badminton: {
     key: "badminton",
@@ -50,10 +50,8 @@ export const SPORTS = {
     navId: "nav-pickleball",
     sub: "Vợt composite thế hệ mới & gear chuyên dụng",
     route: "/products/categories/pickleball",
-    hero:
-      "https://images.unsplash.com/photo-1640636130916-855c90ec0159?q=80&w=1600&auto=format&fit=crop",
-    card:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBU5aYizwXy-EByEbDoais7cWGHQrAIDyGJ__0hBk9vwO3RvExjHJw_UyoeEqiPZfy5kz4plzAWizNCd_XRQiN64iEzYvj_KllbRO0NNAH-EAGtvd_IzgJG-gck5nbLUtgRnAX8bJwvi1l3GVPfsD3cByOIkubFotzJ0Mdn9-8uhWkohqVtU6iAso0kBKcsQYOoRMOF2C8FCRdYFug_h70vhtX68msFdotLozfIYMBfJ_IMw-f3FzwqfFEWLF5f0ZSgBZW2_7P0U_bk"
+    hero: pickleballSportCard,
+    card: pickleballSportCard
   }
 };
 
@@ -167,4 +165,4 @@ export const BLOG_POSTS = [
   }
 ];
 
-export const HERO_IMAGE = messiHero;
+export const HERO_IMAGE = homePinterestHero;

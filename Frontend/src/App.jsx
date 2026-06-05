@@ -55,12 +55,73 @@ function sizeOptionsForCategory(subCategory) {
   return [];
 }
 
+function categoryIconFor(category = "") {
+  const normalized = category
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  if (normalized.includes("tat")) return "grid_view";
+  if (normalized.includes("giay")) return "directions_run";
+  if (normalized.includes("quan")) return "checkroom";
+  if (normalized.includes("bong")) return "sports_soccer";
+  if (normalized.includes("vot")) return "sports_tennis";
+  if (normalized.includes("phu")) return "sports_handball";
+  return "category";
+}
+
 function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [pathname]);
+
+  return null;
+}
+
+function MotionEffects({ trigger }) {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+
+    const selector = [
+      "main section",
+      ".product-card-hover",
+      ".stat-card",
+      "main article",
+      ".cart-panel",
+      ".detail-modal-bg.open > div",
+      ".modal-bg.open > div"
+    ].join(",");
+    const elements = [...document.querySelectorAll(selector)].filter(
+      (element) => !element.closest("#main-nav")
+    );
+    if (!("IntersectionObserver" in window)) {
+      elements.forEach((element) => element.classList.add("reveal-up", "is-visible"));
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    elements.forEach((element, index) => {
+      element.classList.add("reveal-up");
+      element.style.setProperty("--reveal-delay", `${Math.min(index * 35, 280)}ms`);
+      observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, [location.pathname, location.search, trigger]);
 
   return null;
 }
@@ -242,6 +303,9 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
+      <MotionEffects
+        trigger={`${allProducts.length}-${bootLoading}-${cartOpen}-${profileOpen}-${Boolean(detailProduct)}`}
+      />
       {!isStandalonePage && (
         <Header
           cartCount={cartCount}
@@ -251,66 +315,68 @@ export default function App() {
         />
       )}
       {!isStandalonePage && backendError && <BackendBanner message={backendError} />}
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <HomePage
-              products={allProducts}
-              loading={bootLoading}
-              onOpenDetail={setDetailProduct}
-              onAddToCart={addToCart}
-              wishlist={wishlist}
-              onToggleWishlist={toggleWishlist}
-            />
-          }
-        />
-        <Route
-          path="/products/categories/:slug"
-          element={
-            <CategoryPage
-              categoryMeta={categoryMeta}
-              onOpenDetail={setDetailProduct}
-              onAddToCart={addToCart}
-              wishlist={wishlist}
-              onToggleWishlist={toggleWishlist}
-            />
-          }
-        />
-        <Route
-          path="/login"
-          element={<LoginPage user={user} onSuccess={handleLoginSuccess} showToast={showToast} />}
-        />
-        <Route
-          path="/checkout"
-          element={
-            <CheckoutPage
-              cart={cart}
-              user={user}
-              onQty={updateCartQty}
-              onRemove={removeCartItem}
-              onClearCart={() => setCart([])}
-              showToast={showToast}
-            />
-          }
-        />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/orders" element={<OrdersPage user={user} />} />
-        <Route
-          path="/admin"
-          element={
-            <AdminPage
-              user={user}
-              products={allProducts}
-              categoryMeta={categoryMeta}
-              onRefresh={() => loadProducts(categoryMeta)}
-              onLogout={logout}
-              showToast={showToast}
-            />
-          }
-        />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <div className="route-transition" key={location.pathname}>
+        <Routes location={location}>
+          <Route
+            path="/"
+            element={
+              <HomePage
+                products={allProducts}
+                loading={bootLoading}
+                onOpenDetail={setDetailProduct}
+                onAddToCart={addToCart}
+                wishlist={wishlist}
+                onToggleWishlist={toggleWishlist}
+              />
+            }
+          />
+          <Route
+            path="/products/categories/:slug"
+            element={
+              <CategoryPage
+                categoryMeta={categoryMeta}
+                onOpenDetail={setDetailProduct}
+                onAddToCart={addToCart}
+                wishlist={wishlist}
+                onToggleWishlist={toggleWishlist}
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={<LoginPage user={user} onSuccess={handleLoginSuccess} showToast={showToast} />}
+          />
+          <Route
+            path="/checkout"
+            element={
+              <CheckoutPage
+                cart={cart}
+                user={user}
+                onQty={updateCartQty}
+                onRemove={removeCartItem}
+                onClearCart={() => setCart([])}
+                showToast={showToast}
+              />
+            }
+          />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/orders" element={<OrdersPage user={user} />} />
+          <Route
+            path="/admin"
+            element={
+              <AdminPage
+                user={user}
+                products={allProducts}
+                categoryMeta={categoryMeta}
+                onRefresh={() => loadProducts(categoryMeta)}
+                onLogout={logout}
+                showToast={showToast}
+              />
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
       {!isStandalonePage && <Footer />}
       <CartPanel
         open={cartOpen}
@@ -348,7 +414,7 @@ export default function App() {
 
 function BackendBanner({ message }) {
   return (
-    <div className="fixed top-[120px] left-1/2 z-[250] -translate-x-1/2 bg-[#111] text-white px-5 py-3 shadow-xl border-l-4 border-primary text-sm max-w-[90vw]">
+    <div className="fixed top-[116px] left-1/2 z-[250] -translate-x-1/2 bg-on-surface text-white px-5 py-3 shadow-xl border border-white/10 rounded-full text-sm max-w-[90vw]">
       <span className="font-bold text-primary mr-2">Backend:</span>
       {message}
     </div>
@@ -384,10 +450,8 @@ function Header({ cartCount, user, onOpenCart, onOpenProfile }) {
   }
 
   const navClass = ({ isActive }) =>
-    `px-3 xl:px-4 py-2 uppercase font-label-bold text-label-bold italic skew-x-[-10deg] inline-block cursor-pointer nav-link transition-colors ${
-      isActive
-        ? "text-white bg-primary/20 border-b-2 border-primary"
-        : "text-gray-300 hover:text-white hover:bg-[#222]"
+    `nav-link group inline-flex h-11 items-center gap-2 rounded-full px-3.5 xl:px-4 text-[12px] font-black uppercase tracking-[0.08em] cursor-pointer transition-all duration-300 ${
+      isActive ? "nav-link-active" : ""
     }`;
 
   return (
@@ -398,7 +462,7 @@ function Header({ cartCount, user, onOpenCart, onOpenProfile }) {
       }`}
     >
       <div className="bg-primary text-on-primary py-2 marquee overflow-hidden">
-        <div className="marquee-content font-label-bold text-label-bold flex gap-12 items-center uppercase italic">
+        <div className="marquee-content font-label-bold text-[11px] flex gap-10 items-center uppercase">
           <span>MIỄN PHÍ VẬN CHUYỂN ĐƠN HÀNG TỪ 500K</span>
           <span>•</span>
           <span>GIẢM 20% CHO THÀNH VIÊN MỚI</span>
@@ -411,115 +475,118 @@ function Header({ cartCount, user, onOpenCart, onOpenProfile }) {
         </div>
       </div>
 
-      <nav className="bg-[#111] backdrop-blur-md border-b-4 border-primary flex items-center justify-between px-margin-mobile md:px-margin-desktop py-3 h-20 shadow-2xl">
-        <Link to="/" className="flex-shrink-0 flex items-center gap-4 cursor-pointer group">
-          <div className="w-10 h-10 md:w-14 md:h-12 bg-primary flex items-center justify-center skew-x-[-15deg] group-hover:scale-105 transition-transform duration-300">
-            <span className="text-white font-display-lg text-2xl font-black italic skew-x-[15deg] tracking-tighter">
+      <nav className="bg-white/95 backdrop-blur-xl border-b border-outline-variant/70 flex items-center justify-between px-margin-mobile md:px-margin-desktop py-3 h-[76px] shadow-[0_16px_46px_rgba(20,20,20,0.08)]">
+        <Link to="/" className="flex-shrink-0 flex items-center gap-3 cursor-pointer group" aria-label="Velocity Prime">
+          <div className="w-11 h-11 md:w-12 md:h-12 bg-primary rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-[0_14px_34px_rgba(192,0,33,0.28)]">
+            <span className="text-white font-display-lg text-2xl font-black italic tracking-tighter">
               VP
             </span>
           </div>
           <div className="hidden sm:block">
-            <div className="font-headline-lg text-sm font-black text-white tracking-[0.2em] uppercase italic">
+            <div className="font-headline-lg text-sm font-black text-on-surface tracking-[0.14em] uppercase">
               Velocity <span className="text-primary">Prime</span>
             </div>
-            <div className="text-[9px] text-gray-400 tracking-[0.3em] uppercase mt-0.5">
+            <div className="text-[9px] text-secondary tracking-[0.24em] uppercase mt-0.5">
               High Performance Sports
             </div>
           </div>
         </Link>
 
-        <ul className="hidden lg:flex items-center gap-2">
+        <ul className="nav-segment hidden lg:flex items-center gap-1">
           <li>
             <NavLink to="/" className={navClass}>
-              <span className="inline-block skew-x-[10deg]">Trang chủ</span>
+              <span className="material-symbols-outlined nav-link-icon text-[17px]">home</span>
+              <span>Trang chủ</span>
             </NavLink>
           </li>
           {SPORT_LIST.map((sport) => (
             <li key={sport.slug}>
               <NavLink to={sport.route} className={navClass}>
-                <span className="inline-block skew-x-[10deg]">{sport.title}</span>
+                <span className="material-symbols-outlined nav-link-icon text-[17px]">{sport.icon}</span>
+                <span>{sport.title}</span>
               </NavLink>
             </li>
           ))}
           <li>
             <NavLink to="/orders" className={navClass}>
-              <span className="inline-flex skew-x-[10deg] items-center gap-1">
-                <span className="material-symbols-outlined text-base">receipt_long</span>
-                Đơn hàng
-              </span>
+              <span className="material-symbols-outlined nav-link-icon text-[17px]">receipt_long</span>
+              <span>Đơn hàng</span>
             </NavLink>
           </li>
           <li>
             <NavLink to="/blog" className={navClass}>
-              <span className="inline-block skew-x-[10deg]">Blog</span>
+              <span className="material-symbols-outlined nav-link-icon text-[17px]">article</span>
+              <span>Blog</span>
             </NavLink>
           </li>
           {user?.role === "ADMIN" && (
             <li>
               <NavLink to="/admin" className={navClass}>
-                <span className="inline-flex skew-x-[10deg] items-center gap-1">
-                  <span className="material-symbols-outlined text-base">admin_panel_settings</span>
-                  Admin
-                </span>
+                <span className="material-symbols-outlined nav-link-icon text-[17px]">admin_panel_settings</span>
+                <span>Admin</span>
               </NavLink>
             </li>
           )}
         </ul>
 
-        <div className="flex items-center gap-3 md:gap-5">
+        <div className="flex items-center gap-2 md:gap-3">
           <form
             onSubmit={submitSearch}
-            className="hidden xl:flex items-center border border-[#333] skew-x-[-10deg] overflow-hidden bg-[#1a1a1a] max-w-[240px] focus-within:border-primary transition-colors"
+            className="hidden xl:flex h-11 items-center border border-outline-variant/80 rounded-full overflow-hidden bg-surface-container-low w-[260px] focus-within:border-primary focus-within:bg-white transition-colors"
           >
             <input
               type="text"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Tìm sản phẩm..."
-              className="px-4 py-2 text-sm border-none outline-none bg-transparent w-full text-white placeholder-gray-500 skew-x-[10deg]"
+              className="px-4 py-2 text-sm border-none outline-none bg-transparent w-full text-on-surface placeholder-secondary"
             />
-            <button className="px-4 py-2 bg-primary text-white hover:bg-red-700 transition-colors">
-              <span className="material-symbols-outlined text-lg skew-x-[10deg] block">search</span>
+            <button className="h-full px-4 bg-primary text-white hover:bg-red-700 transition-colors" aria-label="Tìm kiếm">
+              <span className="material-symbols-outlined text-lg block">search</span>
             </button>
           </form>
           <button
-            className="material-symbols-outlined text-gray-300 hover:text-primary transition-all duration-200 active:scale-95 text-[28px]"
+            className="w-10 h-10 rounded-full bg-surface-container-low text-on-surface-variant hover:text-white hover:bg-primary border border-outline-variant/70 transition-all duration-200 active:scale-95 text-[24px] flex items-center justify-center material-symbols-outlined"
             title="Yêu thích"
+            aria-label="Yêu thích"
             onClick={() => navigate(activeSport?.route || SPORTS.badminton.route)}
           >
             favorite
           </button>
           <button
-            className="material-symbols-outlined text-gray-300 hover:text-primary transition-all duration-200 active:scale-95 relative text-[28px]"
+            className="w-10 h-10 rounded-full bg-surface-container-low text-on-surface-variant hover:text-white hover:bg-primary border border-outline-variant/70 transition-all duration-200 active:scale-95 relative text-[24px] flex items-center justify-center material-symbols-outlined"
             onClick={onOpenCart}
             title="Giỏ hàng"
+            aria-label="Giỏ hàng"
           >
             shopping_cart
-            <span className="absolute -top-1 -right-2 bg-primary text-white text-[11px] min-w-5 h-5 px-1 flex items-center justify-center rounded-sm skew-x-[-10deg] font-black">
-              <span className="skew-x-[10deg]">{cartCount}</span>
+            <span className="absolute -top-1 -right-1 bg-primary text-white text-[11px] min-w-5 h-5 px-1 flex items-center justify-center rounded-full font-black">
+              <span>{cartCount}</span>
             </span>
           </button>
           {user ? (
             <button
-              className="text-gray-300 hover:text-primary text-xs font-bold uppercase tracking-wider flex items-center gap-1"
+              className="max-w-[150px] h-10 rounded-full bg-surface-container-low border border-outline-variant/70 px-3 text-on-surface-variant hover:text-white hover:bg-primary text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-colors"
               onClick={onOpenProfile}
               title="Thông tin tài khoản"
             >
               <span className="material-symbols-outlined text-[20px]">account_circle</span>
-              {user.fullName || user.name || user.username}
+              <span className="truncate">{user.fullName || user.name || user.username}</span>
             </button>
           ) : (
             <button
-              className="material-symbols-outlined text-gray-300 hover:text-primary transition-all duration-200 active:scale-95 text-[28px]"
+              className="w-10 h-10 rounded-full bg-surface-container-low text-on-surface-variant hover:text-white hover:bg-primary border border-outline-variant/70 transition-all duration-200 active:scale-95 text-[24px] flex items-center justify-center material-symbols-outlined"
               onClick={() => navigate("/login")}
               title="Tài khoản"
+              aria-label="Tài khoản"
             >
               person
             </button>
           )}
           <button
-            className="lg:hidden material-symbols-outlined text-gray-300 text-[28px]"
+            className="lg:hidden w-10 h-10 rounded-full bg-surface-container-low border border-outline-variant/70 text-on-surface-variant text-[26px] flex items-center justify-center material-symbols-outlined"
             onClick={() => setMobileOpen((value) => !value)}
+            aria-label="Mở menu"
           >
             menu
           </button>
@@ -527,26 +594,56 @@ function Header({ cartCount, user, onOpenCart, onOpenProfile }) {
       </nav>
 
       {mobileOpen && (
-        <div className="lg:hidden bg-[#111] border-b border-primary px-margin-mobile py-4">
-          <div className="flex flex-col gap-2">
-            <Link onClick={() => setMobileOpen(false)} className="text-white py-2 uppercase font-bold" to="/">
-              Trang chủ
+        <div className="lg:hidden bg-white border-b border-outline-variant/70 px-margin-mobile py-4 shadow-2xl">
+          <form onSubmit={submitSearch} className="flex items-center border border-outline-variant/80 rounded-full overflow-hidden bg-surface-container-low mb-4 focus-within:border-primary">
+            <input
+              type="text"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Tìm sản phẩm..."
+              className="px-4 py-3 text-sm border-none outline-none bg-transparent w-full text-on-surface placeholder-secondary"
+            />
+            <button className="px-4 py-3 bg-primary text-white" aria-label="Tìm kiếm">
+              <span className="material-symbols-outlined text-lg block">search</span>
+            </button>
+          </form>
+          <div className="flex flex-col gap-1">
+            <Link
+              onClick={() => setMobileOpen(false)}
+              className={`mobile-nav-link ${location.pathname === "/" ? "active" : ""}`}
+              to="/"
+            >
+              <span className="material-symbols-outlined text-[18px]">home</span>
+              <span>Trang chủ</span>
             </Link>
             {SPORT_LIST.map((sport) => (
               <Link
                 key={sport.slug}
                 onClick={() => setMobileOpen(false)}
-                className="text-gray-300 py-2 uppercase font-bold"
+                className={`mobile-nav-link ${
+                  location.pathname.includes(`/products/categories/${sport.slug}`) ? "active" : ""
+                }`}
                 to={sport.route}
               >
-                {sport.title}
+                <span className="material-symbols-outlined text-[18px]">{sport.icon}</span>
+                <span>{sport.title}</span>
               </Link>
             ))}
-            <Link onClick={() => setMobileOpen(false)} className="text-gray-300 py-2 uppercase font-bold" to="/orders">
-              Đơn hàng
+            <Link
+              onClick={() => setMobileOpen(false)}
+              className={`mobile-nav-link ${location.pathname === "/orders" ? "active" : ""}`}
+              to="/orders"
+            >
+              <span className="material-symbols-outlined text-[18px]">receipt_long</span>
+              <span>Đơn hàng</span>
             </Link>
-            <Link onClick={() => setMobileOpen(false)} className="text-gray-300 py-2 uppercase font-bold" to="/blog">
-              Blog
+            <Link
+              onClick={() => setMobileOpen(false)}
+              className={`mobile-nav-link ${location.pathname === "/blog" ? "active" : ""}`}
+              to="/blog"
+            >
+              <span className="material-symbols-outlined text-[18px]">article</span>
+              <span>Blog</span>
             </Link>
           </div>
         </div>
@@ -561,18 +658,18 @@ function HomePage({ products, loading, onOpenDetail, onAddToCart, wishlist, onTo
   const visibleSale = saleProducts.length ? saleProducts : products.slice(0, 6);
 
   return (
-    <main className="pt-[120px]">
+    <main className="pt-[108px]">
       <section
-        className="relative min-h-[90vh] flex items-center justify-start px-margin-mobile md:px-margin-desktop overflow-hidden bg-black"
+        className="home-clean-hero relative min-h-[calc(100dvh-108px)] flex items-center justify-start px-margin-mobile md:px-margin-desktop overflow-hidden bg-white"
         id="hero"
       >
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-black/88 via-black/28 to-black/5 z-10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-transparent to-black/25 z-10" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_42%,rgba(0,98,255,0.22),transparent_32%),radial-gradient(circle_at_18%_48%,rgba(192,0,33,0.20),transparent_28%)] z-10 mix-blend-screen" />
-          <div className="absolute inset-y-0 left-0 w-[42vw] bg-gradient-to-r from-black via-black/70 to-transparent z-10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/92 via-black/45 to-black/8 z-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 z-10" />
+          <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.10),transparent_34%),linear-gradient(250deg,rgba(192,0,33,0.16),transparent_48%)] z-10 mix-blend-screen" />
+          <div className="absolute inset-y-0 left-0 w-[48vw] bg-gradient-to-r from-black via-black/70 to-transparent z-10" />
           <div
-            className="w-full h-full bg-cover"
+            className="hero-bg-image w-full h-full bg-cover"
             style={{
               backgroundImage: `url("${HERO_IMAGE}")`,
               backgroundPosition: "center center",
@@ -580,32 +677,31 @@ function HomePage({ products, loading, onOpenDetail, onAddToCart, wishlist, onTo
             }}
           />
         </div>
-        <div className="absolute inset-x-0 top-0 h-1 bg-primary z-20 shadow-[0_0_28px_rgba(192,0,33,0.9)]" />
-        <div className="absolute -left-20 bottom-8 w-[420px] h-[420px] border border-primary/30 rotate-45 z-10" />
-        <div className="relative z-20 max-w-2xl flex flex-col items-start">
-          <span className="bg-primary text-on-primary font-label-bold text-label-bold px-5 py-1.5 skew-x-hard italic mb-5 shadow-[0_0_28px_rgba(192,0,33,0.55)]">
-            <span className="inline-block skew-x-reverse">MÙA GIẢI MỚI 2026</span>
+        <div className="absolute inset-x-0 top-0 h-px bg-primary z-20 shadow-[0_0_28px_rgba(192,0,33,0.9)]" />
+        <div className="absolute -left-28 bottom-4 w-[430px] h-[430px] border border-white/10 rotate-45 z-10" />
+        <div className="hero-copy relative z-20 max-w-3xl flex flex-col items-start py-16 md:py-20">
+          <span className="bg-white/10 text-white border border-white/20 rounded-full font-label-bold text-[11px] px-4 py-2 mb-5 backdrop-blur-md">
+            <span>MÙA GIẢI MỚI 2026</span>
           </span>
-          <h1 className="font-display-lg text-[54px] md:text-[86px] leading-[1.08] italic uppercase mb-5 pt-2 text-white hero-title drop-shadow-[0_8px_24px_rgba(0,0,0,0.85)]">
-            ĐỈNH CAO <br />{" "}
-            <span className="text-primary drop-shadow-[0_0_18px_rgba(192,0,33,0.85)]">HIỆU SUẤT</span>
+          <h1 className="font-display-lg text-[54px] md:text-[86px] leading-[1.03] uppercase mb-5 pt-2 text-white hero-title drop-shadow-[0_8px_24px_rgba(0,0,0,0.85)]">
+            Đỉnh cao hiệu suất.
           </h1>
-          <p className="font-body-lg text-body-lg text-white/80 max-w-lg mb-8 border-l-4 border-primary pl-4">
-            Cầu lông · Bóng đá · Pickleball — Trang bị chính hãng từ các thương hiệu hàng đầu.
+          <p className="font-body-lg text-body-lg text-white/90 max-w-xl mb-8 border-l-4 border-primary pl-4">
+            Cầu lông · Bóng đá · Pickleball. Trang bị chính hãng từ các thương hiệu hàng đầu.
             Giao nhanh toàn quốc.
           </p>
           <a
             href="#equipment"
-            className="group flex items-center gap-3 bg-primary text-on-primary font-headline-md text-xl italic px-10 py-4 hover:bg-white hover:text-primary transition-all transform active:scale-95 shadow-[0_14px_38px_rgba(192,0,33,0.45)] skew-x-hard"
+            className="group inline-flex items-center gap-3 bg-primary text-on-primary font-headline-md text-lg px-8 md:px-10 py-4 rounded-full hover:bg-white hover:text-primary transition-all active:scale-95 shadow-[0_18px_40px_rgba(192,0,33,0.40)]"
           >
-            <span className="inline-flex items-center gap-3 skew-x-reverse">
-              SHOP NOW
+            <span className="inline-flex items-center gap-3">
+              KHÁM PHÁ NGAY
               <span className="material-symbols-outlined group-hover:translate-x-2 transition-transform">
                 arrow_forward
               </span>
             </span>
           </a>
-          <div className="flex flex-wrap gap-4 mt-12 pt-8 border-t border-white/30">
+          <div className="flex flex-wrap gap-3 md:gap-4 mt-10 pt-7 border-t border-white/20">
             <Stat value={loading ? "..." : `${products.length}+`} label="Sản phẩm" />
             <Stat value="15+" label="Thương hiệu" />
             <Stat value="50K+" label="Khách hàng" />
@@ -614,7 +710,7 @@ function HomePage({ products, loading, onOpenDetail, onAddToCart, wishlist, onTo
         </div>
       </section>
 
-      <section className="bg-white px-margin-mobile md:px-margin-desktop py-16" id="collection">
+      <section className="bg-white px-margin-mobile md:px-margin-desktop py-20" id="collection">
         <div className="max-w-7xl mx-auto">
           <SectionTitle title="BỘ SƯU TẬP MỚI" subtitle="Engineered for the elite" />
           {loading ? (
@@ -633,7 +729,8 @@ function HomePage({ products, loading, onOpenDetail, onAddToCart, wishlist, onTo
         </div>
       </section>
 
-      <section className="bg-primary-container relative px-margin-mobile md:px-margin-desktop py-20 overflow-hidden">
+      <section className="home-clean-promo bg-[#f5f7f1] text-on-surface relative px-margin-mobile md:px-margin-desktop py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(192,0,33,0.28),transparent_30%),linear-gradient(120deg,rgba(255,255,255,0.08),transparent_35%)]" />
         <div className="absolute -right-20 -top-20 opacity-10 pointer-events-none select-none">
           <span className="font-display-lg text-[200px] md:text-[300px] italic leading-none text-primary">
             SALE
@@ -641,17 +738,17 @@ function HomePage({ products, loading, onOpenDetail, onAddToCart, wishlist, onTo
         </div>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
           <div className="max-w-xl">
-            <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic text-on-primary-container leading-tight mb-4">
+            <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white leading-tight mb-4">
               HÀNG GIẢM GIÁ
             </h2>
-            <p className="text-on-primary-container font-body-lg text-body-lg mb-8 opacity-90">
+            <p className="text-white/80 font-body-lg text-body-lg mb-8">
               Giảm đến 40% các sản phẩm hot nhất. Nhanh tay, số lượng có hạn.
             </p>
             <Link
               to={SPORTS.badminton.route}
-              className="inline-block bg-primary text-on-primary px-12 py-4 font-label-bold text-label-bold skew-x-hard italic hover:bg-surface-tint transition-colors shadow-lg"
+              className="inline-flex items-center justify-center bg-primary text-on-primary px-8 py-4 rounded-full font-label-bold text-label-bold hover:bg-white hover:text-primary transition-colors shadow-lg"
             >
-              <span className="inline-block skew-x-reverse">SHOP SALE</span>
+              <span>SHOP SALE</span>
             </Link>
           </div>
           <div className="w-full flex gap-5 overflow-x-auto pb-3 scrollbar-hide">
@@ -664,22 +761,26 @@ function HomePage({ products, loading, onOpenDetail, onAddToCart, wishlist, onTo
 
       <section className="bg-white px-margin-mobile md:px-margin-desktop py-20" id="equipment">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-center mb-12 underline decoration-primary decoration-4 underline-offset-8 text-on-background">
+          <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase text-center mb-12 text-on-background">
             THIẾT BỊ THI ĐẤU
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {SPORT_LIST.map((sport) => (
-              <Link key={sport.slug} to={sport.route} className="group cursor-pointer flex flex-col">
-                <div className="flex-grow overflow-hidden bg-surface-container mb-4 border-b-4 border-transparent group-hover:border-primary transition-all rounded-xl min-h-[280px]">
+              <Link key={sport.slug} to={sport.route} className="sport-category-card group cursor-pointer flex flex-col">
+                <div className="sport-category-media relative flex-grow overflow-hidden bg-surface-container mb-5 border border-outline-variant/60 group-hover:border-primary transition-all rounded-2xl min-h-[320px] shadow-sm group-hover:shadow-[0_22px_60px_rgba(20,20,20,0.16)]">
                   <img
                     alt={sport.title}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                    className="absolute inset-0 w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
                     src={sport.card}
                   />
+                  <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/70 to-transparent" />
+                  <span className="sport-category-icon absolute bottom-5 right-5 w-11 h-11 rounded-full bg-white text-primary flex items-center justify-center shadow-xl group-hover:bg-primary group-hover:text-white transition-colors">
+                    <span className="material-symbols-outlined">{sport.icon}</span>
+                  </span>
                 </div>
-                <h3 className="font-headline-md text-headline-md italic uppercase flex items-center justify-between text-on-background">
+                <h3 className="font-headline-md text-headline-md uppercase flex items-center justify-between text-on-background">
                   {sport.label}
-                  <span className="material-symbols-outlined text-primary">{sport.icon}</span>
+                  <span className="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </h3>
                 <p className="text-on-surface-variant mt-1">{sport.sub}.</p>
               </Link>
@@ -690,8 +791,8 @@ function HomePage({ products, loading, onOpenDetail, onAddToCart, wishlist, onTo
 
       <section className="bg-surface-container-low px-margin-mobile md:px-margin-desktop py-16">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-8 border-l-8 border-primary pl-6">
-            <h2 className="font-headline-lg text-xl md:text-2xl italic uppercase text-on-background">
+          <div className="flex items-center gap-3 mb-8 border-l-4 border-primary pl-5">
+            <h2 className="font-headline-lg text-xl md:text-2xl uppercase text-on-background">
               Dịch vụ chuyên nghiệp
             </h2>
           </div>
@@ -699,7 +800,7 @@ function HomePage({ products, loading, onOpenDetail, onAddToCart, wishlist, onTo
             {SERVICES.map((service) => (
               <div
                 key={service.title}
-                className="bg-white p-6 rounded-xl border border-outline-variant hover:border-primary transition-all text-center group"
+                className="bg-white p-6 rounded-2xl border border-outline-variant/70 hover:border-primary transition-all text-center group shadow-sm hover:shadow-[0_18px_42px_rgba(20,20,20,0.10)]"
               >
                 <i className={`ti ${service.icon} text-3xl text-primary mb-4 block group-hover:scale-110 transition-transform`} />
                 <h4 className="font-label-bold text-sm text-on-surface mb-2">{service.title}</h4>
@@ -873,24 +974,63 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
   }
 
   return (
-    <main className="pt-[120px] min-h-screen bg-surface-container-low">
-      <div className="max-w-[1500px] mx-auto px-margin-mobile md:px-margin-desktop py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)_230px] gap-6 layout-grid">
-          <aside className="w-full h-fit flex flex-col gap-2 sidebar-filter lg:sticky lg:top-[132px] z-10">
+    <main className="pt-[108px] min-h-screen bg-surface-container-low">
+      <section className="category-hero relative overflow-hidden bg-on-surface text-white">
+        <div
+          className="category-hero-image absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url("${sport.hero}")` }}
+        />
+        <div className="category-hero-overlay absolute inset-0" />
+        <div className="relative max-w-[1500px] mx-auto px-margin-mobile md:px-margin-desktop py-10 md:py-14">
+          <div className="category-hero-copy max-w-2xl">
+            <p className="category-hero-eyebrow text-xs font-bold uppercase tracking-[0.18em] text-primary mb-3">
+              Velocity Prime
+            </p>
+            <h1 className="category-hero-title font-display-lg text-[44px] md:text-[68px] leading-[1.02] uppercase">
+              {sport.title}
+            </h1>
+            <p className="category-hero-sub text-white/80 text-base md:text-lg mt-4 max-w-xl">
+              {sport.sub}
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-[0.08em] text-white/75">
+              <span className="category-hero-badge rounded-full border border-white/20 bg-white/10 px-3 py-2 backdrop-blur-sm">
+                {visibleProducts.length} sản phẩm
+              </span>
+              <span className="category-hero-badge rounded-full border border-white/20 bg-white/10 px-3 py-2 backdrop-blur-sm">
+                Hàng chính hãng
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-[1500px] mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)_240px] gap-6 layout-grid">
+          <aside className="w-full h-fit flex flex-col gap-3 sidebar-filter lg:sticky lg:top-[124px] z-10">
             <FilterBox title="Danh mục sản phẩm">
               <ul className="p-2 space-y-1 text-sm text-on-surface">
                 {(categoryMeta.subCats[sportKey] || ["Tất cả"]).map((cat) => (
                   <li key={cat}>
                     <button
-                      className={`hover-slide-right w-full text-left px-3 py-2 rounded hover:bg-surface-container transition-colors ${
-                        cat === subCategory ? "font-bold text-primary bg-primary/10" : ""
+                      className={`category-filter-pill group w-full text-left px-3 py-3 rounded-2xl transition-all ${
+                        cat === subCategory
+                          ? "active font-bold text-primary bg-primary/10"
+                          : "text-on-surface hover:bg-surface-container"
                       }`}
                       onClick={() => {
                         setSubCategory(cat);
                         setSelectedSizes([]);
                       }}
                     >
-                      {cat.toUpperCase()}
+                      <span className="inline-flex items-center gap-3 min-w-0">
+                        <span className="category-filter-icon material-symbols-outlined text-[18px]">
+                          {categoryIconFor(cat)}
+                        </span>
+                        <span className="truncate">{cat.toUpperCase()}</span>
+                      </span>
+                      <span className="category-filter-arrow material-symbols-outlined text-[16px]">
+                        chevron_right
+                      </span>
                     </button>
                   </li>
                 ))}
@@ -900,11 +1040,11 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
             <FilterBox title="Theo kích cỡ" compact>
               <div className="p-2">
                 {sizeOptions.length ? (
-                  <div className="grid grid-cols-5 gap-1 text-[12px]">
+                  <div className="grid grid-cols-5 gap-1.5 text-[12px]">
                     {sizeOptions.map((size) => (
                       <button
                         key={size}
-                        className={`size-filter-label py-1.5 border rounded text-center font-semibold ${
+                        className={`size-filter-label py-2 border rounded-lg text-center font-semibold ${
                           selectedSizes.includes(size)
                             ? "border-primary bg-primary text-white"
                             : "border-outline-variant hover:border-primary"
@@ -916,7 +1056,7 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
                     ))}
                   </div>
                 ) : (
-                  <div className="px-2 py-2 text-[12px] text-secondary bg-surface-container-low rounded-md">
+                  <div className="px-3 py-3 text-[12px] text-secondary bg-surface-container-low rounded-xl">
                     Chọn danh mục Quần áo hoặc Giày để lọc theo size.
                   </div>
                 )}
@@ -928,7 +1068,9 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
                 {PRICE_RANGES.map((range) => (
                   <label
                     key={range.value || "all"}
-                    className="price-range-item flex items-center gap-2 px-2 py-2 rounded cursor-pointer hover:bg-surface-container transition-colors"
+                    className={`price-range-item flex items-center gap-2 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-surface-container transition-colors ${
+                      priceRange === range.value ? "selected" : ""
+                    }`}
                   >
                     <input
                       type="radio"
@@ -946,28 +1088,28 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
           </aside>
 
           <div>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-4">
+            <div className="bg-white border border-outline-variant/70 rounded-2xl p-4 md:p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
               <div className="flex-1">
-                <span className="font-headline-md text-xl font-semibold italic text-on-background">
+                <span className="font-headline-md text-2xl font-semibold uppercase text-on-background">
                   {sport.title}
                 </span>
                 <span className="text-sm text-secondary ml-2">({visibleProducts.length} sản phẩm)</span>
               </div>
               <div className="flex items-center gap-2 w-full sm:w-auto">
-                <div className="flex items-center border border-outline-variant rounded-lg overflow-hidden bg-white flex-1 sm:w-64 focus-within:border-primary transition-colors">
+                <div className="flex items-center border border-outline-variant rounded-full overflow-hidden bg-surface-container-low flex-1 sm:w-72 focus-within:border-primary transition-colors">
                   <span className="material-symbols-outlined text-secondary text-lg px-3">search</span>
                   <input
                     type="text"
                     value={search}
                     onChange={(event) => updateSearch(event.target.value)}
                     placeholder="Tìm sản phẩm..."
-                    className="py-2 pr-3 text-sm border-none outline-none bg-transparent w-full text-on-surface placeholder-secondary"
+                    className="py-3 pr-4 text-sm border-none outline-none bg-transparent w-full text-on-surface placeholder-secondary"
                   />
                 </div>
                 <select
                   value={sortBy}
                   onChange={(event) => setSortBy(event.target.value)}
-                  className="px-3 py-2 border border-outline-variant rounded-lg text-sm text-on-surface bg-white outline-none cursor-pointer whitespace-nowrap"
+                  className="px-4 py-3 border border-outline-variant rounded-full text-sm text-on-surface bg-white outline-none cursor-pointer whitespace-nowrap"
                 >
                   <option value="">Sắp xếp</option>
                   <option value="price-asc">Giá tăng dần</option>
@@ -1000,15 +1142,15 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
             )}
           </div>
 
-          <aside className="w-full h-fit flex flex-col gap-2 sidebar-filter lg:sticky lg:top-[132px] z-10">
+          <aside className="w-full h-fit flex flex-col gap-3 sidebar-filter lg:sticky lg:top-[124px] z-10">
             <FilterBox title="Thương hiệu" compact>
               <div className="p-2 grid grid-cols-1 gap-1 text-[12px]">
                 {brandOptions.map((brand) => (
                   <label
                     key={brand}
-                    className={`flex min-h-8 items-center gap-1.5 px-2 py-1 rounded-md border cursor-pointer transition-colors ${
+                    className={`brand-filter-pill flex min-h-9 items-center gap-2 px-3 py-2 rounded-xl border cursor-pointer transition-all ${
                       selectedBrands.includes(brand)
-                        ? "border-primary bg-primary/10 text-primary font-semibold"
+                        ? "active border-primary bg-primary/10 text-primary font-semibold"
                         : "border-outline-variant/70 text-on-surface-variant hover:border-primary"
                     }`}
                   >
@@ -1032,10 +1174,10 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
 
 function FilterBox({ title, children, compact = false }) {
   return (
-    <div className={`bg-white border border-[#68000d] ${compact ? "rounded-md" : "rounded"} overflow-hidden shadow-sm`}>
+    <div className={`bg-white border border-outline-variant/70 ${compact ? "rounded-2xl" : "rounded-2xl"} overflow-hidden shadow-sm`}>
       <div
-        className={`bg-[#68000d] text-white font-bold uppercase ${
-          compact ? "px-3 py-1.5 text-[12px]" : "px-4 py-2 text-sm"
+        className={`bg-white text-on-surface border-b border-outline-variant/60 font-bold uppercase tracking-[0.08em] ${
+          compact ? "px-4 py-3 text-[12px]" : "px-4 py-3.5 text-sm"
         }`}
       >
         {title}
@@ -1054,21 +1196,29 @@ function ProductCard({
 }) {
   return (
     <div
-      className="product-card-hover bg-white rounded-xl overflow-hidden border border-outline-variant cursor-pointer flex flex-col h-full"
+      className="group product-card-hover bg-white rounded-2xl overflow-hidden border border-outline-variant/70 cursor-pointer flex flex-col h-full"
       onClick={() => onOpenDetail(product)}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onOpenDetail(product);
+        }
+      }}
+      role="button"
+      tabIndex={0}
     >
-      <div className="relative bg-surface-container h-[210px] flex items-center justify-center overflow-hidden">
+      <div className="relative bg-[#f3f3f3] h-[230px] flex items-center justify-center overflow-hidden">
         {product.imageUrl ? (
           <img
             src={product.imageUrl}
             alt={product.name}
-            className="product-img w-full h-full object-cover transition-transform duration-300"
+            className="product-img w-full h-full object-cover"
           />
         ) : (
           <i className={`ti ${product.icon} text-[72px] text-outline-variant`} />
         )}
         <button
-          className={`wishlist-btn absolute top-3 right-3 w-8 h-8 bg-white rounded-full border border-outline-variant flex items-center justify-center ${
+          className={`wishlist-btn absolute top-3 right-3 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full border border-white/70 flex items-center justify-center shadow-lg hover:bg-primary hover:text-white ${
             isWishlisted ? "active opacity-100" : ""
           }`}
           onClick={(event) => {
@@ -1080,26 +1230,28 @@ function ProductCard({
           <i className={`ti ti-heart ${isWishlisted ? "text-primary" : "text-secondary"}`} />
         </button>
         {product.badge && (
-          <span className="absolute top-3 left-3 bg-primary text-white text-[10px] font-black px-2 py-1 rounded-sm uppercase">
+          <span className="absolute top-3 left-3 bg-primary text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase shadow-[0_10px_24px_rgba(192,0,33,0.28)]">
             {product.badge}
           </span>
         )}
       </div>
-      <div className="p-4 flex flex-col flex-1">
-        <div className="text-[11px] font-bold text-secondary uppercase tracking-wider mb-1">
+      <div className="p-4 md:p-5 flex flex-col flex-1">
+        <div className="text-[11px] font-bold text-secondary uppercase tracking-wider mb-2">
           {product.brand || "Velocity Prime"}
         </div>
-        <h3 className="font-bold text-sm text-on-surface line-clamp-2 min-h-[40px]">{product.name}</h3>
-        <div className="text-xs text-secondary mt-2">{product.cat}</div>
-        <div className="flex items-center gap-1 mt-2 text-xs text-yellow-600">
-          <span className="material-symbols-outlined text-sm">star</span>
-          {product.rating}
-          <span className="text-secondary">({product.reviews})</span>
+        <h3 className="font-bold text-[15px] text-on-surface line-clamp-2 min-h-[42px] leading-snug group-hover:text-primary transition-colors">{product.name}</h3>
+        <div className="mt-3 flex items-center justify-between gap-2">
+          <span className="text-[11px] text-secondary bg-surface-container-low px-2.5 py-1 rounded-full">{product.cat}</span>
+          <span className="flex items-center gap-1 text-xs text-yellow-600">
+            <span className="material-symbols-outlined text-sm">star</span>
+            {product.rating}
+            <span className="text-secondary">({product.reviews})</span>
+          </span>
         </div>
         <div className="mt-auto pt-4">
-          <div className="text-primary font-black text-lg">{formatPrice(product.price)}</div>
+          <div className="text-primary font-black text-xl tracking-tight">{formatPrice(product.price)}</div>
           <button
-            className="btn-effect mt-3 w-full py-2 bg-on-surface text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-2 hover:bg-primary transition-colors"
+            className="btn-effect mt-3 w-full py-3 bg-on-surface text-white rounded-full text-xs font-bold uppercase tracking-[0.05em] flex items-center justify-center gap-2 hover:bg-primary transition-colors"
             onClick={(event) => {
               event.stopPropagation();
               onAddToCart(product);
@@ -1117,12 +1269,12 @@ function ProductCard({
 function FeatureCard({ product, onOpenDetail }) {
   return (
     <button
-      className="w-[360px] flex-shrink-0 bg-surface-container rounded-xl border border-outline-variant hover:border-primary transition-all cursor-pointer p-6 flex flex-col items-center text-center product-card-hover"
+      className="group w-[320px] md:w-[360px] flex-shrink-0 bg-white rounded-2xl border border-outline-variant/70 hover:border-primary transition-all cursor-pointer p-4 flex flex-col text-left product-card-hover"
       onClick={() => onOpenDetail(product)}
     >
-      <div className="w-full h-48 flex items-center justify-center mb-4">
+      <div className="w-full h-56 flex items-center justify-center mb-4 overflow-hidden rounded-xl bg-surface-container">
         {product.imageUrl ? (
-          <img className="w-full h-full object-cover rounded-lg" src={product.imageUrl} alt={product.name} />
+          <img className="product-img w-full h-full object-cover" src={product.imageUrl} alt={product.name} />
         ) : (
           <i className={`ti ${product.icon}`} style={{ fontSize: 80, color: "#d8c2c0" }} />
         )}
@@ -1130,10 +1282,15 @@ function FeatureCard({ product, onOpenDetail }) {
       <div className="text-xs font-semibold text-secondary uppercase tracking-wider mb-2">
         {product.brand}
       </div>
-      <h3 className="font-headline-md text-xl italic text-on-background line-clamp-1 mb-2">
+      <h3 className="font-headline-md text-xl text-on-background line-clamp-1 mb-2 group-hover:text-primary transition-colors">
         {product.name}
       </h3>
-      <div className="text-primary font-black">{formatPrice(product.price)}</div>
+      <div className="mt-auto flex w-full items-center justify-between">
+        <div className="text-primary font-black">{formatPrice(product.price)}</div>
+        <span className="w-9 h-9 rounded-full bg-on-surface text-white flex items-center justify-center group-hover:bg-primary transition-colors">
+          <span className="material-symbols-outlined text-base">arrow_forward</span>
+        </span>
+      </div>
     </button>
   );
 }
@@ -1141,21 +1298,21 @@ function FeatureCard({ product, onOpenDetail }) {
 function SaleCard({ product, onOpenDetail }) {
   return (
     <button
-      className="w-[340px] flex-shrink-0 bg-white p-4 rounded-xl flex flex-col items-center text-center shadow-md border border-outline-variant cursor-pointer hover:border-primary transition-all product-card-hover"
+      className="group w-[290px] md:w-[320px] flex-shrink-0 bg-white p-4 rounded-2xl flex flex-col text-left shadow-md border border-outline-variant/70 cursor-pointer hover:border-primary transition-all product-card-hover"
       onClick={() => onOpenDetail(product)}
     >
-      <div className="w-full h-40 bg-surface-container rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+      <div className="w-full h-44 bg-surface-container rounded-xl mb-4 flex items-center justify-center overflow-hidden">
         {product.imageUrl ? (
-          <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
+          <img src={product.imageUrl} alt={product.name} className="product-img w-full h-full object-cover" />
         ) : (
           <i className={`ti ${product.icon} text-[64px] text-outline-variant`} />
         )}
       </div>
-      <span className="text-[10px] bg-primary text-white font-black px-2 py-1 rounded-sm mb-2">
+      <span className="w-fit text-[10px] bg-primary text-white font-black px-3 py-1 rounded-full mb-2">
         SALE
       </span>
-      <h3 className="font-bold text-sm line-clamp-2 min-h-[40px]">{product.name}</h3>
-      <div className="text-primary font-black mt-2">{formatPrice(product.price)}</div>
+      <h3 className="font-bold text-sm line-clamp-2 min-h-[40px] group-hover:text-primary transition-colors">{product.name}</h3>
+      <div className="text-primary font-black mt-3">{formatPrice(product.price)}</div>
     </button>
   );
 }
@@ -1210,21 +1367,22 @@ function ProductDetailModal({ product, onClose, onAddToCart, showToast }) {
   return (
     <div className="detail-modal-bg open" onClick={onClose}>
       <div
-        className="bg-white rounded-2xl w-[900px] max-w-full max-h-[90vh] overflow-y-auto relative shadow-2xl"
+        className="bg-white rounded-2xl w-[1040px] max-w-full max-h-[90vh] overflow-y-auto relative shadow-2xl"
         onClick={(event) => event.stopPropagation()}
       >
         <button
-          className="absolute right-4 top-4 z-10 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center text-secondary hover:text-primary"
+          className="absolute right-4 top-4 z-10 w-10 h-10 bg-white/95 rounded-full flex items-center justify-center text-secondary hover:text-primary shadow-lg border border-outline-variant/60"
           onClick={onClose}
+          aria-label="Đóng"
         >
           <span className="material-symbols-outlined">close</span>
         </button>
         {loading ? (
           <LoadingBlock text="Đang tải chi tiết sản phẩm..." />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-8">
+          <div className="grid grid-cols-1 md:grid-cols-[1.08fr_0.92fr] gap-8 p-5 md:p-8">
             <div>
-              <div className="bg-surface-container rounded-xl h-[360px] flex items-center justify-center overflow-hidden">
+              <div className="bg-surface-container rounded-2xl aspect-square md:aspect-[1/0.92] flex items-center justify-center overflow-hidden border border-outline-variant/50">
                 {selectedImage ? (
                   <img src={selectedImage} alt={product.name} className="w-full h-full object-cover" />
                 ) : (
@@ -1232,12 +1390,12 @@ function ProductDetailModal({ product, onClose, onAddToCart, showToast }) {
                 )}
               </div>
               {images.length > 1 && (
-                <div className="flex gap-3 mt-3 overflow-x-auto">
+                <div className="flex gap-3 mt-4 overflow-x-auto pb-1">
                   {images.map((image) => (
                     <button
                       key={image}
-                      className={`w-20 h-20 rounded-lg overflow-hidden border ${
-                        image === selectedImage ? "border-primary" : "border-outline-variant"
+                      className={`w-20 h-20 rounded-xl overflow-hidden border-2 flex-shrink-0 transition-all ${
+                        image === selectedImage ? "border-primary shadow-[0_10px_24px_rgba(192,0,33,0.18)]" : "border-outline-variant hover:border-primary"
                       }`}
                       onClick={() => setSelectedImage(image)}
                     >
@@ -1248,20 +1406,24 @@ function ProductDetailModal({ product, onClose, onAddToCart, showToast }) {
               )}
             </div>
             <div className="flex flex-col">
-              <div className="text-xs font-bold text-secondary uppercase tracking-wider mb-2">
-                {product.brand}
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="text-xs font-bold text-secondary uppercase tracking-wider">
+                  {product.brand || "Velocity Prime"}
+                </span>
+                <span className="w-1 h-1 rounded-full bg-outline-variant" />
+                <span className="text-xs text-secondary">{product.cat}</span>
               </div>
-              <h2 className="font-headline-lg text-3xl italic uppercase text-on-surface mb-3">
+              <h2 className="font-headline-lg text-3xl md:text-4xl uppercase text-on-surface leading-tight mb-4">
                 {product.name}
               </h2>
-              <div className="text-primary text-2xl font-black mb-4">{formatPrice(price)}</div>
-              <p className="text-sm text-secondary leading-relaxed mb-5">
+              <div className="text-primary text-3xl font-black mb-5 tracking-tight">{formatPrice(price)}</div>
+              <p className="text-sm text-secondary leading-relaxed mb-5 bg-surface-container-low border border-outline-variant/60 rounded-2xl p-4">
                 {detail?.description || product.description || "Sản phẩm chính hãng, tối ưu cho hiệu suất thi đấu."}
               </p>
 
               {variants.length > 0 && (
                 <div className="mb-6">
-                  <div className="text-sm font-bold text-on-surface mb-2">Chọn biến thể</div>
+                  <div className="text-sm font-bold text-on-surface mb-3">Chọn biến thể</div>
                   <div className="flex flex-wrap gap-2">
                     {variants.map((variant) => {
                       const disabled = Number(variant.stockQuantity || 0) <= 0;
@@ -1269,7 +1431,7 @@ function ProductDetailModal({ product, onClose, onAddToCart, showToast }) {
                         <button
                           key={variant.id}
                           disabled={disabled}
-                          className={`px-4 py-2 rounded-lg border text-sm font-semibold ${
+                          className={`px-4 py-2.5 rounded-full border text-sm font-semibold transition-colors ${
                             selectedVariant?.id === variant.id
                               ? "border-primary bg-primary text-white"
                               : "border-outline-variant hover:border-primary"
@@ -1284,9 +1446,9 @@ function ProductDetailModal({ product, onClose, onAddToCart, showToast }) {
                 </div>
               )}
 
-              <div className="flex gap-3 mt-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto pt-2">
                 <button
-                  className="flex-1 py-3 bg-primary text-white rounded-lg font-bold hover:bg-surface-tint transition-colors"
+                  className="btn-effect py-3.5 bg-primary text-white rounded-full font-bold hover:bg-surface-tint transition-colors"
                   onClick={() => {
                     onAddToCart(cartProduct, selectedVariant?.size || "");
                     onClose();
@@ -1295,7 +1457,7 @@ function ProductDetailModal({ product, onClose, onAddToCart, showToast }) {
                   Thêm vào giỏ
                 </button>
                 <button
-                  className="flex-1 py-3 bg-on-surface text-white rounded-lg font-bold hover:bg-primary transition-colors"
+                  className="btn-effect py-3.5 bg-on-surface text-white rounded-full font-bold hover:bg-primary transition-colors"
                   onClick={() => {
                     onAddToCart(cartProduct, selectedVariant?.size || "");
                     onClose();
@@ -1467,12 +1629,12 @@ function UserProfileModal({ open, user, onClose, onUpdate, onLogout, showToast }
   return (
     <div className="modal-bg open p-4" onClick={onClose}>
       <div
-        className="bg-white rounded-2xl w-[760px] max-w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
+        className="bg-white rounded-2xl w-[820px] max-w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
         onClick={(event) => event.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 text-gray-400 hover:text-primary transition-colors"
+          className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 border border-outline-variant/60 text-gray-400 hover:text-primary transition-colors flex items-center justify-center shadow-sm"
           title="Đóng"
         >
           <span className="material-symbols-outlined">close</span>
@@ -1480,10 +1642,10 @@ function UserProfileModal({ open, user, onClose, onUpdate, onLogout, showToast }
 
         <div className="grid grid-cols-1 md:grid-cols-[260px_1fr]">
           <aside className="bg-on-surface text-white p-6 flex flex-col items-center text-center">
-            <div className="w-24 h-24 rounded-full bg-primary flex items-center justify-center mb-4 shadow-xl">
+            <div className="w-24 h-24 rounded-2xl bg-primary flex items-center justify-center mb-4 shadow-xl">
               <span className="material-symbols-outlined text-5xl">person</span>
             </div>
-            <h2 className="font-headline-md text-2xl italic uppercase leading-tight">
+            <h2 className="font-headline-md text-2xl uppercase leading-tight">
               {profile.fullName || "Người dùng"}
             </h2>
             <span className="mt-3 px-3 py-1 bg-primary/20 border border-primary/40 rounded-full text-xs font-bold uppercase">
@@ -1491,14 +1653,14 @@ function UserProfileModal({ open, user, onClose, onUpdate, onLogout, showToast }
             </span>
             <div className="mt-6 w-full space-y-3">
               <button
-                className="w-full py-2.5 bg-white/10 text-white font-bold text-sm rounded-lg hover:bg-primary transition-colors flex items-center justify-center gap-2"
+              className="btn-effect w-full py-2.5 bg-white/10 text-white font-bold text-sm rounded-full hover:bg-primary transition-colors flex items-center justify-center gap-2"
                 onClick={() => setMode("edit")}
               >
                 <span className="material-symbols-outlined text-lg">edit</span>
                 Sửa thông tin
               </button>
               <button
-                className="w-full py-2.5 border border-white/20 text-white font-bold text-sm rounded-lg hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2"
+                className="btn-effect w-full py-2.5 border border-white/20 text-white font-bold text-sm rounded-full hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2"
                 onClick={() => {
                   setPasswordForm({ oldPassword: "", newPassword: "", confirmPassword: "" });
                   setMode("password");
@@ -1508,7 +1670,7 @@ function UserProfileModal({ open, user, onClose, onUpdate, onLogout, showToast }
                 Đổi mật khẩu
               </button>
               <button
-                className="w-full py-2.5 bg-primary text-on-primary font-bold text-sm rounded-lg hover:bg-surface-tint transition-colors flex items-center justify-center gap-2"
+                className="btn-effect w-full py-2.5 bg-primary text-on-primary font-bold text-sm rounded-full hover:bg-surface-tint transition-colors flex items-center justify-center gap-2"
                 onClick={onLogout}
               >
                 <span className="material-symbols-outlined text-lg">logout</span>
@@ -1520,7 +1682,7 @@ function UserProfileModal({ open, user, onClose, onUpdate, onLogout, showToast }
           <section className="p-6 md:p-8">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="font-headline-md text-2xl italic uppercase text-on-surface">
+                <h3 className="font-headline-md text-2xl uppercase text-on-surface">
                   {mode === "view" && "Thông tin tài khoản"}
                   {mode === "edit" && "Cập nhật thông tin"}
                   {mode === "password" && "Đổi mật khẩu"}
@@ -1565,13 +1727,13 @@ function UserProfileModal({ open, user, onClose, onUpdate, onLogout, showToast }
                 <div className="flex gap-3 pt-2">
                   <button
                     disabled={loading}
-                    className="flex-1 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-lg hover:bg-surface-tint transition-colors disabled:opacity-60"
+                    className="btn-effect flex-1 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-full hover:bg-surface-tint transition-colors disabled:opacity-60"
                   >
                     Lưu thay đổi
                   </button>
                   <button
                     type="button"
-                    className="flex-1 py-2.5 border border-outline-variant text-on-surface font-bold text-sm rounded-lg hover:border-primary transition-colors"
+                    className="btn-effect flex-1 py-2.5 border border-outline-variant text-on-surface font-bold text-sm rounded-full hover:border-primary transition-colors"
                     onClick={() => setMode("view")}
                   >
                     Hủy
@@ -1603,13 +1765,13 @@ function UserProfileModal({ open, user, onClose, onUpdate, onLogout, showToast }
                 <div className="flex gap-3 pt-2">
                   <button
                     disabled={loading}
-                    className="flex-1 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-lg hover:bg-surface-tint transition-colors disabled:opacity-60"
+                    className="btn-effect flex-1 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-full hover:bg-surface-tint transition-colors disabled:opacity-60"
                   >
                     Đổi mật khẩu
                   </button>
                   <button
                     type="button"
-                    className="flex-1 py-2.5 border border-outline-variant text-on-surface font-bold text-sm rounded-lg hover:border-primary transition-colors"
+                    className="btn-effect flex-1 py-2.5 border border-outline-variant text-on-surface font-bold text-sm rounded-full hover:border-primary transition-colors"
                     onClick={() => setMode("view")}
                   >
                     Hủy
@@ -1626,7 +1788,7 @@ function UserProfileModal({ open, user, onClose, onUpdate, onLogout, showToast }
 
 function ProfileInfoRow({ icon, label, value }) {
   return (
-    <div className="flex items-start gap-3 p-4 border border-outline-variant rounded-xl bg-surface-container-lowest">
+    <div className="flex items-start gap-3 p-4 border border-outline-variant/70 rounded-2xl bg-surface-container-lowest shadow-sm">
       <span className="material-symbols-outlined text-primary mt-0.5">{icon}</span>
       <div>
         <div className="text-xs font-bold text-secondary uppercase tracking-wider">{label}</div>
@@ -1643,12 +1805,12 @@ function CartPanel({ open, cart, onClose, onQty, onRemove, onCheckout }) {
     <>
       <div className={`cart-overlay ${open ? "open" : ""}`} onClick={onClose} />
       <aside className={`cart-panel ${open ? "open" : ""}`}>
-        <div className="px-5 py-4 border-b border-outline-variant flex items-center justify-between">
+        <div className="px-5 py-5 border-b border-outline-variant flex items-center justify-between">
           <h3 className="text-lg font-bold text-on-surface flex items-center gap-2">
             <span className="material-symbols-outlined text-primary">shopping_cart</span>
             Giỏ hàng
           </h3>
-          <button className="material-symbols-outlined text-secondary hover:text-on-surface" onClick={onClose}>
+          <button className="w-9 h-9 rounded-full bg-surface-container text-secondary hover:text-on-surface flex items-center justify-center material-symbols-outlined" onClick={onClose} aria-label="Đóng giỏ hàng">
             close
           </button>
         </div>
@@ -1658,9 +1820,9 @@ function CartPanel({ open, cart, onClose, onQty, onRemove, onCheckout }) {
               {cart.map((item) => (
                 <div
                   key={`${item.id}-${item.size}`}
-                  className="flex gap-3 border border-outline-variant rounded-lg p-3"
+                  className="flex gap-3 border border-outline-variant/70 rounded-2xl p-3 bg-white shadow-sm"
                 >
-                  <div className="w-16 h-16 bg-surface-container rounded overflow-hidden flex items-center justify-center">
+                  <div className="w-16 h-16 bg-surface-container rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0">
                     {item.imageUrl ? (
                       <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
                     ) : (
@@ -1673,14 +1835,14 @@ function CartPanel({ open, cart, onClose, onQty, onRemove, onCheckout }) {
                     <div className="text-primary font-black text-sm mt-1">{formatPrice(item.price)}</div>
                     <div className="flex items-center gap-2 mt-2">
                       <button
-                        className="w-7 h-7 border border-outline-variant rounded flex items-center justify-center"
+                        className="w-8 h-8 border border-outline-variant rounded-full flex items-center justify-center hover:border-primary hover:text-primary transition-colors"
                         onClick={() => onQty(item.id, item.size, -1)}
                       >
                         -
                       </button>
                       <span className="text-sm font-bold w-6 text-center">{item.qty}</span>
                       <button
-                        className="w-7 h-7 border border-outline-variant rounded flex items-center justify-center"
+                        className="w-8 h-8 border border-outline-variant rounded-full flex items-center justify-center hover:border-primary hover:text-primary transition-colors"
                         onClick={() => onQty(item.id, item.size, 1)}
                       >
                         +
@@ -1688,7 +1850,7 @@ function CartPanel({ open, cart, onClose, onQty, onRemove, onCheckout }) {
                     </div>
                   </div>
                   <button
-                    className="text-secondary hover:text-error self-start"
+                    className="w-8 h-8 rounded-full text-secondary hover:text-error hover:bg-error-container self-start transition-colors"
                     onClick={() => onRemove(item.id, item.size)}
                   >
                     <i className="ti ti-trash text-lg" />
@@ -1706,7 +1868,7 @@ function CartPanel({ open, cart, onClose, onQty, onRemove, onCheckout }) {
             <span className="font-black text-primary text-xl">{formatPrice(total)}</span>
           </div>
           <button
-            className="w-full py-3.5 bg-primary text-on-primary rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-surface-tint transition-colors"
+            className="btn-effect w-full py-3.5 bg-primary text-on-primary rounded-full font-bold flex items-center justify-center gap-2 hover:bg-surface-tint transition-colors"
             onClick={onCheckout}
           >
             <span className="material-symbols-outlined text-lg">local_shipping</span>
@@ -1776,18 +1938,18 @@ function CheckoutPage({ cart, user, onQty, onRemove, onClearCart, showToast }) {
 
   return (
     <main className="bg-surface-container-low text-on-background font-body-md min-h-screen">
-      <header className="bg-on-surface text-white py-4 px-margin-mobile md:px-margin-desktop flex items-center justify-between">
-        <button className="flex items-center gap-2 cursor-pointer" onClick={() => navigate(-1)}>
+      <header className="bg-on-surface text-white py-4 px-margin-mobile md:px-margin-desktop flex items-center justify-between shadow-[0_12px_34px_rgba(0,0,0,0.22)]">
+        <button className="flex items-center gap-2 cursor-pointer rounded-full px-3 py-2 hover:bg-white/10 transition-colors" onClick={() => navigate(-1)}>
           <span className="material-symbols-outlined">arrow_back</span>
           <span className="font-headline-md text-lg">Thanh toán</span>
         </button>
         <div className="text-sm">Bước 1/3</div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop py-8 w-full flex-1">
+      <div className="max-w-6xl mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-10 w-full flex-1">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
+            <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-outline-variant/70">
               <h2 className="text-lg font-bold text-on-surface mb-6 flex items-center gap-2">
                 <span className="material-symbols-outlined text-primary">local_shipping</span>
                 Thông tin giao hàng
@@ -1837,7 +1999,7 @@ function CheckoutPage({ cart, user, onQty, onRemove, onClearCart, showToast }) {
               </div>
             </section>
 
-            <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
+            <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-outline-variant/70">
               <h2 className="text-lg font-bold text-on-surface mb-6 flex items-center gap-2">
                 <span className="material-symbols-outlined text-primary">local_shipping</span>
                 Phương thức giao hàng
@@ -1862,7 +2024,7 @@ function CheckoutPage({ cart, user, onQty, onRemove, onClearCart, showToast }) {
               </div>
             </section>
 
-            <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
+            <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-outline-variant/70">
               <h2 className="text-lg font-bold text-on-surface mb-6 flex items-center gap-2">
                 <span className="material-symbols-outlined text-primary">payment</span>
                 Phương thức thanh toán
@@ -1897,13 +2059,13 @@ function CheckoutPage({ cart, user, onQty, onRemove, onClearCart, showToast }) {
           </div>
 
           <aside className="lg:col-span-1">
-            <div className="bg-white rounded-2xl p-6 shadow-sm sticky top-6">
+            <div className="bg-white rounded-2xl p-6 shadow-[0_20px_60px_rgba(20,20,20,0.10)] border border-outline-variant/70 sticky top-6">
               <h2 className="text-lg font-bold text-on-surface mb-4">Đơn hàng của bạn</h2>
               <div className="space-y-3 mb-4 max-h-64 overflow-y-auto pb-4 border-b border-outline-variant">
                 {cart.length ? (
                   cart.map((item) => (
                     <div key={`${item.id}-${item.size}`} className="flex gap-3">
-                      <div className="w-14 h-14 bg-surface-container rounded overflow-hidden flex items-center justify-center">
+                      <div className="w-14 h-14 bg-surface-container rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0">
                         {item.imageUrl ? (
                           <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
                         ) : (
@@ -1942,9 +2104,9 @@ function CheckoutPage({ cart, user, onQty, onRemove, onClearCart, showToast }) {
                   <input
                     type="text"
                     placeholder="Mã khuyến mãi"
-                    className="flex-1 px-3 py-2 border border-outline-variant rounded-lg text-xs outline-none focus:border-primary transition-colors bg-white"
+                    className="flex-1 px-3 py-2.5 border border-outline-variant rounded-full text-xs outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors bg-white"
                   />
-                  <button className="px-3 py-2 bg-primary/10 text-primary rounded-lg text-xs font-bold hover:bg-primary hover:text-white transition-colors">
+                  <button className="px-4 py-2.5 bg-primary/10 text-primary rounded-full text-xs font-bold hover:bg-primary hover:text-white transition-colors">
                     Áp dụng
                   </button>
                 </div>
@@ -1972,7 +2134,7 @@ function CheckoutPage({ cart, user, onQty, onRemove, onClearCart, showToast }) {
               </div>
 
               <button
-                className="w-full py-3 bg-primary text-on-primary rounded-lg font-bold text-base hover:bg-surface-tint transition-colors flex items-center justify-center gap-2"
+                className="btn-effect w-full py-3.5 bg-primary text-on-primary rounded-full font-bold text-base hover:bg-surface-tint transition-colors flex items-center justify-center gap-2"
                 onClick={confirmOrder}
               >
                 <span className="material-symbols-outlined text-lg">check_circle</span>
@@ -1994,12 +2156,12 @@ function OrdersPage({ user }) {
   const orders = useMemo(() => storage.read("vp_orders", []), []);
 
   return (
-    <main className="min-h-screen bg-surface-container-low px-margin-mobile md:px-margin-desktop pt-[152px] pb-8">
+    <main className="min-h-screen bg-surface-container-low px-margin-mobile md:px-margin-desktop pt-[140px] pb-10">
       <div className="max-w-5xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
           <div>
             <p className="text-xs font-bold text-primary uppercase tracking-widest mb-2">Tài khoản</p>
-            <h1 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-on-background">
+            <h1 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase text-on-background">
               Đơn hàng
             </h1>
             <p className="text-sm text-secondary mt-1">Theo dõi các đơn đã đặt trên Velocity Prime.</p>
@@ -2007,7 +2169,7 @@ function OrdersPage({ user }) {
           {!user && (
             <Link
               to="/login"
-              className="px-5 py-3 bg-primary text-white rounded-lg font-bold text-sm hover:bg-surface-tint transition-colors"
+              className="btn-effect px-5 py-3 bg-primary text-white rounded-full font-bold text-sm hover:bg-surface-tint transition-colors"
             >
               Đăng nhập
             </Link>
@@ -2017,7 +2179,7 @@ function OrdersPage({ user }) {
         {orders.length ? (
           <div className="space-y-4">
             {orders.map((order) => (
-              <article key={order.id} className="bg-white border border-outline-variant rounded-xl overflow-hidden">
+              <article key={order.id} className="bg-white border border-outline-variant/70 rounded-2xl overflow-hidden shadow-sm">
                 <div className="px-5 py-4 border-b border-outline-variant flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <div>
                     <div className="font-bold text-on-surface">{order.id}</div>
@@ -2037,7 +2199,7 @@ function OrdersPage({ user }) {
                     <div className="space-y-3">
                       {(order.items || []).map((item) => (
                         <div key={`${order.id}-${item.id}-${item.size}`} className="flex gap-3">
-                          <div className="w-14 h-14 bg-surface-container rounded overflow-hidden flex items-center justify-center flex-shrink-0">
+                          <div className="w-14 h-14 bg-surface-container rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0">
                             {item.imageUrl ? (
                               <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
                             ) : (
@@ -2054,7 +2216,7 @@ function OrdersPage({ user }) {
                         </div>
                       ))}
                     </div>
-                    <div className="bg-surface-container-low rounded-lg p-4 text-sm">
+                    <div className="bg-surface-container-low rounded-2xl p-4 text-sm">
                       <div className="font-bold mb-2">Thông tin giao hàng</div>
                       <div className="text-secondary leading-relaxed">
                         <div>{order.customer?.name}</div>
@@ -2073,13 +2235,13 @@ function OrdersPage({ user }) {
             ))}
           </div>
         ) : (
-          <div className="bg-white border border-outline-variant rounded-xl p-10 text-center">
+          <div className="bg-white border border-outline-variant/70 rounded-2xl p-10 text-center shadow-sm">
             <span className="material-symbols-outlined text-5xl text-outline-variant mb-3">receipt_long</span>
             <h2 className="font-bold text-on-surface mb-2">Chưa có đơn hàng</h2>
             <p className="text-sm text-secondary mb-6">Các đơn bạn đặt sẽ xuất hiện tại đây.</p>
             <Link
               to={SPORTS.badminton.route}
-              className="inline-flex items-center justify-center px-6 py-3 bg-primary text-white rounded-lg font-bold text-sm hover:bg-surface-tint transition-colors"
+              className="btn-effect inline-flex items-center justify-center px-6 py-3 bg-primary text-white rounded-full font-bold text-sm hover:bg-surface-tint transition-colors"
             >
               Mua sắm ngay
             </Link>
@@ -2099,7 +2261,7 @@ function CheckoutField({ label, value, onChange, type = "text", placeholder = ""
         value={value}
         placeholder={placeholder}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"
+        className="w-full px-4 py-3 border border-outline-variant rounded-xl text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors bg-white placeholder-secondary/70"
       />
     </label>
   );
@@ -2112,7 +2274,7 @@ function CheckoutSelect({ label, value, onChange, options }) {
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full px-4 py-3 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"
+        className="w-full px-4 py-3 border border-outline-variant rounded-xl text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors bg-white"
       >
         <option value="">-- Chọn {label} --</option>
         {options.map((option) => (
@@ -2128,8 +2290,8 @@ function CheckoutSelect({ label, value, onChange, options }) {
 function CheckoutRadio({ name, value, checked, onChange, title, text }) {
   return (
     <label
-      className={`flex items-center gap-3 p-3 border-2 rounded-xl cursor-pointer transition-colors ${
-        checked ? "border-primary bg-primary/5" : "border-outline-variant hover:border-primary"
+      className={`flex items-center gap-3 p-4 border-2 rounded-2xl cursor-pointer transition-colors ${
+        checked ? "border-primary bg-primary/5 shadow-[0_10px_24px_rgba(192,0,33,0.08)]" : "border-outline-variant hover:border-primary"
       }`}
     >
       <input
@@ -2247,11 +2409,11 @@ function LoginPage({ user, onSuccess, showToast }) {
   if (user) {
     return (
       <main className="min-h-screen bg-surface-container-low flex items-center justify-center px-margin-mobile md:px-margin-desktop">
-        <div className="bg-white border border-outline-variant rounded-2xl p-8 w-full max-w-[460px] text-center shadow-sm">
-          <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-5">
+        <div className="bg-white border border-outline-variant rounded-2xl p-8 w-full max-w-[460px] text-center shadow-[0_22px_60px_rgba(20,20,20,0.10)]">
+          <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-5">
             <i className="ti ti-user-check text-3xl text-white" />
           </div>
-          <h1 className="font-headline-lg text-3xl italic uppercase text-on-surface mb-2">
+          <h1 className="font-headline-lg text-3xl uppercase text-on-surface mb-2">
             Đã đăng nhập
           </h1>
           <p className="text-secondary mb-6">
@@ -2259,13 +2421,13 @@ function LoginPage({ user, onSuccess, showToast }) {
           </p>
           <div className="flex gap-3">
             <button
-              className="flex-1 py-3 bg-primary text-white rounded-lg font-bold hover:bg-surface-tint transition-colors"
+              className="btn-effect flex-1 py-3 bg-primary text-white rounded-full font-bold hover:bg-surface-tint transition-colors"
               onClick={() => navigate(user.role === "ADMIN" ? "/admin" : "/")}
             >
               Tiếp tục
             </button>
             <button
-              className="flex-1 py-3 border border-outline-variant rounded-lg font-bold hover:border-primary hover:text-primary transition-colors"
+              className="btn-effect flex-1 py-3 border border-outline-variant rounded-full font-bold hover:border-primary hover:text-primary transition-colors"
               onClick={() => navigate(-1)}
             >
               Quay lại
@@ -2277,26 +2439,26 @@ function LoginPage({ user, onSuccess, showToast }) {
   }
 
   return (
-    <main className="bg-[#f4f7fb] text-on-background font-body-md min-h-screen flex flex-col md:flex-row">
+    <main className="bg-surface-container-low text-on-background font-body-md min-h-screen flex flex-col md:flex-row">
       <section className="hidden md:flex flex-1 bg-black text-white flex-col justify-center items-center p-12 relative overflow-hidden">
         <img
           src={loginHeroImage}
           className="absolute inset-0 w-full h-full object-cover object-center opacity-100 scale-105"
           alt="Messi background"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-[#11305e]/30 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/78 via-black/44 to-transparent z-10" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10 z-10" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(60,130,255,0.22),transparent_30%),radial-gradient(circle_at_28%_55%,rgba(192,0,33,0.24),transparent_34%)] z-10 mix-blend-screen" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_55%,rgba(192,0,33,0.26),transparent_34%)] z-10 mix-blend-screen" />
         <div className="absolute inset-x-0 top-0 h-1 bg-primary z-20 shadow-[0_0_28px_rgba(192,0,33,0.9)]" />
         <div className="absolute -left-24 bottom-10 w-[420px] h-[420px] border border-primary/25 rotate-45 z-10" />
         <div className="relative z-20 text-center max-w-md px-6">
-          <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_34px_rgba(192,0,33,0.65)]">
+          <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_34px_rgba(192,0,33,0.65)]">
             <i className="ti ti-bolt text-3xl text-white" />
           </div>
           <p className="text-xs font-bold uppercase tracking-[0.32em] text-primary mb-3">
             Velocity Prime
           </p>
-          <h1 className="font-display-lg text-[46px] leading-[1.08] italic uppercase mb-4 drop-shadow-[0_8px_28px_rgba(0,0,0,0.9)]">
+          <h1 className="font-display-lg text-[46px] leading-[1.08] uppercase mb-4 drop-shadow-[0_8px_28px_rgba(0,0,0,0.9)]">
             Sẵn sàng <span className="text-primary">ra sân</span>
           </h1>
           <p className="text-white/80 font-body-lg border-t border-white/15 pt-5">
@@ -2305,8 +2467,8 @@ function LoginPage({ user, onSuccess, showToast }) {
         </div>
       </section>
 
-      <section className="flex-1 flex flex-col justify-center items-center p-6 md:p-12 relative bg-[#f4f7fb] min-h-screen overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,98,255,0.10),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(192,0,33,0.10),transparent_34%)]" />
+      <section className="flex-1 flex flex-col justify-center items-center p-6 md:p-12 relative bg-surface-container-low min-h-screen overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(192,0,33,0.10),transparent_34%)]" />
         <div className="absolute inset-y-0 left-0 w-px bg-primary/40 hidden md:block" />
         <button
           type="button"
@@ -2322,14 +2484,14 @@ function LoginPage({ user, onSuccess, showToast }) {
           Trang chủ
         </Link>
 
-        <form className="relative z-10 w-full max-w-[420px] bg-white/95 border border-outline-variant rounded-2xl p-7 md:p-8 shadow-[0_24px_70px_rgba(10,18,35,0.16)] backdrop-blur-sm" onSubmit={submit}>
-          <div className="flex border-b border-outline-variant mb-8">
+        <form className="relative z-10 w-full max-w-[430px] bg-white/95 border border-outline-variant rounded-2xl p-6 md:p-8 shadow-[0_24px_70px_rgba(10,18,35,0.16)] backdrop-blur-sm" onSubmit={submit}>
+          <div className="flex rounded-full bg-surface-container-low p-1 mb-8">
             <button
               type="button"
-              className={`flex-1 py-3 text-sm font-bold border-b-2 transition-colors ${
+              className={`flex-1 py-3 text-sm font-bold rounded-full transition-colors ${
                 mode === "login"
-                  ? "text-primary border-primary"
-                  : "text-secondary border-transparent hover:text-on-surface"
+                  ? "text-white bg-on-surface shadow-sm"
+                  : "text-secondary hover:text-on-surface"
               }`}
               onClick={() => switchMode("login")}
             >
@@ -2337,10 +2499,10 @@ function LoginPage({ user, onSuccess, showToast }) {
             </button>
             <button
               type="button"
-              className={`flex-1 py-3 text-sm font-bold border-b-2 transition-colors ${
+              className={`flex-1 py-3 text-sm font-bold rounded-full transition-colors ${
                 mode === "register"
-                  ? "text-primary border-primary"
-                  : "text-secondary border-transparent hover:text-on-surface"
+                  ? "text-white bg-on-surface shadow-sm"
+                  : "text-secondary hover:text-on-surface"
               }`}
               onClick={() => switchMode("register")}
             >
@@ -2348,7 +2510,7 @@ function LoginPage({ user, onSuccess, showToast }) {
             </button>
           </div>
 
-          <h2 className="text-2xl font-bold text-on-surface mb-6">
+          <h2 className="text-2xl font-black text-on-surface mb-6">
             {mode === "login" ? "Chào mừng trở lại!" : "Tạo tài khoản mới"}
           </h2>
 
@@ -2427,7 +2589,7 @@ function LoginPage({ user, onSuccess, showToast }) {
 
             <button
               disabled={loading}
-              className={`btn-effect w-full py-3 mt-6 rounded-lg font-bold text-sm disabled:opacity-60 ${
+            className={`btn-effect w-full py-3.5 mt-6 rounded-full font-bold text-sm disabled:opacity-60 ${
                 mode === "login" ? "bg-primary text-on-primary shadow-[0_12px_28px_rgba(192,0,33,0.22)]" : "bg-on-surface text-white"
               }`}
             >
@@ -2443,17 +2605,18 @@ function LoginPage({ user, onSuccess, showToast }) {
 function AuthField({ label, value, onChange, error, type = "text", placeholder = "" }) {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-on-surface block mb-1">{label}</span>
+      <span className="text-sm font-bold text-on-surface block mb-2">{label}</span>
       <input
         type={type}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className={`w-full px-4 py-3 border rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white text-on-surface placeholder-secondary/70 ${
-          error ? "border-error" : "border-outline-variant"
+        aria-invalid={Boolean(error)}
+        className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors bg-white text-on-surface placeholder-secondary/70 ${
+          error ? "border-error bg-error-container/30 focus:ring-error/10" : "border-outline-variant"
         }`}
       />
-      {error && <p className="text-error text-xs mt-1">{error}</p>}
+      {error && <p className="text-error text-xs font-semibold mt-1.5">{error}</p>}
     </label>
   );
 }
@@ -2586,22 +2749,22 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
       <main className="min-h-screen bg-surface-container-low">
         <AdminTopBar user={user} onLogout={user ? handleAdminLogout : null} />
         <section className="min-h-[calc(100vh-76px)] flex items-center justify-center px-margin-mobile md:px-margin-desktop py-12">
-          <div className="max-w-xl w-full bg-white border border-outline-variant rounded-xl p-8 text-center shadow-sm">
+          <div className="max-w-xl w-full bg-white border border-outline-variant/70 rounded-2xl p-8 text-center shadow-[0_22px_60px_rgba(20,20,20,0.10)]">
             <span className="material-symbols-outlined text-5xl text-primary mb-3">lock</span>
-            <h1 className="font-headline-lg text-4xl italic uppercase mb-2">Trang quản trị</h1>
+            <h1 className="font-headline-lg text-4xl uppercase mb-2">Trang quản trị</h1>
             <p className="text-secondary mb-6">
               Vui lòng đăng nhập bằng tài khoản admin để quản lý sản phẩm và cấu hình giao diện.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 to="/login"
-                className="px-6 py-3 bg-primary text-white rounded-lg font-bold text-sm hover:bg-surface-tint transition-colors"
+                className="btn-effect px-6 py-3 bg-primary text-white rounded-full font-bold text-sm hover:bg-surface-tint transition-colors"
               >
                 Đăng nhập
               </Link>
               <Link
                 to="/"
-                className="px-6 py-3 border border-outline-variant rounded-lg font-bold text-sm hover:border-primary hover:text-primary transition-colors"
+                className="btn-effect px-6 py-3 border border-outline-variant rounded-full font-bold text-sm hover:border-primary hover:text-primary transition-colors"
               >
                 Về trang chủ
               </Link>
@@ -2736,7 +2899,7 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-6">
           <div>
             <p className="text-xs font-bold text-primary uppercase tracking-widest mb-2">Velocity Prime Admin</p>
-            <h1 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-on-background leading-tight">
+            <h1 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase text-on-background leading-tight">
               Trang quản trị
             </h1>
             <p className="text-on-surface-variant text-sm mt-1">
@@ -2750,13 +2913,13 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
           </div>
         </div>
 
-        <div className="flex gap-1 mb-6 bg-white border border-outline-variant rounded-xl p-1.5 w-full overflow-x-auto">
+        <div className="flex gap-1 mb-6 bg-white border border-outline-variant/70 rounded-2xl p-1.5 w-full overflow-x-auto shadow-sm">
           {adminTabs.map((tab) => (
             <button
               key={tab.key}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all whitespace-nowrap ${
+              className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap ${
                 activeTab === tab.key
                   ? "bg-primary text-white shadow-sm"
                   : "text-secondary hover:text-on-surface hover:bg-surface-container-low"
@@ -2769,7 +2932,7 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
         </div>
 
         {activeTab === "featured" && (
-          <section className="bg-white rounded-xl border border-outline-variant p-6">
+          <section className="bg-white rounded-2xl border border-outline-variant/70 p-6 shadow-sm">
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
               <div>
                 <h2 className="font-bold text-on-surface mb-1">Sản phẩm nổi bật</h2>
@@ -2777,7 +2940,7 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
                   Chọn tối đa 3 sản phẩm để dùng cho khu vực bộ sưu tập mới trên trang chủ.
                 </p>
               </div>
-              <div className="flex items-center border border-outline-variant rounded-lg overflow-hidden bg-white w-full md:w-72 focus-within:border-primary transition-colors">
+              <div className="flex items-center border border-outline-variant rounded-full overflow-hidden bg-white w-full md:w-72 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 transition-colors">
                 <span className="material-symbols-outlined text-secondary text-lg px-3">search</span>
                 <input
                   type="text"
@@ -2846,7 +3009,7 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
         )}
 
         {activeTab === "sale" && (
-          <section className="bg-white rounded-xl border border-outline-variant p-6">
+          <section className="bg-white rounded-2xl border border-outline-variant/70 p-6 shadow-sm">
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
               <div>
                 <h2 className="font-bold text-on-surface mb-1">Hàng giảm giá</h2>
@@ -2854,7 +3017,7 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
                   Chọn sản phẩm cho carousel giảm giá và đặt phần trăm giảm từng sản phẩm.
                 </p>
               </div>
-              <div className="flex items-center border border-outline-variant rounded-lg overflow-hidden bg-white w-full md:w-72 focus-within:border-primary transition-colors">
+              <div className="flex items-center border border-outline-variant rounded-full overflow-hidden bg-white w-full md:w-72 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 transition-colors">
                 <span className="material-symbols-outlined text-secondary text-lg px-3">search</span>
                 <input
                   type="text"
@@ -2933,7 +3096,7 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
         )}
 
         {activeTab === "add" && (
-          <section className="bg-white rounded-xl border border-outline-variant p-6">
+          <section className="bg-white rounded-2xl border border-outline-variant/70 p-6 shadow-sm">
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
               <div>
                 <h2 className="font-bold text-on-surface mb-1">Thêm sản phẩm mới</h2>
@@ -2944,7 +3107,7 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
               <button
                 type="button"
                 onClick={clearForm}
-                className="px-4 py-2 border border-outline-variant rounded-lg text-sm font-semibold text-secondary hover:text-on-surface hover:border-on-surface transition-colors"
+                className="btn-effect px-4 py-2 border border-outline-variant rounded-full text-sm font-semibold text-secondary hover:text-on-surface hover:border-on-surface transition-colors"
               >
                 Xóa form
               </button>
@@ -3021,7 +3184,7 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
         )}
 
         {activeTab === "users" && (
-          <section className="bg-white rounded-xl border border-outline-variant p-6">
+          <section className="bg-white rounded-2xl border border-outline-variant/70 p-6 shadow-sm">
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
               <div>
                 <h2 className="font-bold text-on-surface mb-1">Quản lý User</h2>
@@ -3029,7 +3192,7 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
                   Backend hiện chưa có API danh sách user, nên phần này giữ cách hiển thị như trang quản trị cũ.
                 </p>
               </div>
-              <div className="flex items-center border border-outline-variant rounded-lg overflow-hidden bg-white w-full md:w-72 focus-within:border-primary transition-colors">
+              <div className="flex items-center border border-outline-variant rounded-full overflow-hidden bg-white w-full md:w-72 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 transition-colors">
                 <span className="material-symbols-outlined text-secondary text-lg px-3">search</span>
                 <input
                   type="text"
@@ -3087,14 +3250,14 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
                         <div className="flex gap-2">
                           <button
                             type="button"
-                            className="w-8 h-8 rounded bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
+                            className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
                             title="Chỉnh sửa"
                           >
                             <span className="material-symbols-outlined text-sm">edit</span>
                           </button>
                           <button
                             type="button"
-                            className="w-8 h-8 rounded bg-error/10 text-error flex items-center justify-center hover:bg-error hover:text-white transition-colors"
+                            className="w-8 h-8 rounded-full bg-error/10 text-error flex items-center justify-center hover:bg-error hover:text-white transition-colors"
                             title="Khóa"
                           >
                             <span className="material-symbols-outlined text-sm">block</span>
@@ -3122,25 +3285,25 @@ function AdminPage({ user, products, categoryMeta, onRefresh, onLogout, showToas
 
 function AdminTopBar({ user, onLogout }) {
   return (
-    <header className="bg-[#111] border-b-4 border-primary shadow-2xl">
+    <header className="bg-[#101010] border-b border-white/10 shadow-2xl">
       <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-4 flex items-center justify-between gap-4">
         <div className="flex items-center gap-4 min-w-0">
           <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
-            <div className="w-10 h-10 bg-primary flex items-center justify-center skew-x-[-15deg] group-hover:scale-105 transition-transform duration-300">
-              <span className="text-white font-display-lg text-2xl font-black italic skew-x-[15deg] tracking-tighter">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-[0_14px_34px_rgba(192,0,33,0.28)]">
+              <span className="text-white font-display-lg text-2xl font-black italic tracking-tighter">
                 VP
               </span>
             </div>
             <div className="hidden sm:block">
-              <div className="font-headline-lg text-sm font-black text-white tracking-[0.2em] uppercase italic">
+              <div className="font-headline-lg text-sm font-black text-white tracking-[0.14em] uppercase">
                 Velocity <span className="text-primary">Prime</span>
               </div>
-              <div className="text-[9px] text-gray-400 tracking-[0.3em] uppercase mt-0.5">Admin Panel</div>
+              <div className="text-[9px] text-white/50 tracking-[0.24em] uppercase mt-0.5">Admin Panel</div>
             </div>
           </Link>
           <div className="h-8 w-px bg-gray-700 hidden sm:block" />
           <div className="flex items-center gap-2 min-w-0">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
               <span className="material-symbols-outlined text-white text-sm">admin_panel_settings</span>
             </div>
             <div className="min-w-0">
@@ -3152,7 +3315,7 @@ function AdminTopBar({ user, onLogout }) {
           </div>
         </div>
         <div className="flex items-center gap-3 flex-shrink-0">
-          <Link to="/" className="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors">
+          <Link to="/" className="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors rounded-full px-3 py-2 hover:bg-white/10">
             <span className="material-symbols-outlined text-base">home</span>
             <span className="hidden sm:inline">Trang chủ</span>
           </Link>
@@ -3160,7 +3323,7 @@ function AdminTopBar({ user, onLogout }) {
             <button
               type="button"
               onClick={onLogout}
-              className="flex items-center gap-2 text-sm text-gray-300 hover:text-red-400 transition-colors border border-gray-600 rounded-lg px-4 py-2"
+              className="flex items-center gap-2 text-sm text-gray-300 hover:text-red-400 transition-colors border border-white/15 rounded-full px-4 py-2 hover:bg-white/10"
             >
               <span className="material-symbols-outlined text-base">logout</span>
               <span className="hidden sm:inline">Đăng xuất</span>
@@ -3174,16 +3337,16 @@ function AdminTopBar({ user, onLogout }) {
 
 function AdminStat({ label, value }) {
   return (
-    <div className="bg-white border border-outline-variant rounded-xl px-4 py-3">
+    <div className="bg-white border border-outline-variant/70 rounded-2xl px-4 py-3 shadow-sm">
       <div className="text-xs text-secondary uppercase font-bold">{label}</div>
-      <div className="font-headline-md text-2xl italic text-on-background">{value}</div>
+      <div className="font-headline-md text-2xl text-on-background">{value}</div>
     </div>
   );
 }
 
 function AdminProductThumb({ product, className = "" }) {
   return (
-    <div className={`bg-surface-container rounded-lg flex items-center justify-center overflow-hidden ${className}`}>
+    <div className={`bg-surface-container rounded-xl flex items-center justify-center overflow-hidden ${className}`}>
       {product.imageUrl ? (
         <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
       ) : (
@@ -3198,8 +3361,8 @@ function AdminProductChoiceCard({ product, selected, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`text-left border rounded-xl p-2 cursor-pointer transition-all ${
-        selected ? "border-primary bg-primary/5" : "border-outline-variant hover:border-primary"
+      className={`text-left border rounded-2xl p-2 cursor-pointer transition-all product-card-hover ${
+        selected ? "border-primary bg-primary/5" : "border-outline-variant/70 hover:border-primary"
       }`}
     >
       <AdminProductThumb product={product} className="h-20 mb-2" />
@@ -3217,7 +3380,7 @@ function AdminProductChoiceCard({ product, selected, onClick }) {
 
 function BlogPage() {
   return (
-    <main className="pt-[120px] min-h-screen bg-surface-container-low">
+    <main className="pt-[108px] min-h-screen bg-surface-container-low">
       <div className="relative h-56 md:h-72 flex items-end overflow-hidden mb-12">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -3232,7 +3395,7 @@ function BlogPage() {
             <span className="material-symbols-outlined text-base">arrow_back</span>
             Trang chủ
           </Link>
-          <h1 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-white">
+          <h1 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase text-white">
             Tin Tức & Blog
           </h1>
           <p className="text-white/70 font-label-bold text-sm mt-1 uppercase tracking-widest">
@@ -3246,7 +3409,7 @@ function BlogPage() {
           {BLOG_POSTS.map((post) => (
             <article
               key={post.title}
-              className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer border border-outline-variant/30"
+              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-[0_24px_70px_rgba(20,20,20,0.14)] transition-all duration-300 flex flex-col group cursor-pointer border border-outline-variant/50"
             >
               <div className="h-[240px] w-full overflow-hidden relative">
                 <img
@@ -3254,8 +3417,8 @@ function BlogPage() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   alt={post.title}
                 />
-                <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-sm skew-x-[-10deg] shadow-md">
-                  <span className="block skew-x-[10deg]">{post.tag}</span>
+                <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1.5 rounded-full shadow-md">
+                  <span className="block">{post.tag}</span>
                 </div>
               </div>
               <div className="p-6 flex-1 flex flex-col justify-between">
@@ -3283,11 +3446,11 @@ function BlogPage() {
 
 function Footer() {
   return (
-    <footer className="bg-on-surface text-[#9ca3af] pt-16 pb-8 px-margin-mobile md:px-margin-desktop">
+    <footer className="bg-on-surface text-[#9ca3af] pt-16 pb-8 px-margin-mobile md:px-margin-desktop border-t border-white/10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
         <div>
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center">
               <span className="text-on-primary font-bold text-xl italic">VP</span>
             </div>
             <div>
@@ -3335,7 +3498,7 @@ function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-white/10 pt-6 text-center text-xs">
+      <div className="border-t border-white/10 pt-6 text-center text-xs tracking-[0.08em]">
         © 2026 VELOCITY PRIME. ENGINEERED FOR PERFORMANCE.
       </div>
     </footer>
@@ -3361,16 +3524,16 @@ function FooterColumn({ title, items }) {
 
 function SectionTitle({ title, subtitle }) {
   return (
-    <div className="flex items-end justify-between mb-8 border-l-8 border-primary pl-6">
+    <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 border-l-4 border-primary pl-5">
       <div>
-        <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg italic uppercase text-on-background">
+        <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase text-on-background leading-tight">
           {title}
         </h2>
-        <p className="text-on-surface-variant font-label-bold uppercase tracking-widest mt-2">
+        <p className="text-on-surface-variant font-label-bold uppercase tracking-widest mt-2 text-xs md:text-sm">
           {subtitle}
         </p>
       </div>
-      <Link className="font-label-bold text-label-bold text-primary hover:underline italic flex items-center gap-2" to={SPORTS.badminton.route}>
+      <Link className="font-label-bold text-label-bold text-primary hover:text-on-surface flex items-center gap-2 transition-colors" to={SPORTS.badminton.route}>
         XEM TẤT CẢ
         <span className="material-symbols-outlined text-sm">open_in_new</span>
       </Link>
@@ -3380,19 +3543,19 @@ function SectionTitle({ title, subtitle }) {
 
 function Stat({ value, label }) {
   return (
-    <div className="min-w-[104px] bg-white/12 border border-white/35 px-4 py-3 text-center backdrop-blur-md shadow-[0_12px_34px_rgba(0,0,0,0.32)]">
-      <div className="font-stats-display text-stats-display text-primary drop-shadow-[0_0_14px_rgba(192,0,33,0.9)]">
+    <div className="stat-card min-w-[104px] rounded-2xl bg-white/10 border border-white/20 px-4 py-3 text-center backdrop-blur-md shadow-[0_12px_34px_rgba(0,0,0,0.24)]">
+      <div className="font-stats-display text-stats-display text-white">
         {value}
       </div>
-      <div className="text-[10px] text-white/85 mt-1 uppercase tracking-wider font-semibold">{label}</div>
+      <div className="text-[10px] text-white/80 mt-1 uppercase tracking-wider font-semibold">{label}</div>
     </div>
   );
 }
 
 function LoadingBlock({ text }) {
   return (
-    <div className="flex items-center justify-center py-20 text-secondary w-full">
-      <span className="material-symbols-outlined text-5xl text-outline-variant block mr-3">
+    <div className="flex items-center justify-center py-20 text-secondary w-full bg-white/60 rounded-2xl border border-outline-variant/50">
+      <span className="material-symbols-outlined text-5xl text-outline-variant block mr-3 animate-pulse">
         hourglass_top
       </span>
       <span>{text}</span>
@@ -3403,7 +3566,7 @@ function LoadingBlock({ text }) {
 function EmptyBlock({ text, compact = false }) {
   return (
     <div
-      className={`text-center text-secondary ${compact ? "py-8" : "py-16"}`}
+      className={`text-center text-secondary bg-white/70 rounded-2xl border border-outline-variant/60 ${compact ? "py-8 px-4" : "py-16 px-6"}`}
       style={{ gridColumn: "1 / -1" }}
     >
       <i className="ti ti-search-off text-5xl text-outline-variant block mb-3" />
@@ -3415,13 +3578,13 @@ function EmptyBlock({ text, compact = false }) {
 function Input({ label, value, onChange, type = "text", required = true }) {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-on-surface block mb-1">{label}</span>
+      <span className="text-sm font-bold text-on-surface block mb-2">{label}</span>
       <input
         type={type}
         value={value}
         required={required}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"
+        className="w-full px-4 py-3 border border-outline-variant rounded-xl text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors bg-white"
       />
     </label>
   );
@@ -3430,12 +3593,12 @@ function Input({ label, value, onChange, type = "text", required = true }) {
 function Textarea({ label, value, onChange, placeholder = "" }) {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-on-surface block mb-1">{label}</span>
+      <span className="text-sm font-bold text-on-surface block mb-2">{label}</span>
       <textarea
         value={value}
         placeholder={placeholder}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white min-h-[90px]"
+        className="w-full px-4 py-3 border border-outline-variant rounded-xl text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors bg-white min-h-[100px]"
       />
     </label>
   );
@@ -3444,12 +3607,12 @@ function Textarea({ label, value, onChange, placeholder = "" }) {
 function Select({ label, value, onChange, options }) {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-on-surface block mb-1">{label}</span>
+      <span className="text-sm font-bold text-on-surface block mb-2">{label}</span>
       <select
         value={value}
         required
         onChange={(event) => onChange(event.target.value)}
-        className="w-full px-3 py-2.5 border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors bg-white"
+        className="w-full px-4 py-3 border border-outline-variant rounded-xl text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors bg-white"
       >
         <option value="">Chọn</option>
         {options.map((option) => (
