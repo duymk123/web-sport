@@ -27,12 +27,24 @@ async function request(path, options = {}) {
   return body;
 }
 
+function withQuery(url, params = {}) {
+  const search = new URLSearchParams();
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      search.set(key, value);
+    }
+  });
+
+  const query = search.toString();
+  return query ? `${url}?${query}` : url;
+}
+
 export const api = {
   getAllProducts() {
     return request(`${PRODUCTS_URL}/all`);
   },
-  getProductsByCategory(slug) {
-    return request(`${PRODUCTS_URL}/categories/${encodeURIComponent(slug)}`);
+  getProductsByCategory(slug, params = {}) {
+    return request(withQuery(`${PRODUCTS_URL}/categories/${encodeURIComponent(slug)}`, params));
   },
   getProductDetail(id) {
     return request(`${PRODUCTS_URL}/${id}`);

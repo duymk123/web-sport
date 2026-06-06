@@ -30,6 +30,47 @@ import {
 } from "./utils.js";
 import loginHeroImage from "../images/hinh-anh-messi-dep-nhat-8.webp";
 
+const CATEGORY_PAGE_SIZE = 6;
+
+function normalizeProductPage(response, idToSub = {}) {
+  const content = Array.isArray(response)
+    ? response
+    : Array.isArray(response?.content)
+      ? response.content
+      : [];
+
+  const totalElements = Array.isArray(response) ? content.length : response?.totalElements ?? content.length;
+  const totalPages = Array.isArray(response) ? 1 : Math.max(1, response?.totalPages ?? 1);
+  const pageNumber = Array.isArray(response) ? 1 : (response?.number ?? 0) + 1;
+
+  return {
+    items: content.map((item) => normalizeProduct(item, idToSub)),
+    pageNumber,
+    pageSize: Array.isArray(response) ? content.length : response?.size ?? content.length,
+    totalElements,
+    totalPages,
+    first: Array.isArray(response) ? true : response?.first ?? pageNumber <= 1,
+    last: Array.isArray(response) ? true : response?.last ?? pageNumber >= totalPages
+  };
+}
+
+function buildClientPage(items, pageNumber, pageSize = CATEGORY_PAGE_SIZE) {
+  const totalElements = items.length;
+  const totalPages = Math.max(1, Math.ceil(totalElements / pageSize));
+  const safePageNumber = Math.min(Math.max(1, pageNumber), totalPages);
+  const start = (safePageNumber - 1) * pageSize;
+
+  return {
+    items: items.slice(start, start + pageSize),
+    pageNumber: safePageNumber,
+    pageSize,
+    totalElements,
+    totalPages,
+    first: safePageNumber <= 1,
+    last: safePageNumber >= totalPages
+  };
+}
+
 const storage = {
   read(key, fallback) {
     try {
@@ -829,25 +870,75 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
   const [priceRange, setPriceRange] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [search, setSearch] = useState(searchParams.get("q") || "");
+  const [pageNumber, setPageNumber] = useState(() =>
+    Math.max(1, Number(searchParams.get("page")) || 1)
+  );
+  const [pageInfo, setPageInfo] = useState({
+    pageNumber: 1,
+    pageSize: CATEGORY_PAGE_SIZE,
+    totalElements: 0,
+    totalPages: 1,
+    first: true,
+    last: true
+  });
 
   useEffect(() => {
     setSearch(searchParams.get("q") || "");
+    setPageNumber(Math.max(1, Number(searchParams.get("page")) || 1));
   }, [searchParams]);
+
+  const selectedCategoryId = useMemo(() => {
+    if (subCategory === "Tất cả") return undefined;
+    return categoryMeta.subCategoryIds?.[sportKey]?.[subCategory];
+  }, [categoryMeta.subCategoryIds, sportKey, subCategory]);
+
+  useEffect(() => {
+    setSubCategory("Tất cả");
+    setSelectedBrands([]);
+    setSelectedSizes([]);
+    setPriceRange("");
+    setApiFiltered(null);
+    setPageNumber(1);
+    const next = new URLSearchParams(searchParams);
+    next.delete("page");
+    setSearchParams(next, { replace: true });
+  }, [slug]);
 
   useEffect(() => {
     let mounted = true;
     async function loadCategory() {
       setLoading(true);
       setError("");
-      setSubCategory("Tất cả");
-      setSelectedBrands([]);
-      setSelectedSizes([]);
-      setPriceRange("");
-      setApiFiltered(null);
       try {
-        const data = await api.getProductsByCategory(slug);
+        const data = await api.getProductsByCategory(slug, {
+          categoryId: selectedCategoryId,
+          pageNumber,
+          pageSize: CATEGORY_PAGE_SIZE
+        });
         if (mounted) {
-          setProducts(data.map((item) => normalizeProduct(item, categoryMeta.idToSub)));
+          let mappedPage = normalizeProductPage(data, categoryMeta.idToSub);
+          const selectedCategoryNumber = Number(selectedCategoryId);
+
+          if (selectedCategoryId) {
+            const categoryData = await api.getProductsByCategory(slug, {
+              pageNumber: 1,
+              pageSize: 1000
+            });
+            const categoryItems = normalizeProductPage(categoryData, categoryMeta.idToSub).items.filter(
+              (product) => Number(product.categoryId) === selectedCategoryNumber
+            );
+            mappedPage = buildClientPage(categoryItems, pageNumber);
+          }
+
+          if (pageNumber > mappedPage.totalPages) {
+            setPageNumber(1);
+            const next = new URLSearchParams(searchParams);
+            next.delete("page");
+            setSearchParams(next, { replace: true });
+            return;
+          }
+          setProducts(mappedPage.items);
+          setPageInfo(mappedPage);
         }
       } catch (loadError) {
         if (mounted) {
@@ -865,7 +956,7 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
     return () => {
       mounted = false;
     };
-  }, [slug, categoryMeta.idToSub]);
+  }, [slug, selectedCategoryId, pageNumber, categoryMeta.idToSub, searchParams, setSearchParams]);
 
   const activePrice = PRICE_RANGES.find((item) => item.value === priceRange) || PRICE_RANGES[0];
 
@@ -911,6 +1002,25 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
     const next = new URLSearchParams(searchParams);
     if (value) next.set("q", value);
     else next.delete("q");
+    next.delete("page");
+    setPageNumber(1);
+    setSearchParams(next, { replace: true });
+  }
+
+  function updatePage(nextPage) {
+    const targetPage = Math.min(Math.max(1, nextPage), Math.max(1, pageInfo.totalPages || 1));
+    setPageNumber(targetPage);
+    const next = new URLSearchParams(searchParams);
+    if (targetPage > 1) next.set("page", String(targetPage));
+    else next.delete("page");
+    setSearchParams(next, { replace: true });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function resetCategoryPage() {
+    setPageNumber(1);
+    const next = new URLSearchParams(searchParams);
+    next.delete("page");
     setSearchParams(next, { replace: true });
   }
 
@@ -931,8 +1041,8 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
   const visibleProducts = useMemo(() => {
     let list = [...(apiFiltered || products)];
 
-    if (subCategory !== "Tất cả") {
-      list = list.filter((product) => product.cat === subCategory);
+    if (apiFiltered && selectedCategoryId) {
+      list = list.filter((product) => Number(product.categoryId) === Number(selectedCategoryId));
     }
     if (search.trim()) {
       const needle = search.trim().toLowerCase();
@@ -959,15 +1069,19 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
     if (sortBy === "new") list.sort((a, b) => String(b.id).localeCompare(String(a.id)));
 
     return list;
-  }, [products, apiFiltered, subCategory, search, selectedBrands, activePrice, sortBy]);
+  }, [products, apiFiltered, selectedCategoryId, search, selectedBrands, activePrice, sortBy]);
+
+  const productCount = pageInfo.totalElements ?? visibleProducts.length;
 
   function toggleBrand(brand) {
+    resetCategoryPage();
     setSelectedBrands((current) =>
       current.includes(brand) ? current.filter((item) => item !== brand) : [...current, brand]
     );
   }
 
   function toggleSize(size) {
+    resetCategoryPage();
     setSelectedSizes((current) =>
       current.includes(size) ? current.filter((item) => item !== size) : [...current, size]
     );
@@ -994,7 +1108,7 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-[0.08em] text-white/75">
               <span className="category-hero-badge rounded-full border border-white/20 bg-white/10 px-3 py-2 backdrop-blur-sm">
-                {visibleProducts.length} sản phẩm
+                {productCount} sản phẩm
               </span>
               <span className="category-hero-badge rounded-full border border-white/20 bg-white/10 px-3 py-2 backdrop-blur-sm">
                 Hàng chính hãng
@@ -1020,6 +1134,8 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
                       onClick={() => {
                         setSubCategory(cat);
                         setSelectedSizes([]);
+                        setApiFiltered(null);
+                        resetCategoryPage();
                       }}
                     >
                       <span className="inline-flex items-center gap-3 min-w-0">
@@ -1077,7 +1193,10 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
                       name="priceRange"
                       value={range.value}
                       checked={priceRange === range.value}
-                      onChange={() => setPriceRange(range.value)}
+                      onChange={() => {
+                        setPriceRange(range.value);
+                        resetCategoryPage();
+                      }}
                       className="accent-primary"
                     />
                     <span className="text-on-surface">{range.label}</span>
@@ -1093,7 +1212,7 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
                 <span className="font-headline-md text-2xl font-semibold uppercase text-on-background">
                   {sport.title}
                 </span>
-                <span className="text-sm text-secondary ml-2">({visibleProducts.length} sản phẩm)</span>
+                <span className="text-sm text-secondary ml-2">({productCount} sản phẩm)</span>
               </div>
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <div className="flex items-center border border-outline-variant rounded-full overflow-hidden bg-surface-container-low flex-1 sm:w-72 focus-within:border-primary transition-colors">
@@ -1108,7 +1227,10 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
                 </div>
                 <select
                   value={sortBy}
-                  onChange={(event) => setSortBy(event.target.value)}
+                  onChange={(event) => {
+                    setSortBy(event.target.value);
+                    resetCategoryPage();
+                  }}
                   className="px-4 py-3 border border-outline-variant rounded-full text-sm text-on-surface bg-white outline-none cursor-pointer whitespace-nowrap"
                 >
                   <option value="">Sắp xếp</option>
@@ -1125,18 +1247,25 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
             ) : error ? (
               <EmptyBlock text={error} />
             ) : visibleProducts.length ? (
-              <div className="product-grid">
-                {visibleProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    onOpenDetail={onOpenDetail}
-                    onAddToCart={onAddToCart}
-                    isWishlisted={wishlist.has(product.id)}
-                    onToggleWishlist={onToggleWishlist}
-                  />
-                ))}
-              </div>
+              <>
+                <div className="product-grid">
+                  {visibleProducts.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      onOpenDetail={onOpenDetail}
+                      onAddToCart={onAddToCart}
+                      isWishlisted={wishlist.has(product.id)}
+                      onToggleWishlist={onToggleWishlist}
+                    />
+                  ))}
+                </div>
+                <ProductPagination
+                  pageInfo={pageInfo}
+                  pageNumber={pageNumber}
+                  onPageChange={updatePage}
+                />
+              </>
             ) : (
               <EmptyBlock text="Không tìm thấy sản phẩm. Thử đổi bộ lọc hoặc từ khóa tìm kiếm." />
             )}
@@ -1169,6 +1298,61 @@ function CategoryPage({ categoryMeta, onOpenDetail, onAddToCart, wishlist, onTog
         </div>
       </div>
     </main>
+  );
+}
+
+function ProductPagination({ pageInfo, pageNumber, onPageChange }) {
+  const totalPages = Math.max(1, pageInfo?.totalPages || 1);
+  if (totalPages <= 1) return null;
+
+  const currentPage = Math.min(Math.max(1, pageNumber || pageInfo?.pageNumber || 1), totalPages);
+  const windowSize = 5;
+  const start = Math.max(1, Math.min(currentPage - 2, totalPages - windowSize + 1));
+  const pages = Array.from({ length: Math.min(windowSize, totalPages) }, (_, index) => start + index);
+
+  return (
+    <nav className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white border border-outline-variant/70 rounded-2xl px-4 py-3 shadow-sm">
+      <div className="text-sm text-secondary">
+        Trang <span className="font-bold text-on-surface">{currentPage}</span> / {totalPages}
+        <span className="mx-2 text-outline-variant">|</span>
+        {pageInfo.totalElements || 0} sản phẩm
+      </div>
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          className="w-10 h-10 rounded-full border border-outline-variant bg-white text-on-surface disabled:opacity-40 disabled:cursor-not-allowed hover:border-primary hover:text-primary transition-colors flex items-center justify-center"
+          disabled={currentPage <= 1}
+          onClick={() => onPageChange(currentPage - 1)}
+          aria-label="Trang trước"
+        >
+          <span className="material-symbols-outlined text-lg">chevron_left</span>
+        </button>
+        {pages.map((page) => (
+          <button
+            key={page}
+            type="button"
+            className={`min-w-10 h-10 px-3 rounded-full border text-sm font-bold transition-colors ${
+              page === currentPage
+                ? "border-primary bg-primary text-white"
+                : "border-outline-variant bg-white text-on-surface hover:border-primary hover:text-primary"
+            }`}
+            onClick={() => onPageChange(page)}
+            aria-current={page === currentPage ? "page" : undefined}
+          >
+            {page}
+          </button>
+        ))}
+        <button
+          type="button"
+          className="w-10 h-10 rounded-full border border-outline-variant bg-white text-on-surface disabled:opacity-40 disabled:cursor-not-allowed hover:border-primary hover:text-primary transition-colors flex items-center justify-center"
+          disabled={currentPage >= totalPages}
+          onClick={() => onPageChange(currentPage + 1)}
+          aria-label="Trang sau"
+        >
+          <span className="material-symbols-outlined text-lg">chevron_right</span>
+        </button>
+      </div>
+    </nav>
   );
 }
 

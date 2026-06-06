@@ -10,6 +10,7 @@ import com.example.websport.service.ProductService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +30,13 @@ public class ProductController {
 
 
     @GetMapping("/categories/{slug}")
-    public ResponseEntity<List<ProductListResponse>> getCategoryProductsBySlug(@PathVariable String slug) {
-        return ResponseEntity.ok(productService.getProductByCategorySlug(slug));
+    public ResponseEntity<Page<ProductListResponse>> getCategoryProductsBySlug(
+            @PathVariable String slug,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(defaultValue = "1") int pageNumber,
+            @RequestParam(defaultValue = "6") int pageSize
+    ) {
+        return ResponseEntity.ok(productService.getProductByCategorySlug(slug, categoryId, pageNumber, pageSize));
     }
 
     //API tạo sản phẩm

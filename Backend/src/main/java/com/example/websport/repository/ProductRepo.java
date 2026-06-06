@@ -2,6 +2,8 @@ package com.example.websport.repository;
 
 import com.example.websport.common.EnumStatus;
 import com.example.websport.entity.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,5 +34,8 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice);
 
+    Page<Product> findByCategoryIdIn(List<Long> categoryIds, Pageable pageable);
+
     List<Product> findByCategoryIdIn(List<Long> categoryIds);
 }
+

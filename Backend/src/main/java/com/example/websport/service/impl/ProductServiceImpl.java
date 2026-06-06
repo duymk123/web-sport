@@ -19,6 +19,10 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,21 +46,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductImageRepo productImageRepo;
 
     @Override
-    public List<ProductListResponse> getAllProducts() {  //Lấy tất cả sản phẩm
-        // 1. Lấy tất cả từ DB
+    public List<ProductListResponse> getAllProducts() {
         List<Product> products = productRepo.findAll();
-
-        // 2. Chuyển sang DTO trả về
-//        return products.stream().map(p -> ProductListResponse.builder()
-//                .id(p.getId())
-//                .name(p.getName())
-//                .brand(p.getBrand())
-//                // SỬA LẠI 2 DÒNG NÀY: Gọi thẳng hàm getCategoryId() và getTypeId()
-//                .categoryId(p.getCategoryId())
-//                .typeId(p.getTypeId())
-//                .startingPrice(0.0)
-//                .build()
-//        ).collect(Collectors.toList());
         return convertToDtoList(products);
     }
 
@@ -84,27 +75,40 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductListResponse> getProductByCategorySlug(String Slug) {
+    public Page<ProductListResponse> getProductByCategorySlug(String slug, Long categoryId, Integer pageNumber, Integer pageSize) {
         // 1. Nhờ CategoryService dịch từ "cau-long" sang Entity Danh Mục
-        Category parentCategory = categoryService.getCategoryBySlug(Slug);
+        Category parentCategory = categoryService.getCategoryBySlug(slug);
 
         // 2. Lấy ra ID thật của nó (ví dụ: số 1)
         Long parentId = parentCategory.getId();
 
 
-        List<Long> categoryIdsToSearch = new ArrayList<>();
-        categoryIdsToSearch.add(parentId);
+        List<Long> availableCategoryIds = new ArrayList<>();
+        availableCategoryIds.add(parentId);
 
         List<Category> childCategories = categoryService.getChildCategories(parentId);
 
         if (childCategories != null && !childCategories.isEmpty()) {
             for (Category child : childCategories) {
-                categoryIdsToSearch.add(child.getId());
+                availableCategoryIds.add(child.getId());
             }
         }
 
-        List<Product> products = productRepo.findByCategoryIdIn(categoryIdsToSearch);
-        return convertToDtoList(products);
+        int safePageNumber = pageNumber == null || pageNumber < 1 ? 1 : pageNumber;
+        int safePageSize = pageSize == null || pageSize < 1 ? 6 : pageSize;
+        Pageable pageable = PageRequest.of(safePageNumber - 1, safePageSize);
+
+        List<Long> categoryIdsToSearch = availableCategoryIds;
+        if (categoryId != null) {
+            if (!availableCategoryIds.contains(categoryId)) {
+                return new PageImpl<>(List.of(), pageable, 0);
+            }
+            categoryIdsToSearch = List.of(categoryId);
+        }
+
+        Page<Product> productPage = productRepo.findByCategoryIdIn(categoryIdsToSearch, pageable);
+        List<ProductListResponse> dtoList = convertToDtoList(productPage.getContent());
+        return new PageImpl<>(dtoList, pageable, productPage.getTotalElements());
     }
 
     @Override

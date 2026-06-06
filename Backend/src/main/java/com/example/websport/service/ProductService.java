@@ -6,18 +6,19 @@ import com.example.websport.dto.request.VariantReq;
 import com.example.websport.dto.response.ProductDetailResponse;
 import com.example.websport.dto.response.ProductListResponse;
 import com.example.websport.entity.Product;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface ProductService {
 //    List<Product> getProducts(Long categoryId, Long typeId);
 
-    List<ProductListResponse>   getAllProducts();
+    List<ProductListResponse> getAllProducts();
 
     // hàm lấy sản phẩm theo Danh mục cha
     List<ProductListResponse> getProductsByParentCategory(Long parentId);
 
-    List<ProductListResponse> getProductByCategorySlug(String Slug);
+    Page<ProductListResponse> getProductByCategorySlug(String slug, Long categoryId, Integer pageNumber, Integer pageSize);
 
     ProductListResponse createProduct(ProductCreateReq request);
     ProductListResponse updateProduct(Long id, ProductUpdateReq request);

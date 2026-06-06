@@ -16,16 +16,28 @@ export function buildCategoryMeta(tree = []) {
     football: [],
     pickleball: []
   };
+  const subCategoryIds = {
+    badminton: {},
+    football: {},
+    pickleball: {}
+  };
   const idToSub = {};
   const subCats = {
     ...FALLBACK_SUB_CATS
   };
 
   if (!Array.isArray(tree) || tree.length === 0) {
+    Object.entries(FALLBACK_SUB_CATS).forEach(([sportKey, categories]) => {
+      categories.forEach((categoryName, index) => {
+        subCategoryIds[sportKey][categoryName] = FALLBACK_CATEGORY_IDS[sportKey]?.[index];
+      });
+    });
+
     return {
       sportCatIds: FALLBACK_CATEGORY_IDS,
       idToSub: FALLBACK_CATEGORY_NAMES,
-      subCats: FALLBACK_SUB_CATS
+      subCats: FALLBACK_SUB_CATS,
+      subCategoryIds
     };
   }
 
@@ -36,17 +48,21 @@ export function buildCategoryMeta(tree = []) {
     sportCatIds[sportKey].push(parent.id);
     idToSub[parent.id] = "Tất cả";
     subCats[sportKey] = ["Tất cả"];
+    subCategoryIds[sportKey] = {
+      "Tất cả": parent.id
+    };
 
     (parent.children || []).forEach((child) => {
       sportCatIds[sportKey].push(child.id);
       idToSub[child.id] = child.name;
+      subCategoryIds[sportKey][child.name] = child.id;
       if (!subCats[sportKey].includes(child.name)) {
         subCats[sportKey].push(child.name);
       }
     });
   });
 
-  return { sportCatIds, idToSub, subCats };
+  return { sportCatIds, idToSub, subCats, subCategoryIds };
 }
 
 export function guessProductIcon(categoryName = "") {

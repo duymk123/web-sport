@@ -5,13 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="092029fb-37df-4f9e-8128-6d4a6e318661" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/config/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/security/JwtFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/security/JwtFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/repository/ProductRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/repository/ProductRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/impl/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/impl/ProductServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/controller/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/controller/ProductController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/Product$ProductBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/Product$ProductBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/Product.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/ProductRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/ProductRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/ProductService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/ProductServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/ProductServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/data.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/data.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/utils.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,6 +188,10 @@
       <workItem from="1780561987284" duration="14000" />
       <workItem from="1780575746698" duration="89000" />
       <workItem from="1780592489464" duration="2566000" />
+      <workItem from="1780654212970" duration="537000" />
+      <workItem from="1780673283924" duration="2091000" />
+      <workItem from="1780679779702" duration="5905000" />
+      <workItem from="1780686252615" duration="1724000" />
     </task>
     <servers />
   </component>
