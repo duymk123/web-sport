@@ -5,14 +5,19 @@ const PRODUCTS_URL = `${API_BASE}/products`;
 const CATEGORIES_URL = `${API_BASE}/categories`;
 const PRODUCT_TYPES_URL = `${API_BASE}/product-type`;
 const AUTH_URL = `${API_BASE}/auth`;
+const ADDRESSES_URL = `${API_BASE}/addresses`;
 
 async function request(path, options = {}) {
+  const { auth = false, headers = {}, ...fetchOptions } = options;
+  const token = localStorage.getItem("token");
+
   const res = await fetch(path, {
     headers: {
       "Content-Type": "application/json",
-      ...(options.headers || {})
+      ...(auth && token ? { Authorization: `Bearer ${token}` } : {}),
+      ...headers
     },
-    ...options
+    ...fetchOptions
   });
 
   const contentType = res.headers.get("content-type") || "";
@@ -110,6 +115,35 @@ export const api = {
     return request(`${AUTH_URL}/change-password`, {
       method: "POST",
       body: JSON.stringify(payload)
+    });
+  },
+  getAddresses() {
+    return request(ADDRESSES_URL, { auth: true });
+  },
+  addAddress(payload) {
+    return request(ADDRESSES_URL, {
+      method: "POST",
+      auth: true,
+      body: JSON.stringify(payload)
+    });
+  },
+  updateAddress(id, payload) {
+    return request(`${ADDRESSES_URL}/${id}`, {
+      method: "PUT",
+      auth: true,
+      body: JSON.stringify(payload)
+    });
+  },
+  deleteAddress(id) {
+    return request(`${ADDRESSES_URL}/${id}`, {
+      method: "DELETE",
+      auth: true
+    });
+  },
+  setDefaultAddress(id) {
+    return request(`${ADDRESSES_URL}/${id}/default`, {
+      method: "PATCH",
+      auth: true
     });
   }
 };

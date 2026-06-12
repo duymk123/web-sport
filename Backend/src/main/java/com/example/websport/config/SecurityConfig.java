@@ -22,6 +22,7 @@ public class SecurityConfig {
     // 1. Cấu hình công cụ băm mật khẩu (BCrypt)
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 
@@ -40,6 +41,7 @@ public class SecurityConfig {
                         // ==========================================
                         // LUỒNG 1: MỞ CỬA TỰ DO (Khách không cần đăng nhập vẫn xem được)
                         // ==========================================
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll() // Cổng Đăng nhập & Đăng ký
 
                         .requestMatchers(HttpMethod.GET, "/api/v1/products/**").permitAll()     // Xem sản phẩm
@@ -70,6 +72,14 @@ public class SecurityConfig {
                         // LUỒNG 3: CÁC YÊU CẦU CÒN LẠI (Giỏ hàng, Hồ sơ...)
                         // ==========================================
                         // Bất kỳ ai (USER hay ADMIN) miễn là có đăng nhập (có Token) thì mới được qua
+
+                        //Luồng address
+                        .requestMatchers(HttpMethod.GET, "/api/v1/addresses", "/api/v1/addresses/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/addresses", "/api/v1/addresses/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/addresses", "/api/v1/addresses/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/addresses", "/api/v1/addresses/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/addresses", "/api/v1/addresses/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+
                         .anyRequest().authenticated()
                 );
 //        JwtFilter chặn ngay trước cổng kiểm tra Username/Password mặc định

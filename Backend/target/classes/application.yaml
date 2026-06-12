@@ -15,13 +15,6 @@ spring:
 server:
   port: 8080
 
-# --- CLOUDINARY CONFIG ---
-cloudinary:
-  cloud-name: Root
-  api-key: 441211244436394
-  api-secret: mHV8O459rPrEVp4O1YXdl9xu4II
-
-  # Cấu hình JWT Bảo mật
 jwt:
   secret: "websport_secret_key_chuoi_nay_phai_that_la_dai_va_bao_mat_nhe_1234567890_abcdef"
-  expiration: 604800000 # 7 ngày tính bằng milliseconds
+  expiration: 604800000

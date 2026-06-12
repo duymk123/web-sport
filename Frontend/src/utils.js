@@ -5,9 +5,23 @@ import {
   SPORT_KEY_BY_SLUG
 } from "./data.js";
 
+const LOCAL_PRODUCT_IMAGE_PREFIX = "/images/products/";
+
 export function formatPrice(value) {
   const price = Number(value || 0);
   return price.toLocaleString("vi-VN") + "₫";
+}
+
+export function normalizeImageUrl(value = "") {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+
+  if (/^(https?:|data:|blob:)/i.test(raw)) return raw;
+  if (raw.startsWith("/")) return raw;
+  if (raw.startsWith("images/")) return `/${raw}`;
+  if (raw.startsWith("products/")) return `/images/${raw}`;
+
+  return `${LOCAL_PRODUCT_IMAGE_PREFIX}${raw}`;
 }
 
 export function buildCategoryMeta(tree = []) {
@@ -86,7 +100,7 @@ export function normalizeProduct(product, idToSub = {}) {
     categoryId: product.categoryId,
     typeId: product.typeId,
     price,
-    imageUrl: product.imageUrl || "",
+    imageUrl: normalizeImageUrl(product.imageUrl),
     description: product.description || "",
     cat: categoryName,
     icon: guessProductIcon(categoryName),
@@ -109,10 +123,11 @@ export function inferSizes(subCategory = "") {
 
 export function getProductImages(detail, fallbackUrl = "") {
   const images = Array.isArray(detail?.productImages)
-    ? detail.productImages.map((item) => item.imageUrl).filter(Boolean)
+    ? detail.productImages.map((item) => normalizeImageUrl(item.imageUrl)).filter(Boolean)
     : [];
   if (images.length) return images;
-  return fallbackUrl ? [fallbackUrl] : [];
+  const normalizedFallback = normalizeImageUrl(fallbackUrl);
+  return normalizedFallback ? [normalizedFallback] : [];
 }
 
 export function uniqueById(products) {

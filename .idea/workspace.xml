@@ -5,37 +5,121 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="092029fb-37df-4f9e-8128-6d4a6e318661" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/dto/request/UserAddressReq.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/dto/response/UserAddressRes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/entity/UserAddress.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/exception/ErrorResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/exception/NotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/exception/RestExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/repository/UserAddressRepo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/UserAddressService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/impl/UserAddressServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/be4e33d1-d8fe-4ecb-9325-b78f4ccc5355.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/be4e33d1-d8fe-4ecb-9325-b78f4ccc5355.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/repository/ProductRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/repository/ProductRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/impl/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/impl/ProductServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/config/CloudinaryConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/dto/request/ChangePasswordReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/dto/request/ChangePasswordReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/dto/request/ForgotPasswordReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/dto/request/ForgotPasswordReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/dto/request/RegisterReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/dto/request/RegisterReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/WebsportApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/WebsportApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/common/EnumRole.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/common/EnumRole.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/common/EnumStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/common/EnumStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/config/CloudinaryConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/config/DataInitializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/config/DataInitializer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/config/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/config/WebConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/config/WebConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/controller/AuthController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/controller/CatergoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/controller/CatergoryController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/controller/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/controller/ProductController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/Product$ProductBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/Product$ProductBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/ProductRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/ProductRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/controller/ProductTypeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/controller/ProductTypeController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/ChangePasswordReq.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/ChangePasswordReq.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/ForgotPasswordReq.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/ForgotPasswordReq.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/LoginReq.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/LoginReq.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/ProductCreateReq$VariantDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/ProductCreateReq$VariantDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/ProductCreateReq.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/ProductCreateReq.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/ProductUpdateReq.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/ProductUpdateReq.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/RegisterReq.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/RegisterReq.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/ResetPasswordReq.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/ResetPasswordReq.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/UpdateProfileReq.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/UpdateProfileReq.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/VariantReq.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/request/VariantReq.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/AuthResponse$AuthResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/AuthResponse$AuthResponseBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/AuthResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/AuthResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductDetailResponse$ImageDetailDto$ImageDetailDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductDetailResponse$ImageDetailDto$ImageDetailDtoBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductDetailResponse$ImageDetailDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductDetailResponse$ImageDetailDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductDetailResponse$ProductDetailResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductDetailResponse$ProductDetailResponseBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductDetailResponse$VariantDetailDto$VariantDetailDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductDetailResponse$VariantDetailDto$VariantDetailDtoBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductDetailResponse$VariantDetailDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductDetailResponse$VariantDetailDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductDetailResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductDetailResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductListResponse$ProductListResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductListResponse$ProductListResponseBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductListResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/ProductListResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/Category.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/Category.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/PasswordReset$PasswordResetBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/PasswordReset$PasswordResetBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/PasswordReset.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/PasswordReset.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/ProductImage$ProductImageBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/ProductImage$ProductImageBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/ProductImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/ProductImage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/ProductType.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/ProductType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/ProductVariant$ProductVariantBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/ProductVariant$ProductVariantBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/ProductVariant.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/ProductVariant.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/User$UserBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/User$UserBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/entity/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/CategoryRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/CategoryRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/PasswordResetRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/PasswordResetRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/ProductImageRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/ProductImageRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/ProductTypeRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/ProductTypeRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/ProductVariantRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/ProductVariantRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/UserRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/UserRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/security/JwtFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/security/JwtFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/security/JwtUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/security/JwtUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/AuthService.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/AuthService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/CategoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/CategoryService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/ProductService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/AuthServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/AuthServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/CatergoryServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/CatergoryServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/ProductServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/ProductServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/ProductTypeServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/ProductTypeServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/test-classes/com/example/websport/WebsportApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/test-classes/com/example/websport/WebsportApplicationTests.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/App.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="79" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
         <option value="Interface" />
+        <option value="Exception" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/11.0.21/tomcat-embed-core-11.0.21.jar!/org/apache/catalina/core/StandardService.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar!/lombok/Builder.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-jpa/4.0.6/spring-boot-jpa-4.0.6.jar!/org/springframework/boot/jpa/autoconfigure/JpaBaseConfiguration.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-commons/4.0.5/spring-data-commons-4.0.5.jar!/org/springframework/data/domain/PageImpl.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-crypto/7.0.5/spring-security-crypto-7.0.5.jar!/org/springframework/security/crypto/bcrypt/BCryptPasswordEncoder.class" root0="SKIP_INSPECTION" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -47,6 +131,10 @@
         <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
       </MavenGeneralSettings>
     </option>
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -67,6 +155,7 @@
     &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
     &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
     &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -192,6 +281,21 @@
       <workItem from="1780673283924" duration="2091000" />
       <workItem from="1780679779702" duration="5905000" />
       <workItem from="1780686252615" duration="1724000" />
+      <workItem from="1780737758496" duration="756000" />
+      <workItem from="1780748012249" duration="2430000" />
+      <workItem from="1780761142412" duration="731000" />
+      <workItem from="1780765448023" duration="17000" />
+      <workItem from="1780765542486" duration="855000" />
+      <workItem from="1780889805468" duration="13000" />
+      <workItem from="1780918918198" duration="28000" />
+      <workItem from="1780919156953" duration="4490000" />
+      <workItem from="1780973034105" duration="6477000" />
+      <workItem from="1781019868909" duration="1644000" />
+      <workItem from="1781147874838" duration="11000" />
+      <workItem from="1781151493581" duration="260000" />
+      <workItem from="1781180756113" duration="230000" />
+      <workItem from="1781195637479" duration="7972000" />
+      <workItem from="1781260051172" duration="6492000" />
     </task>
     <servers />
   </component>

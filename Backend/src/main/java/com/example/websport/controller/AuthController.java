@@ -2,14 +2,17 @@ package com.example.websport.controller;
 
 import com.example.websport.dto.request.*;
 import com.example.websport.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
+@Validated
 public class AuthController {
 
     private final AuthService authService;
@@ -24,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")   //Login
-    public ResponseEntity<?> login(@RequestBody LoginReq req) {
+    public ResponseEntity<?> login(@RequestBody @Valid LoginReq req) {
         try {
             return ResponseEntity.ok(authService.login(req));
         } catch (Exception e) {
@@ -33,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/change-password")  //Change Password
-    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordReq req) {
+    public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordReq req) {
         try {
             String message = authService.ChangePassword(req);
             return ResponseEntity.ok(message);
@@ -45,7 +48,7 @@ public class AuthController {
 
     // QUÊN MẬT KHẨU
     @PostMapping("forgot-password")
-    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordReq req) {
+    public ResponseEntity<?> forgotPassword(@RequestBody @Valid  ForgotPasswordReq req) {
         try {
             return ResponseEntity.ok(authService.forgotPassword(req));
         } catch (RuntimeException e) {
