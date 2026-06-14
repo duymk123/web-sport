@@ -80,6 +80,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/addresses", "/api/v1/addresses/**").hasAnyAuthority("ADMIN", "CUSTOMER")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/addresses", "/api/v1/addresses/**").hasAnyAuthority("ADMIN", "CUSTOMER")
 
+                        //Luồng cart
+                        .requestMatchers(HttpMethod.GET, "/api/v1/cart", "/api/v1/cart/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/cart", "/api/v1/cart/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/cart", "/api/v1/cart/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/cart", "/api/v1/cart/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+
                         .anyRequest().authenticated()
                 );
 //        JwtFilter chặn ngay trước cổng kiểm tra Username/Password mặc định

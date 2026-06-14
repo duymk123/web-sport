@@ -154,14 +154,20 @@ function addressToCheckoutForm(address, user) {
   };
 }
 
-function mergeCartItems(base = [], incoming = []) {
-  const merged = new Map();
-  [...base, ...incoming].forEach((item) => {
-    const key = `${item.id}-${item.size || ""}`;
-    const current = merged.get(key);
-    merged.set(key, current ? { ...current, qty: current.qty + item.qty } : { ...item });
-  });
-  return [...merged.values()];
+function normalizeCartFromBackend(cartRes) {
+  if (!cartRes || !Array.isArray(cartRes.items)) return [];
+  return cartRes.items.map((item) => ({
+    cartItemId: item.cartItemId,
+    variantId: item.variantId,
+    productId: item.productId,
+    name: item.productName || "",
+    color: item.color || "",
+    size: item.size || "",
+    imageUrl: item.imageUrl || "",
+    price: Number(item.price || 0),
+    quantity: item.quantity || 0,
+    subTotal: Number(item.subTotal || 0)
+  }));
 }
 
 function brandKey(value = "") {
@@ -258,7 +264,8 @@ export default function App() {
   const [detailProduct, setDetailProduct] = useState(null);
   const [toast, setToast] = useState("");
   const [user, setUser] = useState(() => getStoredUser());
-  const [cart, setCart] = useState(() => storage.read(scopedStorageKey("vp_cart", getStoredUser()), []));
+  const [cart, setCart] = useState([]);
+  const [cartLoading, setCartLoading] = useState(false);
   const [wishlist, setWishlist] = useState(() => new Set(storage.read("vp_wishlist", [])));
   const isStandalonePage =
     location.pathname === "/login" ||
@@ -318,55 +325,69 @@ export default function App() {
     };
   }, []);
 
+  // Load cart từ backend khi boot nếu user đã đăng nhập
   useEffect(() => {
-    storage.write(scopedStorageKey("vp_cart", user), cart);
-  }, [cart, user?.username]);
+    if (!user) return;
+    let mounted = true;
+    async function loadInitialCart() {
+      setCartLoading(true);
+      try {
+        const cartRes = await api.getCart();
+        if (mounted) setCart(normalizeCartFromBackend(cartRes));
+      } catch {
+        // Token hết hạn hoặc lỗi => bỏ qua
+      } finally {
+        if (mounted) setCartLoading(false);
+      }
+    }
+    loadInitialCart();
+    return () => { mounted = false; };
+  }, [user?.username]);
 
   useEffect(() => {
     storage.write("vp_wishlist", [...wishlist]);
   }, [wishlist]);
 
-  const cartCount = useMemo(() => cart.reduce((sum, item) => sum + item.qty, 0), [cart]);
+  const cartCount = useMemo(() => cart.reduce((sum, item) => sum + (item.quantity || 0), 0), [cart]);
 
-  function addToCart(product, size = "") {
-    const item = {
-      id: product.id,
-      name: product.name,
-      brand: product.brand || "",
-      price: Number(product.price || 0),
-      imageUrl: product.imageUrl || "",
-      size
-    };
-
-    setCart((current) => {
-      const found = current.find((cartItem) => cartItem.id === item.id && cartItem.size === size);
-      if (found) {
-        return current.map((cartItem) =>
-          cartItem.id === item.id && cartItem.size === size
-            ? { ...cartItem, qty: cartItem.qty + 1 }
-            : cartItem
-        );
-      }
-      return [...current, { ...item, qty: 1 }];
-    });
-
-    showToast(`Đã thêm "${item.name}" vào giỏ hàng`);
+  async function addToCart(product, variantId, quantity = 1) {
+    if (!user) {
+      showToast("Vui lòng đăng nhập để thêm vào giỏ hàng.");
+      navigate("/login");
+      return;
+    }
+    if (!variantId) {
+      showToast("Vui lòng chọn phân loại sản phẩm.");
+      return;
+    }
+    try {
+      const cartRes = await api.addToCart({ variantId, quantity });
+      setCart(normalizeCartFromBackend(cartRes));
+      showToast(`Đã thêm "${product.name || "Sản phẩm"}" vào giỏ hàng`);
+    } catch (error) {
+      showToast(error.message || "Không thể thêm vào giỏ hàng.");
+    }
   }
 
-  function updateCartQty(id, size, delta) {
-    setCart((current) =>
-      current
-        .map((item) =>
-          item.id === id && item.size === size
-            ? { ...item, qty: Math.max(1, item.qty + delta) }
-            : item
-        )
-        .filter((item) => item.qty > 0)
-    );
+  async function updateCartQty(cartItemId, delta) {
+    const item = cart.find((i) => i.cartItemId === cartItemId);
+    if (!item) return;
+    const newQty = Math.max(1, item.quantity + delta);
+    try {
+      const cartRes = await api.updateCartItem(cartItemId, newQty);
+      setCart(normalizeCartFromBackend(cartRes));
+    } catch (error) {
+      showToast(error.message || "Không thể cập nhật số lượng.");
+    }
   }
 
-  function removeCartItem(id, size) {
-    setCart((current) => current.filter((item) => !(item.id === id && item.size === size)));
+  async function removeCartItem(cartItemId) {
+    try {
+      const cartRes = await api.removeCartItem(cartItemId);
+      setCart(normalizeCartFromBackend(cartRes));
+    } catch (error) {
+      showToast(error.message || "Không thể xóa sản phẩm.");
+    }
   }
 
   function toggleWishlist(id) {
@@ -378,7 +399,7 @@ export default function App() {
     });
   }
 
-  function handleLoginSuccess(data) {
+  async function handleLoginSuccess(data) {
     const nextUser = {
       username: data.username,
       fullName: data.fullName,
@@ -393,13 +414,14 @@ export default function App() {
     localStorage.setItem("isAdmin", String(data.role === "ADMIN"));
     localStorage.setItem("token", data.token);
     storage.write("currentUser", nextUser);
-    const savedCart = storage.read(scopedStorageKey("vp_cart", nextUser), []);
-    setCart((currentCart) => {
-      const nextCart = currentCart.length ? mergeCartItems(savedCart, currentCart) : savedCart;
-      storage.write(scopedStorageKey("vp_cart", nextUser), nextCart);
-      return nextCart;
-    });
     setUser(nextUser);
+    // Load giỏ hàng từ backend sau khi đăng nhập
+    try {
+      const cartRes = await api.getCart();
+      setCart(normalizeCartFromBackend(cartRes));
+    } catch {
+      setCart([]);
+    }
     showToast("Đăng nhập thành công");
   }
 
@@ -417,7 +439,6 @@ export default function App() {
   }
 
   function logout() {
-    storage.write(scopedStorageKey("vp_cart", user), []);
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("isAdmin");
     localStorage.removeItem("token");
@@ -1529,7 +1550,7 @@ function ProductCard({
             className="btn-effect mt-3 w-full py-3 bg-on-surface text-white rounded-full text-xs font-bold uppercase tracking-[0.05em] flex items-center justify-center gap-2 hover:bg-primary transition-colors"
             onClick={(event) => {
               event.stopPropagation();
-              onAddToCart(product);
+              onOpenDetail(product);
             }}
           >
             <span className="material-symbols-outlined text-sm">add_shopping_cart</span>
@@ -1628,10 +1649,18 @@ function ProductDetailModal({ product, onClose, onAddToCart, showToast }) {
     };
   }, [product, showToast]);
 
+  const variants = detail?.productVariants || [];
+  const images = getProductImages(detail, product?.imageUrl || "");
+
+  // Tự động chọn variant nếu chỉ có 1
+  useEffect(() => {
+    if (variants.length === 1 && !selectedVariant) {
+      setSelectedVariant(variants[0]);
+    }
+  }, [variants, selectedVariant]);
+
   if (!product) return null;
 
-  const variants = detail?.productVariants || [];
-  const images = getProductImages(detail, product.imageUrl);
   const price = Number(selectedVariant?.price || product.price || 0);
   const cartProduct = {
     ...product,
@@ -1725,8 +1754,8 @@ function ProductDetailModal({ product, onClose, onAddToCart, showToast }) {
                 <button
                   className="btn-effect py-3.5 bg-primary text-white rounded-full font-bold hover:bg-surface-tint transition-colors"
                   onClick={() => {
-                    onAddToCart(cartProduct, selectedVariant?.size || "");
-                    onClose();
+                    onAddToCart(cartProduct, selectedVariant?.id);
+                    if (selectedVariant?.id) onClose();
                   }}
                 >
                   Thêm vào giỏ
@@ -1734,8 +1763,8 @@ function ProductDetailModal({ product, onClose, onAddToCart, showToast }) {
                 <button
                   className="btn-effect py-3.5 bg-on-surface text-white rounded-full font-bold hover:bg-primary transition-colors"
                   onClick={() => {
-                    onAddToCart(cartProduct, selectedVariant?.size || "");
-                    onClose();
+                    onAddToCart(cartProduct, selectedVariant?.id);
+                    if (selectedVariant?.id) onClose();
                   }}
                 >
                   Mua ngay
@@ -2342,7 +2371,7 @@ function ProfileInfoRow({ icon, label, value }) {
 }
 
 function CartPanel({ open, cart, onClose, onQty, onRemove, onCheckout }) {
-  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const total = cart.reduce((sum, item) => sum + item.price * (item.quantity || 0), 0);
 
   if (!open) return null;
 
@@ -2369,7 +2398,7 @@ function CartPanel({ open, cart, onClose, onQty, onRemove, onCheckout }) {
             <div className="space-y-4">
               {cart.map((item) => (
                 <div
-                  key={`${item.id}-${item.size}`}
+                  key={item.cartItemId}
                   className="flex gap-3 border border-outline-variant/70 rounded-2xl p-3 bg-white shadow-sm"
                 >
                   <div className="w-16 h-16 bg-surface-container rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0">
@@ -2381,19 +2410,25 @@ function CartPanel({ open, cart, onClose, onQty, onRemove, onCheckout }) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="font-bold text-sm line-clamp-2">{item.name}</div>
-                    {item.size && <div className="text-xs text-secondary mt-1">Size: {item.size}</div>}
+                    {(item.size || item.color) && (
+                      <div className="text-xs text-secondary mt-1">
+                        {item.color && <span>{item.color}</span>}
+                        {item.color && item.size && <span> · </span>}
+                        {item.size && <span>Size: {item.size}</span>}
+                      </div>
+                    )}
                     <div className="text-primary font-black text-sm mt-1">{formatPrice(item.price)}</div>
                     <div className="flex items-center gap-2 mt-2">
                       <button
                         className="w-8 h-8 border border-outline-variant rounded-full flex items-center justify-center hover:border-primary hover:text-primary transition-colors"
-                        onClick={() => onQty(item.id, item.size, -1)}
+                        onClick={() => onQty(item.cartItemId, -1)}
                       >
                         -
                       </button>
-                      <span className="text-sm font-bold w-6 text-center">{item.qty}</span>
+                      <span className="text-sm font-bold w-6 text-center">{item.quantity}</span>
                       <button
                         className="w-8 h-8 border border-outline-variant rounded-full flex items-center justify-center hover:border-primary hover:text-primary transition-colors"
-                        onClick={() => onQty(item.id, item.size, 1)}
+                        onClick={() => onQty(item.cartItemId, 1)}
                       >
                         +
                       </button>
@@ -2401,7 +2436,7 @@ function CartPanel({ open, cart, onClose, onQty, onRemove, onCheckout }) {
                   </div>
                   <button
                     className="w-8 h-8 rounded-full text-secondary hover:text-error hover:bg-error-container self-start transition-colors"
-                    onClick={() => onRemove(item.id, item.size)}
+                    onClick={() => onRemove(item.cartItemId)}
                   >
                     <i className="ti ti-trash text-lg" />
                   </button>
@@ -2502,7 +2537,7 @@ function CheckoutPage({ cart, user, onQty, onRemove, onClearCart, showToast }) {
 
   if (!user) return null;
 
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const subtotal = cart.reduce((sum, item) => sum + item.price * (item.quantity || 0), 0);
   const shippingFee = shipping === "express" ? 30000 : 0;
   const total = subtotal + shippingFee;
 
@@ -2808,7 +2843,7 @@ function CheckoutPage({ cart, user, onQty, onRemove, onClearCart, showToast }) {
               <div className="space-y-3 mb-4 max-h-64 overflow-y-auto pb-4 border-b border-outline-variant">
                 {cart.length ? (
                   cart.map((item) => (
-                    <div key={`${item.id}-${item.size}`} className="flex gap-3">
+                    <div key={item.cartItemId} className="flex gap-3">
                       <div className="w-14 h-14 bg-surface-container rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0">
                         {item.imageUrl ? (
                           <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
@@ -2819,18 +2854,19 @@ function CheckoutPage({ cart, user, onQty, onRemove, onClearCart, showToast }) {
                       <div className="flex-1 min-w-0">
                         <div className="font-semibold text-sm line-clamp-2">{item.name}</div>
                         <div className="text-xs text-secondary mt-1">
-                          {item.size ? `Size ${item.size} · ` : ""}SL: {item.qty}
+                          {item.color && <span>{item.color} · </span>}
+                          {item.size ? `Size ${item.size} · ` : ""}SL: {item.quantity}
                         </div>
                         <div className="flex items-center justify-between mt-1">
                           <span className="text-primary font-bold text-sm">{formatPrice(item.price)}</span>
                           <div className="flex items-center gap-1">
-                            <button className="w-6 h-6 border border-outline-variant rounded" onClick={() => onQty(item.id, item.size, -1)}>
+                            <button className="w-6 h-6 border border-outline-variant rounded" onClick={() => onQty(item.cartItemId, -1)}>
                               -
                             </button>
-                            <button className="w-6 h-6 border border-outline-variant rounded" onClick={() => onQty(item.id, item.size, 1)}>
+                            <button className="w-6 h-6 border border-outline-variant rounded" onClick={() => onQty(item.cartItemId, 1)}>
                               +
                             </button>
-                            <button className="w-6 h-6 text-error" onClick={() => onRemove(item.id, item.size)}>
+                            <button className="w-6 h-6 text-error" onClick={() => onRemove(item.cartItemId)}>
                               <i className="ti ti-trash" />
                             </button>
                           </div>
@@ -2946,7 +2982,7 @@ function OrdersPage({ user }) {
                   <div className="grid grid-cols-1 md:grid-cols-[1fr_260px] gap-5">
                     <div className="space-y-3">
                       {(order.items || []).map((item) => (
-                        <div key={`${order.id}-${item.id}-${item.size}`} className="flex gap-3">
+                        <div key={`${order.id}-${item.cartItemId || item.id}-${item.size}`} className="flex gap-3">
                           <div className="w-14 h-14 bg-surface-container rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0">
                             {item.imageUrl ? (
                               <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
@@ -2957,7 +2993,8 @@ function OrdersPage({ user }) {
                           <div className="min-w-0 flex-1">
                             <div className="font-semibold text-sm line-clamp-2">{item.name}</div>
                             <div className="text-xs text-secondary mt-1">
-                              {item.size ? `Size ${item.size} · ` : ""}SL: {item.qty}
+                              {item.color && <span>{item.color} · </span>}
+                              {item.size ? `Size ${item.size} · ` : ""}SL: {item.quantity || item.qty}
                             </div>
                             <div className="text-primary font-bold text-sm mt-1">{formatPrice(item.price)}</div>
                           </div>

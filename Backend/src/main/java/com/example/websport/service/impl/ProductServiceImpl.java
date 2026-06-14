@@ -10,6 +10,7 @@ import com.example.websport.entity.Category;
 import com.example.websport.entity.Product;
 import com.example.websport.entity.ProductImage;
 import com.example.websport.entity.ProductVariant;
+import com.example.websport.exception.NotFoundException;
 import com.example.websport.repository.ProductImageRepo;
 import com.example.websport.repository.ProductRepo;
 import com.example.websport.repository.ProductVariantRepo;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,16 +35,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-
-    //    @Autowired
     private final ProductRepo productRepo;
-
-    //    @Autowired
     private final CategoryService categoryService;
-
-    //    @Autowired
     private final ProductVariantRepo productVariantRepo;
-
     private final ProductImageRepo productImageRepo;
 
     @Override
@@ -195,7 +190,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(Long id) {
         Product product = productRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm có ID: " + id));
+                .orElseThrow(() -> new NotFoundException(HttpStatus.NOT_FOUND, "Product not found"));
         productRepo.delete(product);
     }
 

@@ -6,6 +6,7 @@ const CATEGORIES_URL = `${API_BASE}/categories`;
 const PRODUCT_TYPES_URL = `${API_BASE}/product-type`;
 const AUTH_URL = `${API_BASE}/auth`;
 const ADDRESSES_URL = `${API_BASE}/addresses`;
+const CART_URL = `${API_BASE}/cart`;
 
 async function request(path, options = {}) {
   const { auth = false, headers = {}, ...fetchOptions } = options;
@@ -143,6 +144,29 @@ export const api = {
   setDefaultAddress(id) {
     return request(`${ADDRESSES_URL}/${id}/default`, {
       method: "PATCH",
+      auth: true
+    });
+  },
+  // ===== Cart =====
+  getCart() {
+    return request(CART_URL, { auth: true });
+  },
+  addToCart(payload) {
+    return request(`${CART_URL}/add`, {
+      method: "POST",
+      auth: true,
+      body: JSON.stringify(payload)
+    });
+  },
+  updateCartItem(cartItemId, quantity) {
+    return request(`${CART_URL}/update/${cartItemId}?quantity=${quantity}`, {
+      method: "PUT",
+      auth: true
+    });
+  },
+  removeCartItem(cartItemId) {
+    return request(`${CART_URL}/remove/${cartItemId}`, {
+      method: "DELETE",
       auth: true
     });
   }
