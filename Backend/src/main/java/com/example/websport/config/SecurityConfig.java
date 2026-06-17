@@ -46,7 +46,9 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "/api/v1/products/**").permitAll()     // Xem sản phẩm
                         .requestMatchers(HttpMethod.GET, "/api/v1/categories/**").permitAll()   // Xem danh mục
-                        .requestMatchers(HttpMethod.GET, "/api/v1/product-types/**").permitAll()// Xem loại sản phẩm
+                        .requestMatchers(HttpMethod.GET, "/api/v1/product-type/**").permitAll()// Xem loại sản phẩm
+                        .requestMatchers(HttpMethod.GET, "/api/v1/coupons/active").permitAll()  // Xem coupon active (public)
+                        .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll() // Cho phép tải ảnh công khai
 
 
                         // ==========================================
@@ -63,10 +65,19 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/categories/**").hasAuthority("ADMIN")
 
                         // Đối với Loại sản phẩm (Product Types)
-                        .requestMatchers(HttpMethod.POST, "/api/v1/product-types/**").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/product-types/**").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/product-types/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/product-type/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/product-type/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/product-type/**").hasAuthority("ADMIN")
 
+                        // Đối với Upload
+                        .requestMatchers(HttpMethod.POST, "/api/v1/upload/**").hasAuthority("ADMIN")
+
+                        // Admin endpoints (Coupon, Orders, Users)
+                        .requestMatchers(HttpMethod.GET, "/api/v1/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/admin/**").hasAuthority("ADMIN")
 
                         // ==========================================
                         // LUỒNG 3: CÁC YÊU CẦU CÒN LẠI (Giỏ hàng, Hồ sơ...)
@@ -85,6 +96,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/cart", "/api/v1/cart/**").hasAnyAuthority("ADMIN", "CUSTOMER")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/cart", "/api/v1/cart/**").hasAnyAuthority("ADMIN", "CUSTOMER")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/cart", "/api/v1/cart/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+
+                        //Luồng orders (User)
+                        .requestMatchers("/api/v1/orders/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+
+                        //Luồng coupon apply (Customer)
+                        .requestMatchers(HttpMethod.POST, "/api/v1/coupons/**").hasAnyAuthority("ADMIN", "CUSTOMER")
 
                         .anyRequest().authenticated()
                 );

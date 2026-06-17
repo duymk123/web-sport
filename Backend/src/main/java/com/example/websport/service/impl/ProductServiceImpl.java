@@ -166,6 +166,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ProductListResponse updateProduct(Long id, ProductUpdateReq request) {
         Product product = productRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -175,13 +176,70 @@ public class ProductServiceImpl implements ProductService {
         product.setCategoryId(request.getCategoryId());
         product.setTypeId(request.getTypeId());
         product.setDescription(request.getDescription());
+        
+        if (request.getStatus() != null) {
+            product.setStatus(request.getStatus());
+        }
 
-//        if(request.getStatus() != null){
-////            product.setStatus(request.getStatus().name());
-//        }
+        // Cập nhật Images: Xóa ảnh cũ, lưu ảnh mới
+        if (request.getImageUrls() != null) {
+            if (product.getProductImages() != null && !product.getProductImages().isEmpty()) {
+                productImageRepo.deleteAll(product.getProductImages());
+                product.getProductImages().clear();
+            }
+            List<ProductImage> newImages = request.getImageUrls().stream()
+                    .map(url -> ProductImage.builder()
+                            .product(product)
+                            .imageUrl(url)
+                            .build())
+                    .collect(Collectors.toList());
+            productImageRepo.saveAll(newImages);
+        }
 
-        // Nếu bạn đã cài jackson-databind thì mở dòng dưới ra:
-        // product.setSpecifications(req.getSpecification());
+        // Cập nhật Variants
+        if (request.getVariants() != null) {
+            List<Long> incomingIds = request.getVariants().stream()
+                    .map(ProductUpdateReq.VariantDto::getId)
+                    .filter(java.util.Objects::nonNull)
+                    .collect(Collectors.toList());
+
+            if (product.getProductVariants() != null) {
+                for (ProductVariant existing : product.getProductVariants()) {
+                    if (!incomingIds.contains(existing.getId())) {
+                        try {
+                            productVariantRepo.delete(existing);
+                        } catch (Exception e) {
+                            existing.setStockQuantity(0);
+                            productVariantRepo.save(existing);
+                        }
+                    }
+                }
+            }
+
+            for (ProductUpdateReq.VariantDto vDto : request.getVariants()) {
+                if (vDto.getId() != null) {
+                    ProductVariant existing = productVariantRepo.findById(vDto.getId()).orElse(null);
+                    if (existing != null && existing.getProduct().getId().equals(product.getId())) {
+                        existing.setSku(vDto.getSku());
+                        existing.setColor(vDto.getColor());
+                        existing.setSize(vDto.getSize());
+                        existing.setPrice(vDto.getPrice());
+                        existing.setStockQuantity(vDto.getStockQuantity());
+                        productVariantRepo.save(existing);
+                    }
+                } else {
+                    ProductVariant newVar = ProductVariant.builder()
+                            .product(product)
+                            .sku(vDto.getSku())
+                            .color(vDto.getColor())
+                            .size(vDto.getSize())
+                            .price(vDto.getPrice())
+                            .stockQuantity(vDto.getStockQuantity())
+                            .build();
+                    productVariantRepo.save(newVar);
+                }
+            }
+        }
 
         Product update = productRepo.save(product);
         return convertToDtoList(List.of(update)).get(0);
@@ -276,8 +334,14 @@ public class ProductServiceImpl implements ProductService {
 
             // 1. Móc chính xác giá từ biến thể (variant) đầu tiên ra
             Double exactPrice = 0.0;
+            Integer totalQuantity = 0;
+            Integer variantCount = 0;
             if (p.getProductVariants() != null && !p.getProductVariants().isEmpty()) {
                 exactPrice = p.getProductVariants().get(0).getPrice().doubleValue();
+                variantCount = p.getProductVariants().size();
+                totalQuantity = p.getProductVariants().stream()
+                    .mapToInt(v -> v.getStockQuantity() != null ? v.getStockQuantity() : 0)
+                    .sum();
             }
 
             // 2. Build dữ liệu trả về
@@ -287,7 +351,9 @@ public class ProductServiceImpl implements ProductService {
                     .brand(p.getBrand())
                     .categoryId(p.getCategoryId())
                     .typeId(p.getTypeId())
-                    .price(exactPrice) // <--- Đã sửa thành price và truyền giá thật vào đây!
+                    .price(exactPrice)
+                    .totalQuantity(totalQuantity)
+                    .variantCount(variantCount)
                     .imageUrl(p.getProductImages() != null && !p.getProductImages().isEmpty()
                             ? p.getProductImages().get(0).getImageUrl()
                             : null)

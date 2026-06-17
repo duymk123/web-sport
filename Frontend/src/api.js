@@ -7,6 +7,10 @@ const PRODUCT_TYPES_URL = `${API_BASE}/product-type`;
 const AUTH_URL = `${API_BASE}/auth`;
 const ADDRESSES_URL = `${API_BASE}/addresses`;
 const CART_URL = `${API_BASE}/cart`;
+const ORDERS_URL = `${API_BASE}/orders`;
+const COUPONS_URL = `${API_BASE}/coupons`;
+const ADMIN_URL = `${API_BASE}/admin`;
+const UPLOAD_URL = `${API_BASE}/upload`;
 
 async function request(path, options = {}) {
   const { auth = false, headers = {}, ...fetchOptions } = options;
@@ -46,6 +50,7 @@ function withQuery(url, params = {}) {
 }
 
 export const api = {
+  // ===== Products =====
   getAllProducts() {
     return request(`${PRODUCTS_URL}/all`);
   },
@@ -67,20 +72,39 @@ export const api = {
   createProduct(payload) {
     return request(PRODUCTS_URL, {
       method: "POST",
+      auth: true,
       body: JSON.stringify(payload)
     });
   },
   updateProduct(id, payload) {
     return request(`${PRODUCTS_URL}/${id}`, {
       method: "PUT",
+      auth: true,
       body: JSON.stringify(payload)
     });
   },
   deleteProduct(id) {
     return request(`${PRODUCTS_URL}/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
+      auth: true
     });
   },
+  uploadImages(files) {
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i]);
+    }
+    const token = localStorage.getItem("token");
+    return fetch(UPLOAD_URL, {
+      method: "POST",
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: formData
+    }).then(res => res.json());
+  },
+
+  // ===== Categories =====
   getCategories() {
     return request(CATEGORIES_URL);
   },
@@ -90,6 +114,8 @@ export const api = {
   getProductTypes() {
     return request(PRODUCT_TYPES_URL);
   },
+
+  // ===== Auth =====
   login(payload) {
     return request(`${AUTH_URL}/login`, {
       method: "POST",
@@ -118,6 +144,20 @@ export const api = {
       body: JSON.stringify(payload)
     });
   },
+  forgotPassword(payload) {
+    return request(`${AUTH_URL}/forgot-password`, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+  },
+  resetPassword(payload) {
+    return request(`${AUTH_URL}/reset-password`, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+  },
+
+  // ===== Addresses =====
   getAddresses() {
     return request(ADDRESSES_URL, { auth: true });
   },
@@ -147,6 +187,7 @@ export const api = {
       auth: true
     });
   },
+
   // ===== Cart =====
   getCart() {
     return request(CART_URL, { auth: true });
@@ -169,5 +210,70 @@ export const api = {
       method: "DELETE",
       auth: true
     });
+  },
+
+  // ===== Orders (User) =====
+  checkout(payload) {
+    return request(`${ORDERS_URL}/checkout`, {
+      method: "POST",
+      auth: true,
+      body: JSON.stringify(payload)
+    });
+  },
+  getMyOrders() {
+    return request(`${ORDERS_URL}/my-orders`, { auth: true });
+  },
+  confirmDelivered(orderId) {
+    return request(`${ORDERS_URL}/${orderId}/confirm-delivered`, {
+      method: "PATCH",
+      auth: true
+    });
+  },
+
+  // ===== Coupons (Public/Customer) =====
+  getActiveCoupons() {
+    return request(`${COUPONS_URL}/active`);
+  },
+  applyCoupon(code, orderTotal) {
+    return request(`${COUPONS_URL}/apply`, {
+      method: "POST",
+      auth: true,
+      body: JSON.stringify({ code, orderTotal })
+    });
+  },
+
+  // ===== Admin: Coupons =====
+  adminGetCoupons() {
+    return request(`${ADMIN_URL}/coupons`, { auth: true });
+  },
+  adminCreateCoupon(payload) {
+    return request(`${ADMIN_URL}/coupons`, {
+      method: "POST",
+      auth: true,
+      body: JSON.stringify(payload)
+    });
+  },
+  adminToggleCouponStatus(id) {
+    return request(`${ADMIN_URL}/coupons/${id}/toggle-status`, {
+      method: "PATCH",
+      auth: true
+    });
+  },
+
+  // ===== Admin: Orders =====
+  adminGetAllOrders() {
+    return request(`${ADMIN_URL}/orders`, { auth: true });
+  },
+  adminUpdateOrderStatus(orderId, status, note) {
+    return request(`${ADMIN_URL}/orders/${orderId}/status`, {
+      method: "PATCH",
+      auth: true,
+      body: JSON.stringify({ status, note })
+    });
+  },
+
+  // ===== Admin: Users =====
+  adminGetAllUsers() {
+    return request(`${ADMIN_URL}/users`, { auth: true });
   }
 };

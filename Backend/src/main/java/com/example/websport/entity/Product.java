@@ -1,6 +1,7 @@
 package com.example.websport.entity;
 
 import com.example.websport.common.EnumStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -46,9 +47,11 @@ public class Product implements Serializable {
     private EnumStatus status;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<ProductVariant> productVariants;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<ProductImage> productImages;
 
 

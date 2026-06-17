@@ -16,4 +16,9 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowCredentials(true); // Cho phép Frontend gửi kèm Cookie hoặc Token xác thực (nếu có)
     }
 
+    @Override
+    public void addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:uploads/");
+    }
 }

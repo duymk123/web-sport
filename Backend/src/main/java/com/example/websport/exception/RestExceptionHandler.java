@@ -72,7 +72,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class) //Cac loi con lai
     public ResponseEntity<ErrorResponse> handleAllExceptions(Exception exception) {
         exception.printStackTrace();
-        String message = "Loi he thong, vui long thu lai sau";
+        String message = "Loi he thong: " + exception.getClass().getSimpleName() + " - " + exception.getMessage();
         int code = 500;
         ErrorResponse errorResponse = new ErrorResponse(message, code);
 

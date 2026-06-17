@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -18,6 +19,20 @@ public class ProductUpdateReq { //DÀNH CHO ADMIN
     private Long categoryId;
     private Long typeId;
     private String description;
-//    private Map<String, Object> specification;
     private EnumStatus status;
+    private List<String> imageUrls;
+    private List<VariantDto> variants;
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class VariantDto {
+        private Long id; // Có thể null nếu thêm mới
+        private String sku;
+        private String color;
+        private String size;
+        private java.math.BigDecimal price;
+        private Integer stockQuantity;
+    }
 }

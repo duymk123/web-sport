@@ -17,5 +17,6 @@ public class ProductListResponse implements Serializable {
     private Long typeId;
     private Double price;
     private String imageUrl;
-
+    private Integer totalQuantity;
+    private Integer variantCount;
 }
