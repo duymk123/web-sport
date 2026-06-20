@@ -10,6 +10,17 @@ import {
   useParams,
   useSearchParams
 } from "react-router-dom";
+import {
+  ComposedChart,
+  Line,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
 import { api, API_BASE } from "./api.js";
 import {
   BLOG_POSTS,
@@ -30,6 +41,7 @@ import {
   uniqueById
 } from "./utils.js";
 import loginHeroImage from "../images/hinh-anh-messi-dep-nhat-8.webp";
+import ChatBot from "./ChatBot.jsx";
 
 const CATEGORY_PAGE_SIZE = 6;
 
@@ -559,6 +571,7 @@ export default function App() {
         showToast={showToast}
       />
       <Toast message={toast} />
+      <ChatBot />
     </>
   );
 }
@@ -2973,6 +2986,11 @@ function CheckoutPage({ cart, user, onQty, onRemove, onClearCart, showToast }) {
 
 function OrdersPage({ user }) {
   const [orders, setOrders] = useState([]);
+  const [returnRequests, setReturnRequests] = useState([]);
+  const [reviewsByOrder, setReviewsByOrder] = useState({});
+  const [returnForms, setReturnForms] = useState({});
+  const [reviewForms, setReviewForms] = useState({});
+  const [visibleSections, setVisibleSections] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -2982,8 +3000,25 @@ function OrdersPage({ user }) {
     async function load() {
       try {
         setLoading(true);
-        const data = await api.getMyOrders();
-        if (mounted) setOrders(data);
+        const [ordersData, returnData] = await Promise.all([
+          api.getMyOrders(),
+          api.getMyReturnRequests().catch(() => [])
+        ]);
+        const deliveredOrders = (ordersData || []).filter((order) => order.status === "DELIVERED");
+        const reviewPairs = await Promise.all(
+          deliveredOrders.map(async (order) => {
+            try {
+              return [order.id, await api.getReviewsByOrder(order.id)];
+            } catch {
+              return [order.id, []];
+            }
+          })
+        );
+        if (mounted) {
+          setOrders(ordersData || []);
+          setReturnRequests(returnData || []);
+          setReviewsByOrder(Object.fromEntries(reviewPairs));
+        }
       } catch (err) {
         if (mounted) setError(err.message || "Lỗi tải đơn hàng");
       } finally {
@@ -3004,6 +3039,43 @@ function OrdersPage({ user }) {
     }
   }
 
+  async function handleCreateReturnRequest(orderId) {
+    const reason = (returnForms[orderId] || "").trim();
+    if (!reason) {
+      alert("Vui long nhap ly do tra hang.");
+      return;
+    }
+    try {
+      const created = await api.createReturnRequest({ orderId, reason });
+      setReturnRequests((current) => [created, ...current]);
+      setReturnForms((current) => ({ ...current, [orderId]: "" }));
+      alert("Da gui yeu cau tra hang. Vui long cho admin duyet.");
+    } catch (err) {
+      alert(err.message || "Khong the gui yeu cau tra hang.");
+    }
+  }
+
+  async function handleCreateReview(orderId, productId) {
+    const key = `${orderId}-${productId}`;
+    const form = reviewForms[key] || { rating: 5, comment: "" };
+    try {
+      const created = await api.createReview({
+        orderId,
+        productId,
+        rating: Number(form.rating || 5),
+        comment: form.comment || ""
+      });
+      setReviewsByOrder((current) => ({
+        ...current,
+        [orderId]: [created, ...(current[orderId] || [])]
+      }));
+      setReviewForms((current) => ({ ...current, [key]: { rating: 5, comment: "" } }));
+      alert("Cam on ban da danh gia san pham.");
+    } catch (err) {
+      alert(err.message || "Khong the gui danh gia.");
+    }
+  }
+
   // Helper mapping status to color
   const statusColors = {
     PENDING: "bg-amber-100 text-amber-700",
@@ -3021,6 +3093,18 @@ function OrdersPage({ user }) {
     DELIVERED: "Thành công",
     FAILED: "Giao thất bại",
     CANCELLED: "Đã hủy"
+  };
+
+  const returnStatusLabels = {
+    PENDING: "Dang cho admin duyet",
+    APPROVED: "Da duoc chap nhan",
+    REJECTED: "Da bi tu choi"
+  };
+
+  const returnStatusColors = {
+    PENDING: "bg-amber-100 text-amber-700",
+    APPROVED: "bg-green-100 text-green-700",
+    REJECTED: "bg-red-100 text-red-700"
   };
 
   if (!user) {
@@ -3072,28 +3156,86 @@ function OrdersPage({ user }) {
                 <div className="p-5">
                   <div className="grid grid-cols-1 md:grid-cols-[1fr_260px] gap-5">
                     <div className="space-y-3">
-                      {(order.items || []).map((item) => (
-                        <div key={item.id} className="flex gap-3">
-                          <div className="w-14 h-14 bg-surface-container rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0">
-                            {item.imageUrl ? (
-                              <img src={item.imageUrl} alt={item.productName} className="w-full h-full object-cover" />
-                            ) : (
-                              <i className="ti ti-tag text-xl text-outline" />
+                      {(order.items || []).map((item) => {
+                        const isDelivered = order.status === "DELIVERED";
+                        const itemReview = (reviewsByOrder[order.id] || []).find(r => r.productId === item.productId);
+                        const reviewKey = `${order.id}-${item.productId}`;
+                        const currentReviewForm = reviewForms[reviewKey] || { rating: 5, comment: "" };
+
+                        return (
+                          <div key={item.id} className="flex flex-col gap-3 bg-surface-container-low/30 p-3 rounded-xl border border-outline-variant/30">
+                            <div className="flex gap-3">
+                              <div className="w-14 h-14 bg-surface-container rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0">
+                                {item.imageUrl ? (
+                                  <img src={item.imageUrl} alt={item.productName} className="w-full h-full object-cover" />
+                                ) : (
+                                  <i className="ti ti-tag text-xl text-outline" />
+                                )}
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <div className="font-semibold text-sm line-clamp-2">{item.productName}</div>
+                                <div className="text-xs text-secondary mt-1">
+                                  {item.color && <span>{item.color} · </span>}
+                                  {item.size ? `Size ${item.size} · ` : ""}SL: {item.quantity}
+                                </div>
+                                <div className="text-primary font-bold text-sm mt-1">{formatPrice(item.priceAtPurchase)}</div>
+                              </div>
+                            </div>
+
+                            {isDelivered && visibleSections[`review-${order.id}`] && (
+                              <div className="pt-3 border-t border-outline-variant/40 mt-1">
+                                {itemReview ? (
+                                  <div className="bg-primary/5 p-3 rounded-xl border border-primary/10">
+                                    <div className="flex items-center gap-1 mb-1 text-amber-500 text-sm">
+                                      {Array(5).fill(0).map((_, i) => (
+                                        <span key={i} className="material-symbols-outlined text-[16px]">
+                                          {i < itemReview.rating ? 'star' : 'star_border'}
+                                        </span>
+                                      ))}
+                                      <span className="text-xs text-secondary ml-2">Đã đánh giá</span>
+                                    </div>
+                                    <p className="text-sm text-on-surface">{itemReview.comment}</p>
+                                  </div>
+                                ) : (
+                                  <div className="bg-surface-container-low p-3 rounded-xl border border-outline-variant/50">
+                                    <div className="text-xs font-bold mb-2">Đánh giá sản phẩm này:</div>
+                                    <div className="flex gap-1 mb-2">
+                                      {[1, 2, 3, 4, 5].map(star => (
+                                        <button
+                                          key={star}
+                                          type="button"
+                                          onClick={() => setReviewForms(cur => ({ ...cur, [reviewKey]: { ...cur[reviewKey], rating: star } }))}
+                                          className={`material-symbols-outlined text-[20px] transition-colors ${
+                                            star <= (currentReviewForm.rating || 5) ? 'text-amber-500' : 'text-outline-variant'
+                                          }`}
+                                        >
+                                          star
+                                        </button>
+                                      ))}
+                                    </div>
+                                    <textarea
+                                      value={currentReviewForm.comment || ""}
+                                      onChange={(e) => setReviewForms(cur => ({ ...cur, [reviewKey]: { ...cur[reviewKey], comment: e.target.value } }))}
+                                      placeholder="Chia sẻ cảm nhận của bạn về sản phẩm..."
+                                      className="w-full text-sm p-2 rounded-lg border border-outline-variant outline-none focus:border-primary resize-none mb-2"
+                                      rows="2"
+                                    ></textarea>
+                                    <button
+                                      onClick={() => handleCreateReview(order.id, item.productId)}
+                                      className="text-xs font-bold bg-primary text-white px-4 py-1.5 rounded-lg hover:bg-primary/90 transition-colors"
+                                    >
+                                      Gửi đánh giá
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
                             )}
                           </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="font-semibold text-sm line-clamp-2">{item.productName}</div>
-                            <div className="text-xs text-secondary mt-1">
-                              {item.color && <span>{item.color} · </span>}
-                              {item.size ? `Size ${item.size} · ` : ""}SL: {item.quantity}
-                            </div>
-                            <div className="text-primary font-bold text-sm mt-1">{formatPrice(item.priceAtPurchase)}</div>
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                     <div className="flex flex-col justify-between">
-                      <div className="bg-surface-container-low rounded-2xl p-4 text-sm">
+                      <div className="bg-surface-container-low rounded-2xl p-4 text-sm border border-outline-variant/50">
                         <div className="font-bold mb-2">Thông tin giao hàng</div>
                         <div className="text-secondary leading-relaxed space-y-1">
                           <div><span className="font-semibold text-on-surface">Người nhận:</span> {order.fullName}</div>
@@ -3117,6 +3259,54 @@ function OrdersPage({ user }) {
                           Đã nhận hàng
                         </button>
                       )}
+
+                      {order.status === "DELIVERED" && (() => {
+                        const req = returnRequests.find(r => r.orderId === order.id);
+                        return (
+                          <div className="mt-4 flex flex-col gap-3">
+                            <div className="flex gap-2">
+                              <button 
+                                onClick={() => setVisibleSections(cur => ({ ...cur, [`review-${order.id}`]: !cur[`review-${order.id}`] }))}
+                                className="flex-1 py-2 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 transition-colors shadow-sm"
+                              >
+                                Đánh giá
+                              </button>
+                              {!req && (
+                                <button 
+                                  onClick={() => setVisibleSections(cur => ({ ...cur, [`return-${order.id}`]: !cur[`return-${order.id}`] }))}
+                                  className="flex-1 py-2 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition-colors shadow-sm"
+                                >
+                                  Yêu cầu trả hàng
+                                </button>
+                              )}
+                            </div>
+
+                            {req ? (
+                              <div className={`p-3 rounded-xl border ${returnStatusColors[req.status] || 'bg-gray-100 text-gray-700'} text-sm`}>
+                                <div className="font-bold mb-1">Yêu cầu hoàn hàng: {returnStatusLabels[req.status] || req.status}</div>
+                                <div className="text-xs">Lý do: {req.reason}</div>
+                              </div>
+                            ) : visibleSections[`return-${order.id}`] ? (
+                              <div className="p-3 rounded-xl border border-red-200 bg-red-50 text-sm animate-fade-in">
+                                <div className="font-bold text-red-700 mb-2">Nhập lý do hoàn hàng</div>
+                                <textarea
+                                  value={returnForms[order.id] || ""}
+                                  onChange={(e) => setReturnForms(cur => ({ ...cur, [order.id]: e.target.value }))}
+                                  placeholder="Vui lòng cho chúng tôi biết lý do..."
+                                  className="w-full p-2 text-sm rounded-lg border border-red-200 outline-none focus:border-red-400 resize-none mb-2"
+                                  rows="2"
+                                ></textarea>
+                                <button
+                                  onClick={() => handleCreateReturnRequest(order.id)}
+                                  className="w-full py-2 bg-white text-red-600 font-bold border border-red-200 rounded-lg hover:bg-red-50 transition-colors"
+                                >
+                                  Gửi yêu cầu
+                                </button>
+                              </div>
+                            ) : null}
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
                 </div>
@@ -4187,10 +4377,11 @@ function AdminDashboardTab({ showToast, setActiveTab }) {
           for (let i = 6; i >= 0; i--) {
             const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
             months.push({
-              label: `T${d.getMonth() + 1}`,
+              name: `T${d.getMonth() + 1}`,
               month: d.getMonth(),
               year: d.getFullYear(),
-              revenue: 0
+              doanhThu: 0,
+              soDonHang: 0
             });
           }
 
@@ -4198,15 +4389,16 @@ function AdminDashboardTab({ showToast, setActiveTab }) {
             const date = new Date(o.createdAt);
             const item = months.find(m => m.month === date.getMonth() && m.year === date.getFullYear());
             if (item) {
-              item.revenue += o.totalAmount;
+              item.doanhThu += o.totalAmount;
+              item.soDonHang += 1;
             }
           });
 
-          // Normalize heights (max 100%)
-          const maxRev = Math.max(...months.map(m => m.revenue), 1);
+          // Map to match the requested visual chart structure using real data
           setChartData(months.map(m => ({
-            ...m,
-            height: Math.max((m.revenue / maxRev) * 100, 5) // Min 5% height for visibility
+            name: m.name,
+            doanhThu: m.doanhThu,
+            soDonHang: m.soDonHang
           })));
 
           setLoading(false);
@@ -4241,21 +4433,55 @@ function AdminDashboardTab({ showToast, setActiveTab }) {
               <option>7 tháng gần nhất</option>
             </select>
           </div>
-          <div className="h-64 flex items-end justify-between gap-2 pt-4 border-b border-l border-outline-variant/30 pl-4 pb-2 relative">
-            {/* CSS Bar Chart */}
-            {chartData.map((d, i) => (
-              <div key={i} className="w-full flex flex-col items-center gap-2 group relative">
-                <div 
-                  className="w-full bg-primary/20 hover:bg-primary rounded-t-sm transition-all duration-300 relative" 
-                  style={{ height: `${d.height}%` }}
-                >
-                  <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-xs py-1 px-2 rounded pointer-events-none whitespace-nowrap transition-opacity z-10">
-                    {formatPrice(d.revenue)}
-                  </div>
-                </div>
-                <span className="text-[10px] text-secondary">{d.label}</span>
-              </div>
-            ))}
+          <div className="h-[350px] pt-4 w-full" style={{ fontSize: '12px' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart
+                data={chartData}
+                margin={{ top: 20, right: 0, bottom: 0, left: 15 }}
+              >
+                <CartesianGrid stroke="#f0f0f0" vertical={false} />
+                <XAxis 
+                  dataKey="name" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#6b7280' }} 
+                  dy={10} 
+                />
+                <YAxis 
+                  yAxisId="left"
+                  tickFormatter={(value) => new Intl.NumberFormat('vi-VN').format(value)} 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#6b7280' }}
+                  dx={-10}
+                />
+                <YAxis 
+                  yAxisId="right"
+                  orientation="right"
+                  tickFormatter={(value) => value} 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#6b7280' }}
+                  dx={10}
+                />
+                <Tooltip 
+                  formatter={(value, name) => [
+                    name === 'Doanh thu' ? new Intl.NumberFormat('vi-VN').format(value) + 'đ' : value,
+                    name
+                  ]}
+                  cursor={{ fill: 'rgba(0,0,0,0.05)' }}
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                />
+                <Legend 
+                  verticalAlign="top" 
+                  align="right" 
+                  iconType="square" 
+                  wrapperStyle={{ paddingBottom: '20px' }}
+                />
+                <Bar yAxisId="left" dataKey="doanhThu" name="Doanh thu" fill="#3c8dbc" maxBarSize={45} radius={[4, 4, 0, 0]} />
+                <Line yAxisId="right" type="monotone" dataKey="soDonHang" name="Số đơn hàng" stroke="#e74c3c" strokeWidth={3} dot={{ r: 5, fill: '#e74c3c', strokeWidth: 2, stroke: '#fff' }} activeDot={{ r: 7 }} />
+              </ComposedChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
@@ -4303,19 +4529,24 @@ function AdminStatCard({ icon, label, value, color, bg }) {
 
 function AdminOrdersTab({ showToast }) {
   const [orders, setOrders] = useState([]);
+  const [returnRequests, setReturnRequests] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadOrders();
+    loadData();
   }, []);
 
-  async function loadOrders() {
+  async function loadData() {
     try {
       setLoading(true);
-      const data = await api.adminGetAllOrders();
-      setOrders(data);
+      const [ordersData, returnRequestsData] = await Promise.all([
+        api.adminGetAllOrders(),
+        api.adminGetReturnRequests().catch(() => [])
+      ]);
+      setOrders(ordersData);
+      setReturnRequests(returnRequestsData);
     } catch (err) {
-      showToast(err.message || "Lỗi tải đơn hàng");
+      showToast(err.message || "Lỗi tải dữ liệu");
     } finally {
       setLoading(false);
     }
@@ -4326,9 +4557,20 @@ function AdminOrdersTab({ showToast }) {
     try {
       await api.adminUpdateOrderStatus(orderId, newStatus, "");
       showToast("Cập nhật trạng thái thành công");
-      loadOrders();
+      loadData();
     } catch (err) {
       showToast(err.message || "Không thể cập nhật trạng thái");
+    }
+  }
+
+  async function handleUpdateReturnStatus(reqId, status) {
+    if (!window.confirm(`Bạn có chắc muốn ${status === 'APPROVED' ? 'chấp nhận' : 'từ chối'} yêu cầu này?`)) return;
+    try {
+      await api.adminUpdateReturnRequestStatus(reqId, status);
+      showToast("Đã cập nhật trạng thái yêu cầu hoàn hàng");
+      loadData();
+    } catch (err) {
+      showToast(err.message || "Lỗi khi xử lý");
     }
   }
 
@@ -4359,7 +4601,7 @@ function AdminOrdersTab({ showToast }) {
     <div className="bg-white rounded-2xl shadow-sm border border-outline-variant/50 overflow-hidden">
       <div className="p-5 border-b border-outline-variant/60 flex justify-between items-center">
         <h2 className="text-xl font-bold text-on-surface">Quản lý đơn hàng</h2>
-        <button onClick={loadOrders} className="p-2 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-container">
+        <button onClick={loadData} className="p-2 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-container">
           <span className="material-symbols-outlined">refresh</span>
         </button>
       </div>
@@ -4391,13 +4633,31 @@ function AdminOrdersTab({ showToast }) {
                     <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold ${getStatusBadge(order.status)}`}>
                       {order.status}
                     </span>
+                    {(() => {
+                      const req = returnRequests.find(r => r.orderId === order.id);
+                      if (req) {
+                        return (
+                          <div className="mt-2 text-xs font-semibold text-red-600 border border-red-200 bg-red-50 px-2 py-1 rounded">
+                            Yêu cầu hoàn hàng: <span className="font-normal">{req.status}</span>
+                            {req.status === 'PENDING' && (
+                              <div className="mt-1 flex gap-1">
+                                <button onClick={() => handleUpdateReturnStatus(req.id, 'APPROVED')} className="text-[10px] bg-green-500 text-white px-1.5 py-0.5 rounded hover:bg-green-600">Duyệt</button>
+                                <button onClick={() => handleUpdateReturnStatus(req.id, 'REJECTED')} className="text-[10px] bg-red-500 text-white px-1.5 py-0.5 rounded hover:bg-red-600">Từ chối</button>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      }
+                      return null;
+                    })()}
                   </td>
                   <td className="px-6 py-4 text-right">
                     {nextStatuses.length > 0 ? (
                       <select 
-                        className="text-xs border border-outline-variant rounded-lg px-2 py-1.5 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 cursor-pointer"
+                        className={`text-xs font-bold rounded-lg px-2 py-1.5 outline-none cursor-pointer appearance-none ${getStatusBadge(nextStatuses[0])} hover:opacity-90`}
                         value=""
                         onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                        style={{ textAlignLast: 'center' }}
                       >
                         <option value="" disabled>Đổi trạng thái...</option>
                         {nextStatuses.map(s => <option key={s} value={s}>{s}</option>)}

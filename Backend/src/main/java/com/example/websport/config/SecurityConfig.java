@@ -49,7 +49,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/product-type/**").permitAll()// Xem loại sản phẩm
                         .requestMatchers(HttpMethod.GET, "/api/v1/coupons/active").permitAll()  // Xem coupon active (public)
                         .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll() // Cho phép tải ảnh công khai
-
+                        .requestMatchers(HttpMethod.POST, "/api/v1/chat").permitAll() // Cho phép AI Chat
 
                         // ==========================================
                         // LUỒNG 2: KHU VỰC CỦA ADMIN (Chỉ quyền ADMIN mới được sửa dữ liệu)

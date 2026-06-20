@@ -274,6 +274,7 @@ public class OrderServiceImpl implements OrderService {
 
                 itemResList.add(OrderRes.OrderItemRes.builder()
                         .id(item.getId())
+                        .productId(variant.getProduct() != null ? variant.getProduct().getId() : null)
                         .productName(productName)
                         .color(variant.getColor())
                         .size(variant.getSize())

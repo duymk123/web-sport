@@ -32,6 +32,7 @@ public class OrderRes {
     @Builder
     public static class OrderItemRes {
         private Long id;
+        private Long productId;
         private String productName;
         private String color;
         private String size;

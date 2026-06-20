@@ -18,18 +18,22 @@ com\example\websport\entity\Category.class
 com\example\websport\repository\UserRepo.class
 com\example\websport\entity\ProductImage$ProductImageBuilder.class
 com\example\websport\entity\PasswordReset$PasswordResetBuilder.class
+com\example\websport\controller\ChatController.class
 com\example\websport\dto\request\CouponCreateReq.class
 com\example\websport\common\EnumStatus.class
 com\example\websport\dto\request\VariantReq.class
 com\example\websport\repository\CouponRepo.class
+com\example\websport\dto\request\ChatReq.class
 com\example\websport\repository\CartRepo.class
 com\example\websport\entity\UserAddress.class
 com\example\websport\entity\ProductVariant.class
+com\example\websport\service\impl\ChatbotServiceImpl.class
 com\example\websport\repository\OrderItemRepo.class
 com\example\websport\controller\AuthController.class
 com\example\websport\repository\ProductVariantRepo.class
 com\example\websport\repository\ProductImageRepo.class
 com\example\websport\dto\request\ProductCreateReq$VariantDto.class
+com\example\websport\dto\response\ChatRes$ChatResBuilder.class
 com\example\websport\dto\request\UserAddressReq.class
 com\example\websport\dto\response\OrderRes.class
 com\example\websport\security\JwtUtils.class
@@ -43,6 +47,7 @@ com\example\websport\entity\User$UserBuilder.class
 com\example\websport\entity\Coupon$CouponBuilder.class
 com\example\websport\service\impl\AuthServiceImpl.class
 com\example\websport\service\impl\CouponServiceImpl.class
+com\example\websport\service\ChatbotService.class
 com\example\websport\common\PaymentMethod.class
 com\example\websport\entity\CouponUsage.class
 com\example\websport\service\impl\ProductServiceImpl.class
@@ -78,6 +83,7 @@ com\example\websport\dto\response\CouponApplyRes$CouponApplyResBuilder.class
 com\example\websport\dto\response\CouponRes.class
 com\example\websport\dto\request\ProductUpdateReq.class
 com\example\websport\dto\response\ProductDetailResponse$ImageDetailDto.class
+com\example\websport\dto\request\ChatReq$ChatReqBuilder.class
 com\example\websport\dto\response\UserAddressRes$UserAddressResBuilder.class
 com\example\websport\entity\Coupon.class
 com\example\websport\repository\CartItemRepo.class
@@ -115,6 +121,7 @@ com\example\websport\controller\UserAddressController.class
 com\example\websport\config\SecurityConfig.class
 com\example\websport\entity\OrderItem$OrderItemBuilder.class
 com\example\websport\service\impl\OrderServiceImpl$1.class
+com\example\websport\dto\response\ChatRes.class
 com\example\websport\entity\Product.class
 com\example\websport\entity\Cart.class
 com\example\websport\dto\request\CheckoutReq.class

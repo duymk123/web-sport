@@ -18,3 +18,7 @@ server:
 jwt:
   secret: "websport_secret_key_chuoi_nay_phai_that_la_dai_va_bao_mat_nhe_1234567890_abcdef"
   expiration: 604800000
+
+gemini:
+  api:
+    key: "AIzaSyAbsESumlzGqGn7RmTxz_5OgAWyK5yJXEI"

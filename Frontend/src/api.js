@@ -8,6 +8,8 @@ const AUTH_URL = `${API_BASE}/auth`;
 const ADDRESSES_URL = `${API_BASE}/addresses`;
 const CART_URL = `${API_BASE}/cart`;
 const ORDERS_URL = `${API_BASE}/orders`;
+const RETURN_REQUESTS_URL = `${API_BASE}/return-requests`;
+const REVIEWS_URL = `${API_BASE}/reviews`;
 const COUPONS_URL = `${API_BASE}/coupons`;
 const ADMIN_URL = `${API_BASE}/admin`;
 const UPLOAD_URL = `${API_BASE}/upload`;
@@ -230,6 +232,36 @@ export const api = {
     });
   },
 
+  // ===== Return Requests =====
+  createReturnRequest(payload) {
+    return request(RETURN_REQUESTS_URL, {
+      method: "POST",
+      auth: true,
+      body: JSON.stringify(payload)
+    });
+  },
+  getMyReturnRequests() {
+    return request(`${RETURN_REQUESTS_URL}/my-requests`, { auth: true });
+  },
+
+  // ===== Product Reviews =====
+  createReview(payload) {
+    return request(REVIEWS_URL, {
+      method: "POST",
+      auth: true,
+      body: JSON.stringify(payload)
+    });
+  },
+  getMyReviews() {
+    return request(`${REVIEWS_URL}/my-reviews`, { auth: true });
+  },
+  getReviewsByOrder(orderId) {
+    return request(`${REVIEWS_URL}/orders/${orderId}`, { auth: true });
+  },
+  getReviewsByProduct(productId) {
+    return request(`${REVIEWS_URL}/products/${productId}`);
+  },
+
   // ===== Coupons (Public/Customer) =====
   getActiveCoupons() {
     return request(`${COUPONS_URL}/active`);
@@ -272,8 +304,28 @@ export const api = {
     });
   },
 
-  // ===== Admin: Users =====
+  // ===== Admin: Return Requests =====
+  adminGetReturnRequests() {
+    return request(`${ADMIN_URL}/return-requests`, { auth: true });
+  },
+  adminUpdateReturnRequestStatus(id, status) {
+    return request(`${ADMIN_URL}/return-requests/${id}/status`, {
+      method: "PATCH",
+      auth: true,
+      body: JSON.stringify({ status })
+    });
+  },
+
   adminGetAllUsers() {
     return request(`${ADMIN_URL}/users`, { auth: true });
+  },
+
+  // ===== AI Chatbot =====
+  chatWithAI(message) {
+    return request(`${API_BASE}/chat`, {
+      method: "POST",
+      body: JSON.stringify({ message })
+    });
   }
 };
+
