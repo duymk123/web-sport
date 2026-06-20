@@ -5,22 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="092029fb-37df-4f9e-8128-6d4a6e318661" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/controller/ChatController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/dto/request/ChatReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/payload.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/dto/response/OrderRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/dto/response/OrderRes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/repository/OrderItemRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/repository/OrderItemRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/impl/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/impl/OrderServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/OrderRes$OrderItemRes$OrderItemResBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/OrderRes$OrderItemRes$OrderItemResBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/OrderRes$OrderItemRes.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/dto/response/OrderRes$OrderItemRes.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/OrderItemRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/repository/OrderItemRepo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/OrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/OrderServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/impl/ChatbotServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/websport/service/impl/ChatbotServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/ChatbotServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/target/classes/com/example/websport/service/impl/ChatbotServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/ChatBot.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/ChatBot.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +21,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="117" />
+    <option name="cachedIndexableFilesCount" value="139" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -121,6 +114,10 @@
       <method v="2" />
     </configuration>
     <configuration name="WebsportApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <envs>
+        <env name="GEMINI_KEY" value="AQ.Ab8RN6Lic53cx5gaF-GP9ZZLlK53BEPhjUv2h_q8ZCx-qYh-uQ" />
+      </envs>
+      <option name="HIDE_BANNER" value="true" />
       <module name="websport" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.websport.WebsportApplication" />
       <method v="2">
@@ -238,6 +235,7 @@
       <workItem from="1781611598213" duration="16625000" />
       <workItem from="1781771611636" duration="601000" />
       <workItem from="1781859106834" duration="5033000" />
+      <workItem from="1781940046839" duration="7367000" />
     </task>
     <servers />
   </component>

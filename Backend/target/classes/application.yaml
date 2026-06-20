@@ -21,4 +21,4 @@ jwt:
 
 gemini:
   api:
-    key: "AIzaSyAbsESumlzGqGn7RmTxz_5OgAWyK5yJXEI"
+    key: ${GEMINI_KEY}

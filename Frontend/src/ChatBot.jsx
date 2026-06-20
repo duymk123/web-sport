@@ -46,67 +46,67 @@ export default function ChatBot() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-700 transition-transform transform hover:scale-110"
+          className="w-16 h-16 bg-gradient-to-br from-primary to-red-400 text-white rounded-full flex items-center justify-center shadow-xl hover:shadow-2xl transition-all transform hover:scale-110 hover:-translate-y-1"
           aria-label="Mở chat với AI"
         >
-          <span className="material-symbols-outlined text-3xl">chat</span>
+          <span className="material-symbols-outlined text-4xl">smart_toy</span>
         </button>
       )}
 
       {/* Cửa sổ Chat */}
       {isOpen && (
-        <div className="w-80 h-[450px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200 transition-all duration-300 transform origin-bottom-right">
+        <div className="w-[380px] h-[550px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-100 transition-all duration-300 transform origin-bottom-right">
           {/* Header */}
-          <div className="bg-primary text-white px-4 py-3 flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-xl">smart_toy</span>
-              <span className="font-bold text-sm">Velocity AI Assistant</span>
+          <div className="bg-gradient-to-r from-primary to-red-500 text-white px-5 py-4 flex justify-between items-center shadow-md z-10">
+            <div className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-2xl animate-pulse">auto_awesome</span>
+              <span className="font-bold text-base tracking-wide">Velocity AI Assistant</span>
             </div>
-            <button onClick={() => setIsOpen(false)} className="text-white hover:text-gray-200 transition-colors">
-              <span className="material-symbols-outlined">close</span>
+            <button onClick={() => setIsOpen(false)} className="text-white/80 hover:text-white hover:rotate-90 transition-all duration-300">
+              <span className="material-symbols-outlined text-xl">close</span>
             </button>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-3">
+          <div className="flex-1 p-5 overflow-y-auto bg-gray-50/50 flex flex-col gap-4">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
-                className={`max-w-[85%] p-3 rounded-2xl text-sm ${
+                className={`max-w-[85%] p-3.5 rounded-2xl text-[15px] leading-relaxed shadow-sm ${
                   msg.sender === "user"
-                    ? "bg-primary text-white self-end rounded-br-none"
-                    : "bg-white text-gray-800 self-start border border-gray-200 rounded-bl-none shadow-sm"
+                    ? "bg-gradient-to-r from-primary to-red-500 text-white self-end rounded-br-sm"
+                    : "bg-white text-gray-800 self-start border border-gray-100 rounded-bl-sm"
                 }`}
               >
                 {msg.text}
               </div>
             ))}
             {isLoading && (
-              <div className="bg-white text-gray-800 self-start border border-gray-200 p-3 rounded-2xl rounded-bl-none shadow-sm flex items-center gap-2">
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+              <div className="bg-white text-gray-800 self-start border border-gray-100 p-4 rounded-2xl rounded-bl-sm shadow-sm flex items-center gap-2">
+                <div className="w-2.5 h-2.5 bg-red-400 rounded-full animate-bounce"></div>
+                <div className="w-2.5 h-2.5 bg-red-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                <div className="w-2.5 h-2.5 bg-red-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
           {/* Input Area */}
-          <form onSubmit={handleSubmit} className="p-3 bg-white border-t border-gray-200 flex gap-2">
+          <form onSubmit={handleSubmit} className="p-4 bg-white border-t border-gray-100 flex gap-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Nhập câu hỏi..."
-              className="flex-1 bg-gray-100 px-4 py-2 rounded-full text-sm outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Nhắn tin với trợ lý AI..."
+              className="flex-1 bg-gray-100/80 px-5 py-3 rounded-full text-[15px] outline-none focus:bg-white focus:ring-2 focus:ring-red-200 focus:border-red-300 transition-all border border-transparent"
               disabled={isLoading}
             />
             <button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              className="w-12 h-12 bg-gradient-to-br from-primary to-red-500 text-white rounded-full flex items-center justify-center hover:shadow-lg disabled:from-gray-300 disabled:to-gray-300 disabled:shadow-none disabled:cursor-not-allowed transition-all"
             >
-              <span className="material-symbols-outlined text-xl">send</span>
+              <span className="material-symbols-outlined text-xl ml-1">send</span>
             </button>
           </form>
         </div>

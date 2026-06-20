@@ -30,48 +30,63 @@ public class ChatbotServiceImpl implements ChatbotService {
 
     @Override
     public String chat(String message) {
-        String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
+        String[] models = {
+            "gemini-flash-latest",
+            "gemini-2.5-flash",
+            "gemini-2.0-flash"
+        };
+        
+        String lastErrorMsg = "";
 
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
+        for (String model : models) {
+            String url = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + apiKey;
 
-            // Construct payload
-            Map<String, Object> systemInstruction = new HashMap<>();
-            Map<String, Object> partsSys = new HashMap<>();
-            partsSys.put("text", "You are a helpful, enthusiastic, and knowledgeable sports shopping assistant for Velocity Prime, an e-commerce store specializing in sports equipment like badminton rackets, shoes, and sportswear. Only answer questions related to sports, shopping at Velocity Prime, store policies, or product advice. Refuse to answer completely unrelated questions politely.");
-            systemInstruction.put("parts", Collections.singletonList(partsSys));
+            try {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
 
-            Map<String, Object> requestBody = new HashMap<>();
-            requestBody.put("system_instruction", systemInstruction);
+                // Construct payload
+                Map<String, Object> systemInstruction = new HashMap<>();
+                Map<String, Object> partsSys = new HashMap<>();
+                partsSys.put("text", "You are a helpful, enthusiastic, and knowledgeable sports shopping assistant for Velocity Prime, an e-commerce store specializing in sports equipment like badminton rackets, shoes, and sportswear. Only answer questions related to sports, shopping at Velocity Prime, store policies, or product advice. Refuse to answer completely unrelated questions politely.");
+                systemInstruction.put("parts", Collections.singletonList(partsSys));
 
-            Map<String, Object> content = new HashMap<>();
-            Map<String, Object> parts = new HashMap<>();
-            parts.put("text", message);
-            content.put("parts", Collections.singletonList(parts));
+                Map<String, Object> requestBody = new HashMap<>();
+                requestBody.put("system_instruction", systemInstruction);
 
-            requestBody.put("contents", Collections.singletonList(content));
+                Map<String, Object> content = new HashMap<>();
+                Map<String, Object> parts = new HashMap<>();
+                parts.put("text", message);
+                content.put("parts", Collections.singletonList(parts));
 
-            HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+                requestBody.put("contents", Collections.singletonList(content));
 
-            String responseStr = restTemplate.postForObject(url, request, String.class);
+                HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
 
-            // Parse response
-            JsonNode root = objectMapper.readTree(responseStr);
-            JsonNode candidates = root.path("candidates");
-            if (candidates.isArray() && candidates.size() > 0) {
-                JsonNode firstCandidate = candidates.get(0);
-                JsonNode contentNode = firstCandidate.path("content");
-                JsonNode partsNode = contentNode.path("parts");
-                if (partsNode.isArray() && partsNode.size() > 0) {
-                    return partsNode.get(0).path("text").asText();
+                String responseStr = restTemplate.postForObject(url, request, String.class);
+
+                // Parse response
+                JsonNode root = objectMapper.readTree(responseStr);
+                JsonNode candidates = root.path("candidates");
+                if (candidates.isArray() && candidates.size() > 0) {
+                    JsonNode firstCandidate = candidates.get(0);
+                    JsonNode contentNode = firstCandidate.path("content");
+                    JsonNode partsNode = contentNode.path("parts");
+                    if (partsNode.isArray() && partsNode.size() > 0) {
+                        return partsNode.get(0).path("text").asText();
+                    }
                 }
-            }
-            return "Xin lỗi, tôi không thể trả lời lúc này.";
+                return "Xin lỗi, tôi không thể trả lời lúc này.";
 
-        } catch (Exception e) {
-            log.error("Error communicating with Gemini API", e);
-            return "Đã xảy ra lỗi khi kết nối với AI. Vui lòng thử lại sau.";
+            } catch (org.springframework.web.client.HttpStatusCodeException e) {
+                lastErrorMsg = e.getResponseBodyAsString();
+                log.error("Error with model {}: {}", model, lastErrorMsg);
+            } catch (Exception e) {
+                log.error("System error communicating with Gemini API", e);
+                return "Đã xảy ra lỗi hệ thống: " + e.getMessage();
+            }
         }
+        
+        return "Xin lỗi, hiện tại chatbot đang quá tải hoặc gặp lỗi. Vui lòng thử lại sau.";
     }
 }
